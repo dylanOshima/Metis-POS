@@ -7,14 +7,17 @@ if (mongoose.connection.readyState === 0) {
 }
 
 var newSchema = new Schema({
+  
   'name': { type: String, required: true},
   'description': { type: String },
-  'cost': { type: Number, required: true },
+  'unitOfMeasurement': { type: String, required: true },
+  'price': { type: Number }, // per UoM
   'category': { type: String, required: true },
+  'dishes': { type: Array }, // String array
   'createdAt': { type: Date, default: Date.now },
   'updatedAt': { type: Date, default: Date.now }
 },
-{ collection: 'menu'}
+{ collection: 'Inventory'}
 );
 
 newSchema.pre('save', function(next){
@@ -30,4 +33,4 @@ newSchema.pre('findOneAndUpdate', function() {
   this.update({}, { $set: { updatedAt: Date.now() } });
 });
 
-module.exports = mongoose.model('Menu', newSchema);
+module.exports = mongoose.model('Inventory', newSchema);

@@ -13,12 +13,13 @@ router.get('/', (req, res, next) => {
 
 router.post('/add', (req, res, next) => {
     if (req.body) {
-    servers.create({'name': req.body.name, 'code': req.body.code}).then(results => {
-        res.json(results);
-    })
-    .catch(error => {
-        res.json(error);
-    })
+        servers.create({'name': req.body.name, 'code': req.body.code})
+        .then(results => {
+            res.json(results);
+        })
+        .catch(error => {
+            res.json(error);
+        })
     }
 });
 

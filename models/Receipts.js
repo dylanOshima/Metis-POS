@@ -15,19 +15,22 @@ var newSchema = new Schema({
   'server': { type: String, required: true },
   'items': { type: Array },
   'sub_total': { type: Number, default: 0.00 },
+  'discountType': { type: String },
+  'discountAmount': { type: Number, default: 0.00 },
   'tax': { type: Number, default: 0.00  },
   'total': { type: Number, default: 0.00  },
   'paid': { type: Boolean, default: false  },
-  'card': { 
-      'number': { type: Number },
-      'cardexp': { type: String },
-      'cvc': { type: Number }
-  },
+  // 'card': { 
+  //     'number': { type: Number },
+  //     'cardexp': { type: String },
+  //     'cvc': { type: Number }
+  // },
   'paidTime': { type: Date },
   'paymentType':{ type: String },
-  'amountTendered': { type: Number },
+  // 'amountTendered': { type: Number },
   'createdAt': { type: Date, default: Date.now },
-  'updatedAt': { type: Date, default: Date.now },
+  'lastUpdatedAt': { type: Date, default: Date.now },
+  'bills': { type: Array },
 });
 
 newSchema.pre('save', function(next){
