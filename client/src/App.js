@@ -12,157 +12,35 @@ import OrderModal from './components/Modals/Order';
 import Login from './components/Login/Login';
 import { withAlert } from 'react-alert';
 
+const NUM_TABLES = 26;
+
+let genTables = (function() {
+  let tables = [];
+  for(let i=1;i<=NUM_TABLES;i++) {
+    tables.push({
+      name: "Table "+i,
+      isOccupied: false,
+      guestNumber: null,
+      server: null,
+      pendingOrder: [],
+      bill: {
+        id: null,
+        items: [],
+        total: 0.00
+      }
+    })
+  }
+  return tables
+})();
+
+
 class App extends Component {
+    
   state = {
     // Holds all information regarding the tables. 
     // Pending Order contains name and quantity
     // Items contains name, quantity, and cost
-    tables: [
-      {
-        name: "Table 1",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 2",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 3",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 4",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 5",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 6",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 7",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 8",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 9",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 10",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 11",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      },
-      {
-        name: "Table 12",
-        isOccupied: false,
-        guestNumber: null,
-        server: null,
-        pendingOrder: [],
-        bill: {
-          id: null,
-          items: [],
-          total: 0.00
-        }
-      }
-    ],
+    tables: genTables,
     // List of servers
     servers: [],
     // Holds all menu information found in DB: id, name, description, cost
