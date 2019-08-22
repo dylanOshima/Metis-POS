@@ -15,7 +15,7 @@ class MenuButtons extends Component {
         if(props.category !== ""){
             return (
                 props.menu.map((items,index) => {  
-                    if (items.category === props.category){
+                    if (items.category.toLowerCase() === props.category){
                         return <Button key={items._id} id={items.name} onClick={(event) => this.addOrder(event)}>{items.name}</Button>
                     }
                 })

@@ -1,5 +1,9 @@
-import axios from 'axios'
+import ax from 'axios'
 
+const axios = ax.create({
+    baseURL: 'http://localhost:4444',
+    // timeout: 1000,
+})
 
 export default {
     // for initialization / reinit of state

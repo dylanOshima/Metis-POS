@@ -203,7 +203,8 @@ class App extends Component {
 
   getMenu = () => {
     API.getMenu().then(results => {
-      let newMenu = results.data
+      let newMenu = results.data;
+      console.log("********", newMenu); // DEBUG
       this.setState({ menu: newMenu }, () => {
       })
     }).catch(error => {
