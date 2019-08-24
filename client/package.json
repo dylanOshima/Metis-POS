@@ -4,17 +4,29 @@
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",
-    "react": "^16.2.0",
     "react-alert": "^3.1.1",
     "react-alert-template-basic": "^1.0.0",
     "react-bootstrap": "^0.32.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test-react": "react-scripts test --env=jsdom",
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "react": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "react-test-renderer": "^16.9.0",
+    "redux": "^4.0.4"
   }
 }
