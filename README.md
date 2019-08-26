@@ -8,11 +8,11 @@ Restaurant PoS is a simple React application for managing restaurant seating. It
 
 ### TODO
 - [ ] Finish implementing tests for the tables ~~and orders reducer~~
-- [ ] Write actionCreators for dishes
+- [x] Write actionCreators for dishes
 - [ ] Write actionCreators for inventory
 - [x] Write reducer for dishes
 - [ ] Write reducer for inventory
-- [ ] Connect redux to react
+- [x] Connect redux to react
 - [ ] Test replacing the order components with redux state
 - [ ] Write tests for dishes
 - [ ] Write tests for inventory

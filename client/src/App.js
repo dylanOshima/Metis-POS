@@ -122,7 +122,9 @@ class App extends Component {
               updateChecks[updateChecksIndex].bill.items = item.items
               updateChecks[updateChecksIndex].bill.total = item.total
             }
+            return;
           })
+          return;
         })
         //push the changed tables back to state
         this.setState({tables: updateChecks})

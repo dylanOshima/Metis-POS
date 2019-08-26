@@ -5,7 +5,7 @@ import {
   LOAD_DISHES,
   UPDATE_DISH,
   DELETE_DISH
- } from './ActionTypes';
+ } from '../constants/ActionTypes';
 
 const initialState = {
   isFetching: false,

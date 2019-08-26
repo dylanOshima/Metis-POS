@@ -9,7 +9,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT
- } from './ActionTypes';
+ } from '../constants/ActionTypes';
 
 const initialState = {
   isFetching: false,
@@ -21,10 +21,10 @@ const initialState = {
 export default function serverReducer(state = initialState, action) {
   switch(action.type) {
     case ADD_SERVER_REQUEST:
-      return Object.assign({}, stater, { isFetching: true });
+      return Object.assign({}, state, { isFetching: true });
     case ADD_SERVER_SUCCESS:
       let { newServer } = action;
-      return Object.assign({}, stater, {
+      return Object.assign({}, state, {
         isFetching: false,
         servers: [...state.servers, newServer]
       });

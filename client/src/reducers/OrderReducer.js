@@ -1,4 +1,3 @@
-import { getTableNumber } from '../utils/helper';
 import { 
   ADD_ORDER_REQUEST,
   ADD_ORDER_SUCCESS,

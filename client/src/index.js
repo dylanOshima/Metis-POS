@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
-import './index.css';
+import { Provider as ReduxProvider } from 'react-redux';
 import { Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
-import App from './App'
+
+import './index.css';
+import App from './App';
+import store from './store/index';
 import registerServiceWorker from './registerServiceWorker';
 
 const options = {
     timeout: 5000
 }
-class Root extends Component {
-    render() {
-        return (
-            <AlertProvider template={AlertTemplate} {...options}>
-                <App />
-            </AlertProvider>
-        )
-    }
-}
 
-render(<Root />, document.getElementById('root'))
+render(
+    <ReduxProvider store={store}>
+        <AlertProvider template={AlertTemplate} {...options}>
+            <App />
+        </AlertProvider>
+    </ReduxProvider>,
+
+    document.getElementById('root')
+);
 registerServiceWorker();
