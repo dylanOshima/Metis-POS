@@ -6,6 +6,31 @@ Forked and updated by [Dylan Oshima](https://github.com/dylanOshima).
 
 Restaurant PoS is a simple React application for managing restaurant seating. It's features include handling orders for multiple guests and receipt printing. Restaurant PoS is lightweight making it easy to run on very low memory systems.
 
+### TODO
+- [ ] Finish implementing tests for the tables ~~and orders reducer~~
+- [ ] Write actionCreators for dishes
+- [ ] Write actionCreators for inventory
+- [x] Write reducer for dishes
+- [ ] Write reducer for inventory
+- [ ] Connect redux to react
+- [ ] Test replacing the order components with redux state
+- [ ] Write tests for dishes
+- [ ] Write tests for inventory
+- [ ] Make login more secure
+
+### BUGS
+- [ ] When the order of the tables in the `GET_TABLES` is switched, the empty
+  table gets an id.
+
+### Future Updates
+
+* ~~Managing Servers/Waiters/Waitresses from the front end~~
+* ~~Receipt by sms~~
+* ~~Coupons and Gift cards integration~~
+* Administrative section to manage service, menu, and employees
+* ~~SMS integration for waiting~~
+* ~~Guest tableside ordering system~~
+
 ## Technologies:
 
 * React
@@ -136,12 +161,3 @@ Install with `$ npm install`.
 
 #### Contribution
 > The main purpose of this repository is to continue to test React core, making it accessible and easier to understand and use. Development of this application happens in the open on GitHub, and we are grateful to the [Rutgers Coding Bootcamp Community](https://github.com/RutgersCodingBootcamp) for contributing efforts and improvements.
-
-### Future Updates
-* ~~Managing Servers/Waiters/Waitresses from the front end~~
-* ~~Receipt by sms~~
-* ~~Coupons and Gift cards integration~~
-* Administrative section to manage service, menu, and employees
-* ~~SMS integration for waiting~~
-* ~~Guest tableside ordering system~~
-

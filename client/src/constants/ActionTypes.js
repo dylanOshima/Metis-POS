@@ -1,0 +1,55 @@
+// App Data
+export const UPDATE_PAGE = "UPDATE_PAGE";
+export const THROW_ERROR = "THROW_ERROR";
+export const RESOLVE_ERROR = "RESOLVE_ERROR";
+
+// Orders & Tables
+export const ADD_ORDER_REQUEST    = "ADD_ORDER_REQUEST";
+export const ADD_ORDER_SUCCESS    = "ADD_ORDER_SUCCESS";
+export const ADD_ORDER_FAILURE    = "ADD_ORDER_FAILURE";
+export const LOAD_ORDERS_REQUEST  = "LOAD_ORDERS_REQUEST";
+export const LOAD_ORDERS_SUCCESS  = "LOAD_ORDERS_SUCCESS";
+export const LOAD_ORDERS_FAILURE  = "LOAD_ORDERS_FAILURE";
+export const UPDATE_ORDER_REQUEST = "UPDATE_ORDER_REQUEST";
+export const UPDATE_ORDER_SUCCESS = "UPDATE_ORDER_SUCCESS";
+export const UPDATE_ORDER_FAILURE = "UPDATE_ORDER_FAILURE";
+
+// export const ADD_ITEM = "ADD_ITEM";
+// export const REMOVE_ITEM = "REMOVE_ITEM";
+
+export const SAVE_RECEIPT = "SAVE_RECEIPT";
+
+export const GET_TABLES       = "GET_TABLES";
+export const SET_ACTIVE_TABLE = "SET_ACTIVE_TABLE";
+export const UPDATE_TABLE     = "UPDATE_TABLE";
+export const RESET_TABLE      = "RESET_TABLE";
+
+// Dishes
+export const ADD_DISH_REQUEST = "ADD_DISH_REQUEST";
+export const ADD_DISH_SUCCESS = "ADD_DISH_SUCCESS";
+export const ADD_DISH_FAILURE = "ADD_DISH_FAILURE";
+export const LOAD_DISHES      = "LOAD_DISHES";
+export const UPDATE_DISH      = "UPDATE_DISH";
+export const DELETE_DISH      = "DELETE_DISH";
+
+// Servers
+export const ADD_SERVER_REQUEST = "ADD_SERVER_REQUEST";
+export const ADD_SERVER_SUCCESS = "ADD_SERVER_SUCCESS";
+export const ADD_SERVER_FAILURE = "ADD_SERVER_FAILURE";
+export const LOAD_SERVERS       = "LOAD_SERVERS";
+export const UPDATE_SERVER      = "UPDATE_SERVER";
+export const DELETE_SERVER      = "DELETE_SERVER";
+
+export const LOGIN_REQUEST      = "LOGIN_REQUEST";
+export const LOGIN_SUCCESS      = "LOGIN_SUCCESS";
+export const LOGIN_FAILURE      = "LOGIN_FAILURE";
+export const LOGOUT             = "LOGOUT";
+
+// Inventory
+export const ADD_INVENTORY_REQUEST  = "ADD_INVENTORY_REQUEST";
+export const ADD_INVENTORY_SUCCESS  = "ADD_INVENTORY_SUCCESS";
+export const ADD_INVENTORY_FAILURE  = "ADD_INVENTORY_FAILURE";
+export const LOAD_INVENTORY_REQUEST = "LOAD_INVENTORY_REQUEST";
+export const LOAD_INVENTORY_SUCCESS = "LOAD_INVENTORY_SUCCESS";
+export const LOAD_INVENTORY_FAILURE = "LOAD_INVENTORY_FAILURE";
+export const UPDATE_INVENTORY       = "UPDATE_INVENTORY";
