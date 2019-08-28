@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import { Button,Panel, Grid, Row, Col, Well } from 'react-bootstrap';
 import Menubuttons from "./MenuButtons";
 import OrderList from "./OrderList";
-import Hoc from "../Hoc/Hoc";
+// import Hoc from "../Hoc/Hoc";
 
 
 class Order extends Component {
@@ -74,7 +74,7 @@ class Order extends Component {
     render() {
         return (
             <Grid fluid>  
-                <Hoc>    
+                <div>    
                     <Row>
                         <Col id="section" md={2}>
                             <Panel>
@@ -105,7 +105,7 @@ class Order extends Component {
                     <div>
                         <Button onClick={() => this.orderSubmit()}>Submit</Button>
                     </div>
-                </Hoc>
+                </div>
             </Grid>
         )
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row, Grid, Jumbotron, Panel } from 'react-bootstrap';
-import Aux from '../Hoc/Hoc'
+// import Aux from '../Hoc/Hoc'
 import './Table.css';
 
 
@@ -35,7 +35,7 @@ const table = props => {
                                         {table.isOccupied ?  
                                             (
                                             // IS OCCUPIED RENDER
-                                            <Aux>
+                                            <div>
                                                 <p 
                                                 className="text-center"> Guests: {table.guestNumber} 
                                                 </p>
@@ -49,7 +49,7 @@ const table = props => {
                                                 { table.bill.total ? (<p 
                                                 className="text-center"> Current Total: {table.bill.total} 
                                                 </p>) : null }
-                                            </Aux>
+                                            </div>
                                             )
                                             :(
                                             // NOT OCCUPIED RENDER

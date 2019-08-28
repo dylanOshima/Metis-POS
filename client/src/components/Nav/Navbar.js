@@ -1,6 +1,6 @@
 import React from 'react';
 import { Nav, NavItem, Button} from 'react-bootstrap';
-import HOC from "../Hoc/Hoc";
+import Hoc from "../Hoc/Hoc";
 
 const navbar = (props) => {
 
@@ -39,7 +39,7 @@ const navbar = (props) => {
             {
                 props.loggedInUser ? 
                     (
-                        <HOC>
+                        <Hoc>
                             <NavItem
                              eventKey="LoggedInServer" 
                              title="LoggedInServer" 
@@ -51,7 +51,7 @@ const navbar = (props) => {
                             bsStyle="danger" 
                             onClick={props.logOut}>Logout
                             </Button>
-                        </HOC>
+                        </Hoc>
                     ) 
                     : null}
 

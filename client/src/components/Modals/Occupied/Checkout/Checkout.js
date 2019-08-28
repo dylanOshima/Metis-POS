@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Well, ListGroup, ListGroupItem, DropdownButton, MenuItem, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
-import Hoc from '../../../Hoc/Hoc';
+// import Hoc from '../../../Hoc/Hoc';
 
 //initial state 
 const initialState = {
@@ -67,7 +67,7 @@ class Checkout extends Component {
             
             case("Cash"):
             paymentMethodRender = (
-                <Hoc>
+                <div>
                     <FormControl 
                     type="text" 
                     value={this.state.amountTendered} 
@@ -77,7 +77,7 @@ class Checkout extends Component {
                     bsSize="large" 
                     bsStyle="info" 
                     onClick={this.submitPayment}>Submit</Button>
-                </Hoc>
+                </div>
             )
             break;
 
@@ -93,7 +93,7 @@ class Checkout extends Component {
             // all non cash (credit)
             default:
             paymentMethodRender = (
-                <Hoc>
+                <div>
                     <div>
                         <ControlLabel> Amount Tendered </ControlLabel>
                         <FormControl 
@@ -131,7 +131,7 @@ class Checkout extends Component {
                     <Button bsSize="large" 
                     bsStyle="info" 
                     onClick={this.submitPayment}>Submit</Button>
-                </Hoc>
+                </div>
             )
         }
         return (

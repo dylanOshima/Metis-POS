@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Hoc from '../Hoc/Hoc'
 import Occupied from './Occupied/Occupied';
 import NewSeating from './NewSeating/NewSeating'
 
@@ -28,7 +27,7 @@ class SeatModal extends Component {
 
         if (this.props.activeTable) {
             return (
-                <Hoc>
+                <div>
                     {/* if the table is occupied, render the waitstaff functions, else render a new seating function */}
                     {table.isOccupied ? (
                         <Occupied 
@@ -52,7 +51,7 @@ class SeatModal extends Component {
                         submitButtonLockout={this.submitButtonLockout}/>   
                         )
                     }
-                </Hoc>
+                </div>
             )
         }
         else {

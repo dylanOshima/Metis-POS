@@ -7,7 +7,7 @@ import Navbar from './components/Nav/Navbar';
 import Table from './components/Table/Table';
 import Admin from './components/Admin/Admin';
 import Modal from './components/Modals/Modal';
-import Hoc from './components/Hoc/Hoc';
+// import Hoc from './components/Hoc/Hoc';
 import OrderModal from './components/Modals/Order';
 import Login from './components/Login/Login';
 import { withAlert } from 'react-alert';
@@ -369,7 +369,8 @@ class App extends Component {
     }
 
     return (
-      <Hoc>
+      // <Hoc>
+      <div> 
         <Grid fluid>
           <Navbar 
           activePage={this.state.activePage} 
@@ -408,7 +409,8 @@ class App extends Component {
               : (null)
               }
         </Grid>
-      </Hoc>
+      </div>
+      // </Hoc>
     );
   }
 }
