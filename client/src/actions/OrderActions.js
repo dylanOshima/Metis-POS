@@ -45,15 +45,13 @@ export function loadOrders() {
     });
 
     // Dispatch vanilla actions asynchronously
-    return api.client.get("/check/unpaid") // Returns an array of order objs
-      .then(orderList => {
-
+    return api.client.get("/order/") // Returns an array of order objs
+      .then(response => {
+        let orderList = response.data;
         let orderDic = {};
         for(let i=0;i<orderList.length;i++){
           let order = orderList[i];
-          if(typeof order === "Object") {
-            orderDic[order._id] = order;
-          }
+          orderDic[order._id] = order;
         }
 
         dispatch({
