@@ -2,7 +2,7 @@
 
 // Uses react-bootstrap for CSS styling
 import React from 'react'
-import { Row,Col } from 'react-bootstrap';
+import { Row,Col,Modal } from 'react-bootstrap';
 
 const align = {
     textAlign: "right"
@@ -14,7 +14,7 @@ const createReceipt = (items) => {
     return(
         items.map(item => {
             return(
-                <Row key={item._id}>
+                <Row key={item.name}>
 
                     <Col md={3} style={align}>
                         {item.name}
@@ -37,41 +37,44 @@ const createReceipt = (items) => {
 // Renders headers and costs.
 const print = props => {
     return (
-        <div>
-            <Row>
-
-                <Col 
-                md={3}>
-                    <h3>Item</h3>
-                </Col>
-                <Col 
-                md={3}>
-                    <h3>#</h3>
-                </Col>
-                <Col 
-                md={3}>
-                    <h3>Cost</h3>
-                </Col>  
-            </Row>
-                {createReceipt(props.table.bill.items)}
-            <Row>
-                <Col mdOffset={4}  md={5} style={align}>
-                    <h4>Sub-Total: ${parseFloat(props.table.bill.total).toFixed(2)}</h4>
-                </Col>
-            </Row>
-            <Row>
-                <Col mdOffset={4} md={5} style={align}>
-                    <h4>Tax: ${(parseFloat(props.table.bill.total) * 0.07).toFixed(2)}</h4>
-                </Col>
-            </Row>
-            <Row>
-                <Col mdOffset={4} md={5} style={align}>
-                    <h4>Total: ${(parseFloat(props.table.bill.total) * 1.07).toFixed(2)}</h4>
-                </Col>
-                
-            </Row>
-
-
+        <div className="static-modal">
+            <Modal.Dialog>
+                <Modal.Header>
+                    <Modal.Title>Receipt</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        <Col 
+                        md={3}>
+                            <h3>Item</h3>
+                        </Col>
+                        <Col 
+                        md={3}>
+                            <h3>#</h3>
+                        </Col>
+                        <Col 
+                        md={3}>
+                            <h3>Cost</h3>
+                        </Col>  
+                    </Row>
+                        {createReceipt(props.order.items)}
+                    <Row>
+                        <Col mdOffset={4}  md={5} style={align}>
+                            <h4>Sub-Total: ${parseFloat(props.order.total).toFixed(2)}</h4>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col mdOffset={4} md={5} style={align}>
+                            <h4>Tax: ${(parseFloat(props.order.total) * 0.07).toFixed(2)}</h4>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col mdOffset={4} md={5} style={align}>
+                            <h4>Total: ${(parseFloat(props.order.total) * 1.07).toFixed(2)}</h4>
+                        </Col>
+                    </Row>
+                </Modal.Body>
+            </Modal.Dialog>
         </div>
     )
 }

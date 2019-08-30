@@ -91,9 +91,9 @@ describe('order reducer', () => {
         },
         {
           name: "Table 2",
-          isOccupied: false,
-          guestNumber: null,
-          server: null,
+          isOccupied: true,
+          guestNumber: 2,
+          server: "Dylan",
           pendingOrder: "5d60f5375811be1a12ffffff",
         }
       ]

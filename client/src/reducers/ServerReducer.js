@@ -2,7 +2,8 @@ import {
   ADD_SERVER_REQUEST,
   ADD_SERVER_SUCCESS,
   ADD_SERVER_FAILURE,
-  LOAD_SERVERS,
+  LOAD_SERVERS_SUCCESS,
+  LOAD_SERVERS_REQUEST,
   UPDATE_SERVER,
   DELETE_SERVER,
   LOGIN_REQUEST,
@@ -46,11 +47,16 @@ export default function serverReducer(state = initialState, action) {
         isFetching: false,
         // error
       });
-    case LOAD_SERVERS:
+    case LOAD_SERVERS_SUCCESS:
       let { servers } = action;
       return Object.assign({}, state, {
+        isFetching: false,
         servers
       });
+    case LOAD_SERVERS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
     case DELETE_SERVER:
       let { index } = action;
       return Object.assign({}, state, {

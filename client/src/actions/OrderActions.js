@@ -12,6 +12,7 @@ import {
   GET_TABLES,
   SET_ACTIVE_TABLE,
   UPDATE_TABLE,
+  RESET_TABLE,
   SAVE_RECEIPT
  } from '../constants/ActionTypes';
 
@@ -24,7 +25,8 @@ export function addOrder(seating) {
     });
 
     return api.client.post("/check/seat", seating)
-      .then(currentOrder => {
+      .then(response => {
+        let currentOrder = response.data;
         dispatch({
           type: ADD_ORDER_SUCCESS,
           currentOrder
@@ -74,11 +76,11 @@ export function updateOrder(order) {
 
     return api.client.put("/order/"+ order._id, order)
       .then(response => {
-        //dbResponse(response);
+        let updatedOrder = response.data;
         dispatch({
           type: UPDATE_ORDER_SUCCESS,
-          orderID: response._id,
-          updatedOrder: response
+          orderID: updatedOrder._id,
+          updatedOrder
         });
       }).catch(error => {
         dispatch({
@@ -94,18 +96,18 @@ export function checkout(order) {
   return function(dispatch) {
     dispatch({ type: UPDATE_ORDER_REQUEST });
 
-    let newPayment = {};
-    newPayment.paid           = true;
-    newPayment.card           = order.card;
-    newPayment.amountTendered = order.amount;
-    newPayment.paymentType    = order.paymentType;
-    let URL = encodeURI("/check/" + order.bill.id);
-    return api.client.put(URL, order)
+    let newPayment = Object.assign({}, order, {
+      paid: true,
+    });
+
+    let URL = encodeURI("/check/" + order.id);
+    return api.client.put(URL, newPayment)
       .then(response => {
+        let updatedOrder = response.data;
         dispatch({
           type: UPDATE_ORDER_SUCCESS,
-          orderID: response._id,
-          updatedOrder: response
+          orderID: updatedOrder._id,
+          updatedOrder
         });
       }).catch(error => {
         dispatch({
@@ -119,8 +121,8 @@ export function checkout(order) {
 export function getTables() {
   return (dispatch) => {
     return api.client.get("/check/unpaid")
-      .then((unpaidOrders) => {
-
+      .then((response) => {
+        let unpaidOrders = response.data;
         let unpaidOrdersDic = {};
         for(let i=0;i<unpaidOrders.length;i++){
           let order = unpaidOrders[i];
@@ -143,7 +145,7 @@ export function updateTable(tableID, table) {
 };
 
 export function resetTable(tableID) {
-  return { type: SET_ACTIVE_TABLE, tableID }
+  return { type: RESET_TABLE, tableID }
 };
 
 export function setTable(tableIndex) {

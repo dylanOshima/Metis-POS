@@ -17,20 +17,16 @@ import {
 
 const NUM_TABLES = 26;
 
-const defaultTable = {
-  name: "Table -",
-  isOccupied: false,
-  guestNumber: null,
-  server: null,
-  pendingOrder: null, // ID of receipt
-}
-
 export const defaultTables = (function() {
   let tables = [];
   for(let i=1;i<=NUM_TABLES;i++) {
-    tables.push(Object.assign({}, defaultTable, {
-      name: "Table " + i
-    }))
+    tables.push({
+      name: "Table " + i,
+      isOccupied: false,
+      guestNumber: null,
+      server: null,
+      pendingOrder: null, // ID of receipt
+    })
   }
   return tables
 })();
@@ -80,10 +76,14 @@ export default function orderReducer(state = initialState, action) {
         orders: Object.assign({}, state.orders, {
           [currentOrder._id] : currentOrder
         }),
-        tables: state.tables.map( table => {
+        tables: state.tables.map(table => {
           if(table.name === currentOrder.table) {
-            table.pendingOrder = currentOrder._id;
-            return table;
+            return Object.assign({}, table, {
+              pendingOrder: currentOrder._id,
+              isOccupied: true,
+              guestNumber: currentOrder.guests,
+              server: currentOrder.server 
+            });
           } else {
             return table;
           }
@@ -143,7 +143,12 @@ export default function orderReducer(state = initialState, action) {
       return Object.assign({}, state, {
         tables: state.tables.map( table => {
           if(table.name === action.tableID) {
-            return defaultTable;
+            return Object.assign({}, table, {
+              isOccupied: false,
+              guestNumber: null,
+              server: null,
+              pendingOrder: null,
+            });
           } else { return table; }
         })
       })

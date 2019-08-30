@@ -3,6 +3,10 @@ export const UPDATE_PAGE = "UPDATE_PAGE";
 export const THROW_ERROR = "THROW_ERROR";
 export const RESOLVE_ERROR = "RESOLVE_ERROR";
 
+// Modals
+export const SHOW_MODAL = "SHOW_MODAL";
+export const HIDE_MODAL = "HIDE_MODAL";
+
 // Orders & Tables
 export const ADD_ORDER_REQUEST    = "ADD_ORDER_REQUEST";
 export const ADD_ORDER_SUCCESS    = "ADD_ORDER_SUCCESS";
@@ -13,7 +17,6 @@ export const LOAD_ORDERS_FAILURE  = "LOAD_ORDERS_FAILURE";
 export const UPDATE_ORDER_REQUEST = "UPDATE_ORDER_REQUEST";
 export const UPDATE_ORDER_SUCCESS = "UPDATE_ORDER_SUCCESS";
 export const UPDATE_ORDER_FAILURE = "UPDATE_ORDER_FAILURE";
-
 // export const ADD_ITEM = "ADD_ITEM";
 // export const REMOVE_ITEM = "REMOVE_ITEM";
 
@@ -33,12 +36,13 @@ export const UPDATE_DISH      = "UPDATE_DISH";
 export const DELETE_DISH      = "DELETE_DISH";
 
 // Servers
-export const ADD_SERVER_REQUEST = "ADD_SERVER_REQUEST";
-export const ADD_SERVER_SUCCESS = "ADD_SERVER_SUCCESS";
-export const ADD_SERVER_FAILURE = "ADD_SERVER_FAILURE";
-export const LOAD_SERVERS       = "LOAD_SERVERS";
-export const UPDATE_SERVER      = "UPDATE_SERVER";
-export const DELETE_SERVER      = "DELETE_SERVER";
+export const ADD_SERVER_REQUEST   = "ADD_SERVER_REQUEST";
+export const ADD_SERVER_SUCCESS   = "ADD_SERVER_SUCCESS";
+export const ADD_SERVER_FAILURE   = "ADD_SERVER_FAILURE";
+export const LOAD_SERVERS_REQUEST = "LOAD_SERVERS_REQUEST";
+export const LOAD_SERVERS_SUCCESS = "LOAD_SERVERS_SUCCESS";
+export const UPDATE_SERVER        = "UPDATE_SERVER";
+export const DELETE_SERVER        = "DELETE_SERVER";
 
 export const LOGIN_REQUEST      = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS      = "LOGIN_SUCCESS";

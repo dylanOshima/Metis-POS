@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import { Button, Well, ListGroup, ListGroupItem, DropdownButton, MenuItem, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Button, Modal, ModalBody, ListGroup, ListGroupItem, DropdownButton, MenuItem, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 // import Hoc from '../../../Hoc/Hoc';
+import { checkout, resetTable } from '../../../../actions/OrderActions';
+import { hideModal } from '../../../../actions/ModalActions';
 
 //initial state 
 const initialState = {
@@ -17,10 +20,6 @@ const initialState = {
 class Checkout extends Component {
     state = initialState;
     
-
-    resetToInitialState = () => {
-        this.setState(initialState)
-    }
     payment = method => {
         this.setState({paymentMethod: method})
     }
@@ -48,15 +47,17 @@ class Checkout extends Component {
     }
 
     submitPayment=()=>{
-        let paymentObject = {}
-        paymentObject.amount = this.state.amountTendered;
-        paymentObject.paymentType = this.state.paymentMethod;
-        paymentObject.card = this.state.card;
-        paymentObject.bill = this.props.table.bill; 
+        let paymentObject = Object.assign({}, this.state, {
+            id: this.props.table.pendingOrder
+        })
+
         //send the object "down the chain"
-        this.props.submitPayment(paymentObject)
+        this.props.checkout(paymentObject);
+        this.props.hideModal();
+
         //reset the state
-        this.resetToInitialState();
+        this.props.resetTable(this.props.table.name);
+        this.setState(initialState);
     }
 
 
@@ -135,48 +136,56 @@ class Checkout extends Component {
             )
         }
         return (
-                    <Well>
-                        <ListGroup>
-                            <ListGroupItem> Server: {this.props.table.server} </ListGroupItem>
-                            <ListGroupItem>ID: {this.props.table.bill.id}</ListGroupItem>
-                            <ListGroupItem>Total: {this.props.table.bill.total}</ListGroupItem>
-                        </ListGroup>
-                        <form>
-                            <FormGroup>
-                                <DropdownButton 
-                                id="checkoutDropDown" 
-                                title={this.state.paymentMethod}>
-                                    <MenuItem 
-                                    value="VISA" 
-                                    onSelect={() => this.payment("VISA")}>VISA
-                                    </MenuItem>
+            <div className="static-modal">
+            <Modal.Dialog>
+                <Modal.Body>
+                    <ListGroup>
+                        <ListGroupItem> Server: {this.props.order.server} </ListGroupItem>
+                        <ListGroupItem>ID: {this.props.order._id}</ListGroupItem>
+                        <ListGroupItem>Total: {this.props.order.total}</ListGroupItem>
+                    </ListGroup>
+                    <form>
+                        <FormGroup>
+                            <DropdownButton 
+                            id="checkoutDropDown" 
+                            title={this.state.paymentMethod}>
+                                <MenuItem 
+                                value="VISA" 
+                                onSelect={() => this.payment("VISA")}>VISA
+                                </MenuItem>
 
-                                    <MenuItem 
-                                    value="MasterCard" 
-                                    onSelect={() => this.payment("MasterCard")}>MasterCard
-                                    </MenuItem>
+                                <MenuItem 
+                                value="MasterCard" 
+                                onSelect={() => this.payment("MasterCard")}>MasterCard
+                                </MenuItem>
 
-                                    <MenuItem 
-                                    value="AMEX" 
-                                    onSelect={() => this.payment("AMEX")}>AMEX
-                                    </MenuItem>
+                                <MenuItem 
+                                value="AMEX" 
+                                onSelect={() => this.payment("AMEX")}>AMEX
+                                </MenuItem>
 
-                                    <MenuItem 
-                                    value="Diners Club" 
-                                    onSelect={() => this.payment("Diners Club")}>Diners Club
-                                    </MenuItem>
-                                    <MenuItem 
-                                    value="Cash" 
-                                    onSelect={() => this.payment("Cash")}>Cash
-                                    </MenuItem>
-                                </DropdownButton>
+                                <MenuItem 
+                                value="Diners Club" 
+                                onSelect={() => this.payment("Diners Club")}>Diners Club
+                                </MenuItem>
+                                <MenuItem 
+                                value="Cash" 
+                                onSelect={() => this.payment("Cash")}>Cash
+                                </MenuItem>
+                            </DropdownButton>
 
-                                {paymentMethodRender}
+                            {paymentMethodRender}
 
-                            </FormGroup>
-                        </form>
-                    </Well>
-                )
+                        </FormGroup>
+                    </form>
+                </Modal.Body>
+            </Modal.Dialog>
+            </div>
+        )
     }   
 }
-export default Checkout;
+export default connect(null, {
+    resetTable,
+    hideModal,
+    checkout
+})(Checkout);

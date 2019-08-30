@@ -1,81 +1,118 @@
-import React from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { Button, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
+import { addOrder } from '../../../actions/OrderActions';
+import { hideModal } from '../../../actions/ModalActions';
 
-const newSeating = props => {
-    let disableButton = true;
-    //if the values are both not the defaults, enable the button
-    if (props.chosenServer !== "Select Server" 
-    && props.guestNumber !== "Select Number") {
-        disableButton = false;
-    }
-    else {
-        disableButton = true;
+class newSeating extends Component {
+
+    state = {
+        chosenServer: "Select Server",
+        guestNumber: "Select Number",
     }
 
-    return (
-    <div className="static-modal">
-        <Modal.Dialog>
-            <Modal.Header>
-                <Modal.Title>{props.table.name} New Seating </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <p>Seat New Customers:</p>
-                <DropdownButton 
-                bsSize="large" 
-                title={props.chosenServer} 
-                id="modalDropButtonServer">
-                    {props.servers.map((server, index) => {
-                        return (
+    handleServerSelection = (server) => {
+        this.setState({chosenServer: server});  
+    }
+
+    setGuests = (numOfGuests) => {
+        this.setState({guestNumber: numOfGuests})
+    }
+
+    seatGuests = () => {
+        let { chosenServer, guestNumber } = this.state;
+        let seating = {};
+        seating.server = chosenServer;
+        seating.guests = guestNumber;
+        seating.table = this.props.table.name;
+        this.props.addOrder(seating);
+        this.props.hideModal();
+    }
+
+    render() {
+        let disableButton = true;
+
+        //if the values are both not the defaults, enable the button
+        if (this.state.chosenServer !== "Select Server" 
+        && this.state.guestNumber !== "Select Number") {
+            disableButton = false;
+        } else {
+            disableButton = true; 
+        }
+        console.log(this.props);
+
+        return (
+            <div className="static-modal">
+                <Modal.Dialog>
+                    <Modal.Header>
+                        <Modal.Title>{this.props.table.name} New Seating </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Seat New Customers:</p>
+                        <DropdownButton 
+                        bsSize="large" 
+                        title={this.state.chosenServer} 
+                        id="modalDropButtonServer">
+                            {this.props.servers.map((server, index) => {
+                                return (
+                                    <MenuItem 
+                                    key={server._id} 
+                                    eventKey={server.name} 
+                                    value={server.name} 
+                                    onSelect={() => this.handleServerSelection(server.name)}> {server.name} 
+                                    </MenuItem>
+                                )
+                            })}
+                        </DropdownButton>
+                        <p>Number of Guests</p>
+                        <DropdownButton 
+                        id="modalDropButtonGuests" 
+                        title={this.state.guestNumber}>
                             <MenuItem 
-                            key={server._id} 
-                            eventKey={server.name} 
-                            value={server.name} 
-                            onSelect={() => props.handleServerSelection(server.name)}> {server.name} 
+                            value={1} onSelect={() => this.setGuests(1)}>1
                             </MenuItem>
-                        )
-                    })}
-                </DropdownButton>
-                <p>Number of Guests</p>
-                <DropdownButton 
-                id="modalDropButtonGuests" 
-                title={props.guestNumber}>
-                    <MenuItem 
-                    value={1} onSelect={() => props.setGuests(1)}>1
-                    </MenuItem>
-                    <MenuItem 
-                    value={2} onSelect={() => props.setGuests(2)}>2
-                    </MenuItem>
-                    <MenuItem 
-                    value={3} onSelect={() => props.setGuests(3)}>3
-                    </MenuItem>
-                    <MenuItem 
-                    value={4} onSelect={() => props.setGuests(4)}>4
-                    </MenuItem>
-                    <MenuItem 
-                    value={5} onSelect={() => props.setGuests(5)}>5
-                    </MenuItem>
-                    <MenuItem 
-                    value={6} onSelect={() => props.setGuests(6)}>6
-                    </MenuItem>
-                    <MenuItem 
-                    value={7} onSelect={() => props.setGuests(7)}>7
-                    </MenuItem>
-                    <MenuItem 
-                    value={8} onSelect={() => props.setGuests(8)}>8
-                    </MenuItem>
-                </DropdownButton>
+                            <MenuItem 
+                            value={2} onSelect={() => this.setGuests(2)}>2
+                            </MenuItem>
+                            <MenuItem 
+                            value={3} onSelect={() => this.setGuests(3)}>3
+                            </MenuItem>
+                            <MenuItem 
+                            value={4} onSelect={() => this.setGuests(4)}>4
+                            </MenuItem>
+                            <MenuItem 
+                            value={5} onSelect={() => this.setGuests(5)}>5
+                            </MenuItem>
+                            <MenuItem 
+                            value={6} onSelect={() => this.setGuests(6)}>6
+                            </MenuItem>
+                            <MenuItem 
+                            value={7} onSelect={() => this.setGuests(7)}>7
+                            </MenuItem>
+                            <MenuItem 
+                            value={8} onSelect={() => this.setGuests(8)}>8
+                            </MenuItem>
+                        </DropdownButton>
 
-                <Button 
-                onClick={() => props.seatGuests(props.chosenServer, props.guestNumber)} 
-                disabled={disableButton}> Submit</Button>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button 
-                onClick={props.close}>Close</Button>
-            </Modal.Footer>
-        </Modal.Dialog>
-    </div>
-    )
+                        <Button 
+                        onClick={() => this.seatGuests()} 
+                        disabled={disableButton}> Submit</Button>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button 
+                        onClick={this.props.hideModal}>Close</Button>
+                    </Modal.Footer>
+                </Modal.Dialog>
+            </div>
+        )
+    }
 }
 
-export default newSeating;
+const mapStateToProps = state => ({
+    table: state.order.tables[state.order.activeTableIndex],
+    chosenServer: state.server.serverName,
+    servers: state.server.servers,
+})
+
+export default connect(mapStateToProps, { addOrder, hideModal })(newSeating);

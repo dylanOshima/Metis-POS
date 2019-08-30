@@ -1,9 +1,10 @@
-import api from 'axios';
+import api from '../utils/API_Ref';
 import { 
   ADD_SERVER_REQUEST,
   ADD_SERVER_SUCCESS,
   ADD_SERVER_FAILURE,
-  LOAD_SERVERS,
+  LOAD_SERVERS_SUCCESS,
+  LOAD_SERVERS_REQUEST,
   UPDATE_SERVER,
   DELETE_SERVER,
   LOGIN_REQUEST,
@@ -36,12 +37,14 @@ export function addServer(server) {
 }
 
 export function loadServers() {
-  return dispatch => {
+  return function(dispatch) {
+    dispatch({ type: LOAD_SERVERS_REQUEST });
+
     return api.client.get("/servers")
     .then(servers => {
       dispatch({
-        type: LOAD_SERVERS,
-        servers
+        type: LOAD_SERVERS_SUCCESS,
+        servers: servers.data
       })
     }).catch(error => {
       // throw error

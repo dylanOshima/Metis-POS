@@ -43,7 +43,7 @@ describe('async addOrder action creator', () => {
 
     // API mock response
     mockAxios.post.mockImplementationOnce(() => 
-      Promise.resolve( sampleUnpaidOrder )
+      Promise.resolve( {data: sampleUnpaidOrder} )
     );
 
     // Expectation
@@ -91,16 +91,16 @@ describe('async loadOrders action creator', () => {
 
     // API mock response
     mockAxios.get.mockImplementationOnce(() => 
-      Promise.resolve([
+      Promise.resolve({data:[
         sampleUnpaidOrder
-      ])
+      ]})
     )
 
     // Expectation
     const expectedActions = [
       { type: types.LOAD_ORDERS_REQUEST },
       { type: types.LOAD_ORDERS_SUCCESS, orders: {
-        "5d60f5375811be1a12f54f4e": sampleUnpaidOrder[0] 
+        "5d60f5375811be1a12f54f4e": sampleUnpaidOrder
       }}
     ]
 
@@ -141,7 +141,7 @@ describe('async updateOrder action creator', () => {
 
     // API mock response
     mockAxios.put.mockImplementationOnce(() => 
-      Promise.resolve( sampleUnpaidOrder )
+      Promise.resolve({ data:sampleUnpaidOrder })
     )
 
     // Expectation
@@ -190,7 +190,7 @@ describe('async getTables action creator', () => {
 
     // API mock response
     mockAxios.get.mockImplementationOnce(() => 
-      Promise.resolve([sampleUnpaidOrder])
+      Promise.resolve({data:[sampleUnpaidOrder]})
     )
 
     // Expectation
@@ -206,7 +206,7 @@ describe('async getTables action creator', () => {
     return store.dispatch(actions.getTables()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
       expect(mockAxios.get).toHaveBeenCalledTimes(1);
-      mockAxios.put.mockReset(); // Prevents issues with toHaveBeenCalledTimes in other tests
+      mockAxios.get.mockReset(); // Prevents issues with toHaveBeenCalledTimes in other tests
     })
   });
 })

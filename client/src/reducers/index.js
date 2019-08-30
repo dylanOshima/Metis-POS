@@ -3,12 +3,14 @@ import orderReducer from './OrderReducer';
 import dishReducer from './DishReducer';
 import serverReducer from './ServerReducer';
 import modalReducer from './ModalReducer';
+import appReducer from './AppReducer';
 
 const rootReducer = combineReducers({
   order: orderReducer,
   dish: dishReducer,
   server: serverReducer,
-  modal: modalReducer
+  modal: modalReducer,
+  app: appReducer
 });
 
 export default rootReducer;

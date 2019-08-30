@@ -1,11 +1,11 @@
 import React from 'react';
 import { Col, Row, Grid, Jumbotron, Panel } from 'react-bootstrap';
 // import Aux from '../Hoc/Hoc'
+import { connect } from 'react-redux';
 import './Table.css';
 
 
 const table = props => {
-
         return(
             <Grid fluid>
                 <Grid>
@@ -43,12 +43,12 @@ const table = props => {
                                                 className="text-center"> Server: {table.server} 
                                                 </p>
                                                 <p 
-                                                className="text-center"> Receipt ID: {table.bill.id} 
+                                                className="text-center"> Receipt ID: {table.pendingOrder} 
                                                 </p>
                                                 {/* conditional render for the total */}
-                                                { table.bill.total ? (<p 
+                                                {/* { table.bill.total ? (<p 
                                                 className="text-center"> Current Total: {table.bill.total} 
-                                                </p>) : null }
+                                                </p>) : null } */}
                                             </div>
                                             )
                                             :(
@@ -68,6 +68,14 @@ const table = props => {
             </Grid> 
             )
         }
-export default table;
+
+const mapStateToProps = (state, ownProps) => ({
+    tables: state.order.tables,
+    chosenServer: state.server.serverName,
+    servers: state.server.servers,
+    clicked: ownProps.clicked
+})
+
+export default connect(mapStateToProps)(table);
 
         

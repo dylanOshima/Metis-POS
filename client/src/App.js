@@ -6,11 +6,28 @@ import Order from './components/Order';
 import Navbar from './components/Nav/Navbar';
 import Table from './components/Table/Table';
 import Admin from './components/Admin/Admin';
-import Modal from './components/Modals/Modal';
+// import Modal from './components/Modals/Modal';
+import ModalRoot from './components/Modals/ModalRoot';
 // import Hoc from './components/Hoc/Hoc';
 import OrderModal from './components/Modals/Order';
 import Login from './components/Login/Login';
 import { withAlert } from 'react-alert';
+import { connect } from 'react-redux';
+
+import { showModal, hideModal } from './actions/ModalActions';
+import { loadServers } from './actions/ServerActions';
+import { setTable, 
+  resetTable, 
+  updateTable, 
+  getTables,
+  loadOrders,
+} from './actions/OrderActions';
+import { NEW_SEATING_MODAL, OCCUPIED_MODAL } from './constants/ModalTypes';
+import { 
+  TABLES_PAGE,
+  ORDERS_PAGE,
+  ADMIN_PAGE,
+} from './constants/PageTypes';
 
 const NUM_TABLES = 26;
 
@@ -71,8 +88,11 @@ class App extends Component {
   }
   populateData = () => {
     this.getMenu();
-    this.getServers();
-    this.getUnpaidChecks();
+    // this.getUnpaidChecks();
+    this.props.getTables();
+    // this.getServers();
+    this.props.loadServers();
+    this.props.loadOrders();
   }
   activePageHandler = (event) => {
     //This is for the navbar to find the active page
@@ -153,11 +173,16 @@ class App extends Component {
     // handles what happens when a table is clicked (sets an active table, active index, and opens the modal
   handleTableClick = (item) => {
     let newTableIndex = null;
-    this.state.tables.map((table, index) => {
+    this.props.tables.map((table, index) => {
       if (table.name === item) {
         newTableIndex = index;
         this.setState({ activeTable: item, activeTableIndex: newTableIndex },function(){
-          this.modalOpen()
+          this.props.setTable(newTableIndex);
+          if(table.isOccupied){
+            this.modalOpen(OCCUPIED_MODAL);
+          } else {
+            this.modalOpen(NEW_SEATING_MODAL);
+          }
         })
       }
     })
@@ -304,13 +329,15 @@ class App extends Component {
     });
   }
 //these are helper functions to open and close the modals
-  modalOpen = () => {
-    this.setState({ modalActive: true }, function () {
-    })
+  modalOpen = (type) => {
+    this.props.showModal(type);
+    // this.setState({ modalActive: true }, function () {
+    // })
   }
   modalClose = () => {
-    this.setState({ modalActive: false }, function () {
-    })
+    this.props.hideModal();
+    // this.setState({ modalActive: false }, function () {
+    // })
   }
   modalOrder = () => {
     // from inside the modal, this function lets the modal open an order page, it closes the modal too
@@ -333,8 +360,8 @@ class App extends Component {
       activeContent = (<Login setUser={this.setUser} />)
     }else{
 
-      switch (this.state.activePage) {
-        case ("Tables"):
+      switch (this.props.activePage) {
+        case TABLES_PAGE:
           activeContent = (
             <Table 
             tables={this.state.tables} 
@@ -342,7 +369,7 @@ class App extends Component {
             
           )
           break;
-        case ("Orders"):
+        case ORDERS_PAGE:
           // Sets Order Page as rendered page and passes props to Order Component
           activeContent = (
             <Order 
@@ -354,10 +381,10 @@ class App extends Component {
             orderModal={this.state.orderModal}/>
           )
           break;
-        case ("Admin"):
+        case ADMIN_PAGE:
           activeContent = (
             <Admin 
-            servers={this.state.servers} 
+            servers={this.props.servers} 
             addServer={this.addServer} 
             menu={this.state.menu} 
             addMenu={this.addMenu}/>
@@ -393,21 +420,20 @@ class App extends Component {
             orderClose={this.orderClose} />
             : (null)
             }
-          {
-            this.state.modalActive ? 
-            (<Modal 
-              tables={this.state.tables} 
-              activeTable={this.state.activeTable} 
-              activeTableIndex={this.state.activeTableIndex} 
-              servers={this.state.servers} 
-              close={this.modalClose} 
-              order={this.modalOrder} 
-              receipt={this.printReceipt}
-              submitPayment={this.submitPayment} 
-              setServer={this.setServer} 
-              seatGuests={this.seatGuestsFromModalHandler} />) 
-              : (null)
-              }
+          <ModalRoot />
+          {/*  this.state.modalActive ? 
+          (<Modal 
+          tables={this.state.tables} 
+          activeTable={this.state.activeTable} 
+          activeTableIndex={this.state.activeTableIndex} 
+          servers={this.state.servers} 
+          close={this.modalClose} 
+          order={this.modalOrder} 
+          receipt={this.printReceipt}
+          submitPayment={this.submitPayment} 
+          setServer={this.setServer} 
+          seatGuests={this.seatGuestsFromModalHandler} />) 
+          : (null) */}
         </Grid>
       </div>
       // </Hoc>
@@ -415,4 +441,21 @@ class App extends Component {
   }
 }
 
-export default withAlert(App);
+const mapStateToProps = state => ({
+  tables: state.order.tables,
+  servers: state.server.servers,
+  activePage: state.app.activePage,
+})
+
+const actionCreators = {
+  showModal,
+  hideModal,
+  setTable,
+  updateTable,
+  resetTable,
+  getTables,
+  loadServers,
+  loadOrders,
+}
+
+export default connect(mapStateToProps, actionCreators)(withAlert(App));
