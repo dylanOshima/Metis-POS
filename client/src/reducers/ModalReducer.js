@@ -1,8 +1,3 @@
-import {
-  SHOW_MODAL,
-  HIDE_MODAL
-} from '../constants/ActionTypes';
-
 const initialState = {
   modalType: null,
   modalProps: {}

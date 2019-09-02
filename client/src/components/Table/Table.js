@@ -4,8 +4,27 @@ import { Col, Row, Grid, Jumbotron, Panel } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import './Table.css';
 
+import { NEW_SEATING_MODAL, OCCUPIED_MODAL } from '../../constants/ModalTypes';
+import { showModal } from '../../actions/ModalActions';
+import { setTable } from '../../actions/OrderActions';
 
 const table = props => {
+        const handleTableClick = (item) => {
+            let newTableIndex = null;
+            props.tables.map((table, index) => {
+                if (table.name === item) {
+                    newTableIndex = index;
+                    props.setTable(newTableIndex);
+                    if(table.isOccupied){
+                        props.showModal(OCCUPIED_MODAL);
+                    } else {
+                        props.showModal(NEW_SEATING_MODAL);
+                    }
+                } 
+                return table;
+            })
+        }
+
         return(
             <Grid fluid>
                 <Grid>
@@ -24,7 +43,7 @@ const table = props => {
                             key={table.name}>
                                 <Panel 
                                 className="tablePanels" 
-                                onClick={()=> props.clicked(table.name)} 
+                                onClick={()=> handleTableClick(table.name)} 
                                 bsStyle={ table.isOccupied? "danger" : "success" }>
                                     <Panel.Heading 
                                     className="tablePanel" >
@@ -45,10 +64,6 @@ const table = props => {
                                                 <p 
                                                 className="text-center"> Receipt ID: {table.pendingOrder} 
                                                 </p>
-                                                {/* conditional render for the total */}
-                                                {/* { table.bill.total ? (<p 
-                                                className="text-center"> Current Total: {table.bill.total} 
-                                                </p>) : null } */}
                                             </div>
                                             )
                                             :(
@@ -72,10 +87,9 @@ const table = props => {
 const mapStateToProps = (state, ownProps) => ({
     tables: state.order.tables,
     chosenServer: state.server.serverName,
-    servers: state.server.servers,
-    clicked: ownProps.clicked
+    servers: state.server.servers
 })
 
-export default connect(mapStateToProps)(table);
+export default connect(mapStateToProps, { setTable, showModal })(table);
 
         

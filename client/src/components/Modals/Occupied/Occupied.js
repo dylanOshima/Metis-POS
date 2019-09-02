@@ -41,7 +41,6 @@ const occupied = props => {
                     onClick={() => props.showModal(CHECKOUT_MODAL, { 
                         table: props.table, 
                         order: props.order,
-                        cancel: () => props.hideModal()
                     })}> Checkout
                     </Button>
                 </ButtonGroup>

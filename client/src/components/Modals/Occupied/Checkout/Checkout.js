@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, ModalBody, ListGroup, ListGroupItem, DropdownButton, MenuItem, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
-// import Hoc from '../../../Hoc/Hoc';
+import { Button, Modal, ListGroup, ListGroupItem, DropdownButton, MenuItem, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import { checkout, resetTable } from '../../../../actions/OrderActions';
+import { hideModal } from '../../../../actions/ModalActions';
 
 //initial state 
 const initialState = {
@@ -177,7 +177,7 @@ class Checkout extends Component {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => this.props.cancel()}>Cancel</Button>
+                    <Button onClick={this.props.hideModal}>Cancel</Button>
                 </Modal.Footer>
             </Modal.Dialog>
             </div>
@@ -186,5 +186,6 @@ class Checkout extends Component {
 }
 export default connect(null, {
     resetTable,
-    checkout
+    checkout,
+    hideModal
 })(Checkout);

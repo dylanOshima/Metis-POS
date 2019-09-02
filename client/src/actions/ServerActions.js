@@ -54,32 +54,32 @@ export function loadServers() {
 }
 
 
-export function updateServer() {
+export function updateServer(server) {
   // TODO: Add backend for this
-  // return dispatch => api.client.put("/menu")
-  //   .then(menu => {
-  //     dispatch({
-  //       type: UPDATE_DISH,
-  //       userID,
-  //       updatedUser
-  //     })
-  //   }).catch(error => {
-  //     // throw error
-  //   })
+  return dispatch => api.client.put(`/server/${server._id}`)
+    .then(response => {
+      dispatch({
+        type: UPDATE_SERVER,
+        userID: server._id,
+        updatedUser: server
+      })
+    }).catch(error => {
+      // throw error
+    })
 }
 
-// index is the dishes index in the array
-export function deleteServer(dish, index) {
-  // return dispatch => api.client.delete(`/menu/${dish._id}`)
-  //   .then(response => {
-  //     dispatch({
-  //       type: DELETE_DISH,
-  //       index
-  //     })
-  //   }).catch(error => {
-  //     // throw error
-  //     console.error("problem deleting dish: ", error)
-  //   })
+export function deleteServer(server) {
+  // TODO: Add backend for this
+  return dispatch => api.client.delete(`/server/${server._id}`)
+    .then(response => {
+      dispatch({
+        type: DELETE_SERVER,
+        index: server._id
+      })
+    }).catch(error => {
+      // throw error
+      console.error("problem deleting server: ", error)
+    })
 }
 
 export function login(code) {

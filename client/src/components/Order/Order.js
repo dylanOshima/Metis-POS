@@ -14,7 +14,6 @@ import { updatePage } from "../../actions/AppActions";
 import { TABLES_PAGE } from '../../constants/PageTypes';
 
 import { updateTotal } from '../../utils/helper';
-// import Hoc from "../Hoc/Hoc";
 
 
 class Order extends Component {
@@ -32,13 +31,10 @@ class Order extends Component {
         //Looks to see if the item already exists in orderList if found increase its quantity count by 1 if not found push the information into the list.
         let itemIndex = orderList.findIndex(index => index.name === newItem.name);
         itemIndex !== -1 
-            ? this.state.orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) + 1 
+            ? orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) + 1 
             : orderList.push(newItem);
-        
-       //function passed in from app.js and adds the item to app.js' pendingOrder state
-    //     this.props.updateTable(orderList);
+
         this.setState({ orderList });
-        // updateOrder(newOrder);
     }
 
     /* 
@@ -53,8 +49,6 @@ class Order extends Component {
         // if quantity of item is greater then 1 subtract 1 from the quantity else remove the item completely
         orderList[itemIndex].quantity > 1 ? orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) - 1 : orderList.splice(orderList[itemIndex],1);  
         
-        // call function in app.js to update app.js state
-        // this.props.updatePendingOrder(orderList);
         this.setState({orderList});
     }
 
@@ -66,15 +60,7 @@ class Order extends Component {
     }
 
     // Upon clicking the Submit button this function is called
-    // Calls the following functions residing in app.js to move the orders from pending to ordered
     orderSubmit = () => {
-        
-        // Empties app.js pendingOrder State for active table
-        // this.props.updatePendingOrder();
-        
-        // Passes the information to app.js for processing
-        // this.props.orderSubmit(this.state.newOrderList);
-        
         // TODO: CLEAN THIS SHIT UP
         let newOrder = Object.assign({}, this.props.order, {
             items: this.state.orderList
@@ -83,14 +69,9 @@ class Order extends Component {
             pendingOrder: undefined,
             bill: updateTotal(newOrder, this.props.menu),
         })
-        console.log(table);
         
         this.props.updateOrder(table);
         this.props.updatePage(TABLES_PAGE);
-    }
-
-    updatePending = () => {
-        this.props.updatePendingOrder(this.state.newOrderList);
     }
 
     // Renders a list of categories, the items the ordered list and a submit button

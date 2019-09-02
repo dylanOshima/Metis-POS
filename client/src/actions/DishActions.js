@@ -50,17 +50,17 @@ export function loadDish() {
 }
 
 
-export function updateDish() {
+export function updateDish(dish) {
   // TODO: Add backend for this
-  // return dispatch => api.client.put("/menu")
-  //   .then(menu => {
-  //     dispatch({
-  //       type: UPDATE_DISH,
-  //       menu
-  //     })
-  //   }).catch(error => {
-  //     // throw error
-  //   })
+  return dispatch => api.client.put(`/menu/${dish._id}`)
+    .then(response => {
+      dispatch({
+        type: UPDATE_DISH,
+        menu: dish
+      })
+    }).catch(error => {
+      // throw error
+    })
 }
 
 // index is the dishes index in the array

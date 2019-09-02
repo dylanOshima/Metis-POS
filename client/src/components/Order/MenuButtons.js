@@ -15,26 +15,21 @@ class MenuButtons extends Component {
 
     // Calls renderButtons to prcess items to be displayed
     render () {
-        let buttons;
-
         // Loops through list of items to be displayed based on the category choosen
         // If category is blank don't display anything
         let { menu, category } = this.props;
-        if(category !== ""){
-            buttons = (
-                menu.map((items,index) => {  
-                    if (items.category.toLowerCase() === category){
-                        return <Button key={items._id} id={items._id} onClick={(event) => this.addOrder(event)}>{items.name}</Button>
-                    }
-                })
-            );     
-        } else {
-            buttons = <p></p>
-        }
 
         return(
             <div>
-                {buttons}
+                {category !== "" ? 
+                    menu.map((items,index) => {  
+                        if (items.category.toLowerCase() === category){
+                            return <Button key={items._id} id={items._id} onClick={(event) => this.addOrder(event)}>{items.name}</Button>
+                        } else {
+                            return null
+                        }
+                    })
+                     : <p></p>}
             </div>
         )
     }
