@@ -96,58 +96,6 @@ class App extends Component {
     this.setState({ activePage: event })
   }
 
-  getMenu = () => {
-    API.getMenu().then(results => {
-      let newMenu = results.data;
-      console.log("********", newMenu); // DEBUG
-      this.setState({ menu: newMenu }, () => {
-      })
-    }).catch(error => {
-      if (error) throw (error)
-    })
-  }
-
-  getServers = () => {
-    API.getServers().then((results) => {
-      let newServers = results.data
-      this.setState({ servers: newServers })
-    }).catch(error => {
-      if (error) throw (error)
-    })
-    
-  }
-  getUnpaidChecks = () => {
-    //this checks the database on load to see if there are unpaid checks
-    API.getTables().then(results => {
-      let newTablesData = results.data
-      // if the result has data, there are unpaid checks
-      if (newTablesData) {
-        // get the tables from state in a stretch
-        let updateChecks = [...this.state.tables]
-        //map through the data from the d/b
-        newTablesData.map(item => {
-          // match them against the tables in state
-          updateChecks.map((table, index) => {
-            if (table.name === item.table) {
-              let updateChecksIndex = null;
-              //update the table's object
-              updateChecksIndex = index;
-              updateChecks[updateChecksIndex].bill.id = item._id;
-              updateChecks[updateChecksIndex].isOccupied = true;
-              updateChecks[updateChecksIndex].server = item.server
-              updateChecks[updateChecksIndex].guestNumber = item.guests
-              updateChecks[updateChecksIndex].bill.items = item.items
-              updateChecks[updateChecksIndex].bill.total = item.total
-            }
-            return;
-          })
-          return;
-        })
-        //push the changed tables back to state
-        this.setState({tables: updateChecks})
-      }
-    })
-  }
   //clears the active table;
   cleanTable = () => {
     let misterClean = [...this.state.tables];
@@ -354,7 +302,7 @@ class App extends Component {
   render() {
     let activeContent = null;
     if(this.props.user === null){
-      activeContent = (<Login setUser={this.setUser} />)
+      activeContent = (<Login />)
     }else{
 
       switch (this.props.activePage) {

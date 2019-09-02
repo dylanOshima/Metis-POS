@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Panel, Well, Button, Form, ControlLabel, FormControl } from 'react-bootstrap';
+import Mousetrap from 'mousetrap';
 
 import { login } from '../../actions/ServerActions';
 
@@ -11,6 +12,30 @@ class Login extends Component {
     //Code is updated with the server code that is being entered
     state = {
         code: ""
+    }
+
+    componentDidMount = () => {
+        // Number keys
+        for(let i=0;i<10;i++){
+            Mousetrap.bind(''+i, () => {
+                this.setState({ code: this.state.code + i });
+            })
+        }
+        // Remove
+        Mousetrap.bind('backspace', () => {
+            this.setState({ code: this.state.code.slice(0,-1) })
+        });
+        // Submit
+        Mousetrap.bind('enter', () => this.userCheck());
+    }
+
+    componentWillUnmount = () => {
+        // Unbind
+        for(let i=0;i<10;i++){
+            Mousetrap.unbind(''+i);
+        }
+        Mousetrap.unbind('enter');
+        Mousetrap.unbind('backspace');
     }
     
     // As the code is entered this function updates state to match the current code entry
@@ -24,11 +49,11 @@ class Login extends Component {
     //Called when login is clicked, calls the login API route to validate user.
     //Empties the code so that it blanks out on each attempt
     userCheck = () => {
+        this.props.login(this.state.code);
+
         this.setState({
             code: ""
         });
-
-        this.props.login(this.state.code);
     }
     
     //Renders the login page with a 10 digit keypad with display and login button

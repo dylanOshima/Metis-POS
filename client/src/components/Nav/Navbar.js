@@ -45,24 +45,21 @@ const navbar = (props) => {
                 eventKey="ActiveStuff">  Active Table: Table {props.activeTableIndex + 1} 
                 </NavItem>) 
                 : null}   
-            {
-                props.loggedInUser ? 
-                    (
-                        <Hoc>
-                            <NavItem
-                             eventKey="LoggedInServer" 
-                             title="LoggedInServer" 
-                             disabled>{props.loggedInUser} 
-                             </NavItem>
-                            <Button 
-                            title="LogOutUser" 
-                            bsSize="large" 
-                            bsStyle="danger" 
-                            onClick={props.logout}>Logout
-                            </Button>
-                        </Hoc>
-                    ) 
-                    : null}
+            {props.loggedInUser ? 
+                (<Hoc>
+                    <NavItem
+                    eventKey="LoggedInServer" 
+                    title="LoggedInServer" 
+                    disabled>{props.loggedInUser} 
+                    </NavItem>
+                    <Button 
+                    title="LogOutUser" 
+                    bsSize="large" 
+                    bsStyle="danger" 
+                    onClick={props.logout}>Logout
+                    </Button>
+                </Hoc>) 
+                : null}
 
         </Nav>
     );

@@ -83,20 +83,27 @@ export function deleteServer(dish, index) {
 }
 
 export function login(code) {
-  return function(dispatch) {
+  return dispatch => {
     dispatch({ type: LOGIN_REQUEST });
 
     return api.client.get(`/servers/login/${code}`)
-    .then(request => {
+    .then(request => {   
+      let server = request.data;       
+      if(typeof server === 'string' && server.length > 0){
+        server = request.data;
+      } else {
+        server = null;
+      }
       dispatch({
         type: LOGIN_SUCCESS,
-        serverName: request.data
-      })
+        serverName: server
+      });
+        
     }).catch(error => {
       dispatch({
         type: LOGIN_FAILURE,
         error
-      })
+      });
     })
   }
 }

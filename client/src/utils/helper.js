@@ -1,5 +1,6 @@
 
-/* params: table - a table object
+/**
+ * params: table - a table object
  * return: int: the table number
  */
 export function getTableNumber(table) {
@@ -11,7 +12,8 @@ export function getTableNumber(table) {
   }
 }
 
-/* Updates an order to include all costing information
+/** 
+ * Updates an order to include all costing information
  * params: an order object, a list of menu object
  * return: an order object with updated values
  * 
@@ -19,8 +21,8 @@ export function getTableNumber(table) {
  * TODO: Migrate this to backend
  */
 
-// PUT IN CONFIG
-const TAX_AMOUNT = 0.12;
+const TAX_AMOUNT = 0.12; // PUT IN CONFIG
+
 export function updateTotal(order, menu) {
   let sub_total = parseFloat(order.total);
   let currentOrderList = order.items.map((item) => {
