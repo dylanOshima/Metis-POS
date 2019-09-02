@@ -34,7 +34,7 @@ const navbar = (props) => {
             title="Admin"> 
                 Admin
 			</NavItem>
-            {props.activeTableIndex && (typeof props.activeTableIndex === 'number') ? 
+            {(props.activeTableIndex > -1) && (typeof props.activeTableIndex === 'number') ? 
                 (<NavItem 
                 disabled 
                 eventKey="ActiveStuff">  Active Table: Table {props.activeTableIndex + 1} 

@@ -2,7 +2,7 @@
 
 // Uses react-bootstrap for CSS styling
 import React from 'react'
-import { Row,Col,Modal } from 'react-bootstrap';
+import { Row,Col,Modal, Button } from 'react-bootstrap';
 
 const align = {
     textAlign: "right"
@@ -74,6 +74,9 @@ const print = props => {
                         </Col>
                     </Row>
                 </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={() => props.cancel()}>Close</Button>
+                </Modal.Footer>
             </Modal.Dialog>
         </div>
     )

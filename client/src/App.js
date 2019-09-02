@@ -398,29 +398,7 @@ class App extends Component {
             {/* active content (conditional page render) */}
             {activeContent}
           </Row>
-          {/* modal conditional rendering is below */}
-          {/* Displays Order modal if state is true */}
-          {
-            this.state.orderModal ? 
-            <OrderModal 
-            orderMessage={this.state.orderResponse} 
-            orderClose={this.orderClose} />
-            : (null)
-            }
           <ModalRoot />
-          {/*  this.state.modalActive ? 
-          (<Modal 
-          tables={this.state.tables} 
-          activeTable={this.state.activeTable} 
-          activeTableIndex={this.state.activeTableIndex} 
-          servers={this.state.servers} 
-          close={this.modalClose} 
-          order={this.modalOrder} 
-          receipt={this.printReceipt}
-          submitPayment={this.submitPayment} 
-          setServer={this.setServer} 
-          seatGuests={this.seatGuestsFromModalHandler} />) 
-          : (null) */}
         </Grid>
       </div>
       // </Hoc>

@@ -31,7 +31,8 @@ const occupied = props => {
                     bsStyle="info" 
                     onClick={() => props.showModal(PRINT_RECEIPT_MODAL, { 
                         table: props.table, 
-                        order: props.order 
+                        order: props.order,
+                        cancel: () => props.hideModal()
                     })}> Print Check
                     </Button>
                     <Button 
@@ -40,13 +41,12 @@ const occupied = props => {
                     onClick={() => props.showModal(CHECKOUT_MODAL, { 
                         table: props.table, 
                         order: props.order,
+                        cancel: () => props.hideModal()
                     })}> Checkout
                     </Button>
                 </ButtonGroup>
                 <Modal.Footer>
-                    <Button 
-                    onClick={props.hideModal}>Close
-                    </Button>
+                    <Button onClick={() => props.hideModal()}>Close</Button>
                 </Modal.Footer>
             </Modal.Dialog>
         </div>
