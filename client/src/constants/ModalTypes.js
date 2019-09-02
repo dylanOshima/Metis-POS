@@ -1,0 +1,6 @@
+// Modal types
+export const NEW_SEATING_MODAL = "NEW_TABLE_MODAL";
+export const OCCUPIED_MODAL = "OCCUPIED_MODAL";
+export const ORDER_MODAL = "ORDER_MODAL";
+export const CHECKOUT_MODAL = "CHECKOUT_MODAL";
+export const PRINT_RECEIPT_MODAL = "PRINT_RECEIPT_MODAL";
