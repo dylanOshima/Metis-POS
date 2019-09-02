@@ -20,6 +20,7 @@ Restaurant PoS is a simple React application for managing restaurant seating. It
 - [ ] Refactor the App.js component
 - [ ] Add error modal
 - [ ] Update code to latest version of `react-bootstrap`
+- [ ] Reset activeTableIndex on logout
 
 ### BUGS
 - [ ] When the order of the tables in the `GET_TABLES` is switched, the empty

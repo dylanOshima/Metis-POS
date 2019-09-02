@@ -1,9 +1,11 @@
 // This component generates the login screen for the PoS.
 // Uses react-bootstrap for CSS styling
 // API import handles the API routes to express
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import { Grid, Row, Col, Panel, Well, Button, Form, ControlLabel, FormControl } from 'react-bootstrap';
-import API from '../../utils/API'
+
+import { login } from '../../actions/ServerActions';
 
 class Login extends Component {
     //Code is updated with the server code that is being entered
@@ -26,7 +28,7 @@ class Login extends Component {
             code: ""
         });
 
-        API.login(this.state.code, this.props.setUser)
+        this.props.login(this.state.code);
     }
     
     //Renders the login page with a 10 digit keypad with display and login button
@@ -78,4 +80,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default connect(null, { login })(Login);

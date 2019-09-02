@@ -86,11 +86,11 @@ export function login(code) {
   return function(dispatch) {
     dispatch({ type: LOGIN_REQUEST });
 
-    return api.client.put(`/servers/login/${code}`)
-    .then(serverName => {
+    return api.client.get(`/servers/login/${code}`)
+    .then(request => {
       dispatch({
         type: LOGIN_SUCCESS,
-        serverName
+        serverName: request.data
       })
     }).catch(error => {
       dispatch({
@@ -101,7 +101,7 @@ export function login(code) {
   }
 }
 
-export function logout(dish, index) {
+export function logout() {
   return {
     type: LOGOUT,
   }

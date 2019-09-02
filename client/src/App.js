@@ -353,7 +353,7 @@ class App extends Component {
 
   render() {
     let activeContent = null;
-    if(this.state.user === null){
+    if(this.props.user === null){
       activeContent = (<Login setUser={this.setUser} />)
     }else{
 
@@ -410,6 +410,7 @@ const mapStateToProps = state => ({
   tables: state.order.tables,
   activeTableIndex: state.order.activeTableIndex,
   activePage: state.app.activePage,
+  user: state.server.serverName,
 })
 
 const actionCreators = {

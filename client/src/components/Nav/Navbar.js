@@ -8,6 +8,10 @@ import * as pages from '../../constants/PageTypes';
 
 const navbar = (props) => {
 
+    const checkIndex = (index) => {
+        return ((typeof index === 'number') && (props.activeTableIndex > -1));
+    }
+
     return (
         <Nav 
         navbar 
@@ -19,22 +23,23 @@ const navbar = (props) => {
             title="Tables">
                 Tables
 			</NavItem>
-            {props.activeTableIndex ? (<NavItem 
-            eventKey={pages.ORDERS_PAGE}  
-            title="Orders"> Orders
-            </NavItem>) 
-            : 
-            (<NavItem 
-            eventKey={pages.ORDERS_PAGE} 
-            title="Orders" 
-            disabled> Orders
-			</NavItem>)}
+            {checkIndex(props.activeTableIndex) ? 
+                (<NavItem 
+                eventKey={pages.ORDERS_PAGE}  
+                title="Orders"> Orders
+                </NavItem>) 
+                : 
+                (<NavItem 
+                eventKey={pages.ORDERS_PAGE} 
+                title="Orders" 
+                disabled> Orders
+                </NavItem>)}
             <NavItem 
             eventKey={pages.ADMIN_PAGE}  
             title="Admin"> 
                 Admin
 			</NavItem>
-            {(props.activeTableIndex > -1) && (typeof props.activeTableIndex === 'number') ? 
+            {checkIndex(props.activeTableIndex) ? 
                 (<NavItem 
                 disabled 
                 eventKey="ActiveStuff">  Active Table: Table {props.activeTableIndex + 1} 
