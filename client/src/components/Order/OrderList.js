@@ -3,7 +3,7 @@ import { Button, Grid, Table } from 'react-bootstrap';
 
 // Renders a list of all items selected in the Order screen
 class OrderList extends Component {
-    getOrderItems = (props) => {
+    getOrderItems = (newOrderList) => {
         return (
             <Grid fluid>
                 <Table striped bordered condensed hover>
@@ -22,7 +22,7 @@ class OrderList extends Component {
                     </thead>
                     <tbody>
                         {/* Loops through orderList from app.js state and dispays the item name, quantity and delete button */}
-                        {props.newOrderList.map((item, index) => {
+                        {newOrderList.map((item, index) => {
                             return (
                                 <tr key={item._id}>
                                     <td>
@@ -55,7 +55,7 @@ class OrderList extends Component {
     // Renders the page by calling function
      render(){
         return(
-            this.getOrderItems(this.props)
+            this.getOrderItems(this.props.currentOrderList)
         )
     };
 }

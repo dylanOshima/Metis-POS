@@ -47,7 +47,7 @@ export function loadOrders() {
     });
 
     // Dispatch vanilla actions asynchronously
-    return api.client.get("/order/") // Returns an array of order objs
+    return api.client.get("/order") // Returns an array of order objs
       .then(response => {
         let orderList = response.data;
         let orderDic = {};
@@ -71,16 +71,16 @@ export function loadOrders() {
 
 export function updateOrder(order) {
   // Interpreted by the thunk middleware:
-  return function(dispatch, getState) {
+  return function(dispatch) {
     dispatch({ type: UPDATE_ORDER_REQUEST });
 
-    return api.client.put("/order/"+ order._id, order)
+    let URL = encodeURI("/order/"+ order.bill._id);
+    return api.client.put(URL, order)
       .then(response => {
-        let updatedOrder = response.data;
         dispatch({
           type: UPDATE_ORDER_SUCCESS,
-          orderID: updatedOrder._id,
-          updatedOrder
+          orderID: order.bill._id,
+          updatedOrder: order.bill
         });
       }).catch(error => {
         dispatch({

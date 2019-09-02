@@ -32,7 +32,7 @@ export default function dishReducer(state = initialState, action) {
       });
     case LOAD_DISHES:
       return Object.assign({}, state, { 
-        dishes: action.dishes,
+        dishes: action.menu,
       });
     case UPDATE_DISH:
       return Object.assign({}, state, {

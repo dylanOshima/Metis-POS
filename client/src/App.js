@@ -13,15 +13,12 @@ import OrderModal from './components/Modals/Order';
 import Login from './components/Login/Login';
 import { withAlert } from 'react-alert';
 import { connect } from 'react-redux';
-
+// Actions
 import { showModal, hideModal } from './actions/ModalActions';
 import { loadServers } from './actions/ServerActions';
-import { setTable, 
-  resetTable, 
-  updateTable, 
-  getTables,
-  loadOrders,
-} from './actions/OrderActions';
+import { setTable, resetTable, updateTable, getTables,loadOrders } from './actions/OrderActions';
+import { loadDish } from './actions/DishActions';
+// Types
 import { NEW_SEATING_MODAL, OCCUPIED_MODAL } from './constants/ModalTypes';
 import { 
   TABLES_PAGE,
@@ -87,7 +84,7 @@ class App extends Component {
     this.populateData();
   }
   populateData = () => {
-    this.getMenu();
+    this.props.loadDish();
     // this.getUnpaidChecks();
     this.props.getTables();
     // this.getServers();
@@ -372,17 +369,14 @@ class App extends Component {
           activeContent = (
             <Order 
             menu={this.state.menu} 
-            activeTable={this.state.activeTable} 
-            table={this.state.tables[this.state.activeTableIndex]} 
             orderSubmit={this.savePendingOrder} 
-            updatePendingOrder={this.updatePendingOrder} 
-            orderModal={this.state.orderModal}/>
+            updatePendingOrder={this.updatePendingOrder}/>
           )
           break;
         case ADMIN_PAGE:
           activeContent = (
             <Admin 
-            servers={this.props.servers} 
+            servers={this.state.servers} 
             addServer={this.addServer} 
             menu={this.state.menu} 
             addMenu={this.addMenu}/>
@@ -436,7 +430,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   tables: state.order.tables,
-  servers: state.server.servers,
+  activeTableIndex: state.order.activeTableIndex,
   activePage: state.app.activePage,
 })
 
@@ -449,6 +443,7 @@ const actionCreators = {
   getTables,
   loadServers,
   loadOrders,
+  loadDish,
 }
 
 export default connect(mapStateToProps, actionCreators)(withAlert(App));

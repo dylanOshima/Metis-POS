@@ -60,17 +60,17 @@ const print = props => {
                         {createReceipt(props.order.items)}
                     <Row>
                         <Col mdOffset={4}  md={5} style={align}>
-                            <h4>Sub-Total: ${parseFloat(props.order.total).toFixed(2)}</h4>
+                            <h4>Sub-Total: ${parseFloat(props.order.sub_total).toFixed(2)}</h4>
                         </Col>
                     </Row>
                     <Row>
                         <Col mdOffset={4} md={5} style={align}>
-                            <h4>Tax: ${(parseFloat(props.order.total) * 0.07).toFixed(2)}</h4>
+                            <h4>Tax: ${parseFloat(props.order.tax).toFixed(2)}</h4>
                         </Col>
                     </Row>
                     <Row>
                         <Col mdOffset={4} md={5} style={align}>
-                            <h4>Total: ${(parseFloat(props.order.total) * 1.07).toFixed(2)}</h4>
+                            <h4>Total: ${parseFloat(props.order.total).toFixed(2)}</h4>
                         </Col>
                     </Row>
                 </Modal.Body>

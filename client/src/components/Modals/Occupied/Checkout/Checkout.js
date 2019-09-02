@@ -51,7 +51,6 @@ class Checkout extends Component {
             id: this.props.table.pendingOrder
         })
 
-        //send the object "down the chain"
         this.props.checkout(paymentObject);
         this.props.hideModal();
 

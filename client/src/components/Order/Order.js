@@ -9,6 +9,11 @@ import { connect } from 'react-redux';
 import { Button,Panel, Grid, Row, Col, Well } from 'react-bootstrap';
 import Menubuttons from "./MenuButtons";
 import OrderList from "./OrderList";
+import { updateOrder } from "../../actions/OrderActions";
+import { updatePage } from "../../actions/AppActions";
+import { TABLES_PAGE } from '../../constants/PageTypes';
+
+import { updateTotal } from '../../utils/helper';
 // import Hoc from "../Hoc/Hoc";
 
 
@@ -16,37 +21,41 @@ class Order extends Component {
     // State category holds the selected food category to be displayed ex:entree
     state = {
         category: "",
+        orderList: this.props.order.items,
     };
 
     // Passed as prop to Menu buttons and processes the clicking of an item to be added to the pending order
     addToOrder = (newItem) => {
         //props.table is passed in from app.js and is information for that table from state.
-        let orderList = this.props.table.pendingOrder;
-        let itemIndex;
+        let orderList = [...this.state.orderList];
         
         //Looks to see if the item already exists in orderList if found increase its quantity count by 1 if not found push the information into the list.
-        itemIndex = orderList.findIndex(index => index.name === newItem.name);
-        itemIndex !== -1 ? orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) + 1 : orderList.push(newItem);
+        let itemIndex = orderList.findIndex(index => index.name === newItem.name);
+        itemIndex !== -1 
+            ? this.state.orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) + 1 
+            : orderList.push(newItem);
         
        //function passed in from app.js and adds the item to app.js' pendingOrder state
-        this.props.updatePendingOrder(orderList);
+    //     this.props.updateTable(orderList);
+        this.setState({ orderList });
+        // updateOrder(newOrder);
     }
 
     /* 
         When the remove button ("X") is clicked in orderList this function is called to remove 1 unit of that item from the list. 
     */
     removeFromOrder = (itemToRemove) => {
-        let orderList = this.props.table.pendingOrder;
-        let itemIndex;
+        let orderList = [...this.state.orderList];
 
         // Find the index position of the item in the list
-        itemIndex = orderList.findIndex(index => index.name === itemToRemove);
+        let itemIndex = orderList.findIndex(index => index.name === itemToRemove);
         
         // if quantity of item is greater then 1 subtract 1 from the quantity else remove the item completely
         orderList[itemIndex].quantity > 1 ? orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) - 1 : orderList.splice(orderList[itemIndex],1);  
         
         // call function in app.js to update app.js state
-        this.props.updatePendingOrder(orderList);
+        // this.props.updatePendingOrder(orderList);
+        this.setState({orderList});
     }
 
     // Sets state of category with the name of the category clicked
@@ -61,10 +70,23 @@ class Order extends Component {
     orderSubmit = () => {
         
         // Empties app.js pendingOrder State for active table
-        this.props.updatePendingOrder();
+        // this.props.updatePendingOrder();
         
         // Passes the information to app.js for processing
-        this.props.orderSubmit(this.state.newOrderList);
+        // this.props.orderSubmit(this.state.newOrderList);
+        
+        // TODO: CLEAN THIS SHIT UP
+        let newOrder = Object.assign({}, this.props.order, {
+            items: this.state.orderList
+        });
+        let table = Object.assign({}, this.props.table, {
+            pendingOrder: undefined,
+            bill: updateTotal(newOrder, this.props.menu),
+        })
+        console.log(table);
+        
+        this.props.updateOrder(table);
+        this.props.updatePage(TABLES_PAGE);
     }
 
     updatePending = () => {
@@ -72,7 +94,7 @@ class Order extends Component {
     }
 
     // Renders a list of categories, the items the ordered list and a submit button
-    render() {
+    render() {        
         return (
             <Grid fluid>  
                 <div>    
@@ -98,13 +120,13 @@ class Order extends Component {
                         <Col id="order-list" md={6}>
                             <Panel>
                                 <Well>
-                                    <OrderList removeFromOrder={this.removeFromOrder.bind(this)} newOrderList={this.props.table.pendingOrder} />
+                                    <OrderList removeFromOrder={this.removeFromOrder.bind(this)} currentOrderList={this.state.orderList} />
                                 </Well>
                             </Panel>
                         </Col>
                     </Row>
                     <div>
-                        <Button onClick={() => this.orderSubmit()}>Submit</Button>
+                        <Button onClick={this.orderSubmit.bind(this)}>Submit</Button>
                     </div>
                 </div>
             </Grid>
@@ -112,13 +134,17 @@ class Order extends Component {
     }
 };
 
-const mapStateToProps = (state, prevProps) => ({
-    table: state.order.tables[state.order.activeTableIndex],
-
-})
+const mapStateToProps = state => {
+    let table = state.order.tables[state.order.activeTableIndex];
+    return {
+        table,
+        order: state.order.orders[table.pendingOrder],
+        menu: state.dish.dishes,
+    }
+}
 
 /* Function props to deal with: 
  * updatePendingOrder()
  * orderSubmit
 */
-export default connect(mapStateToProps)(Order);
+export default connect(mapStateToProps, { updateOrder, updatePage })(Order);
