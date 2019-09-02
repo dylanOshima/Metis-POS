@@ -1,6 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Nav, NavItem, Button} from 'react-bootstrap';
 import Hoc from "../Hoc/Hoc";
+import { updatePage } from '../../actions/AppActions';
+import { logout } from '../../actions/ServerActions';
+import * as pages from '../../constants/PageTypes';
 
 const navbar = (props) => {
 
@@ -9,31 +13,31 @@ const navbar = (props) => {
         navbar 
         bsStyle="pills" 
         activeKey={props.activePage} 
-        onSelect={k => props.handleSelect(k)}>
+        onSelect={page => props.updatePage(page)}>
             <NavItem 
-            eventKey="Tables" 
+            eventKey={pages.TABLES_PAGE} 
             title="Tables">
                 Tables
 			</NavItem>
-            {props.activeTable ? (<NavItem 
-            eventKey="Orders" 
+            {props.activeTableIndex ? (<NavItem 
+            eventKey={pages.ORDERS_PAGE}  
             title="Orders"> Orders
             </NavItem>) 
             : 
             (<NavItem 
-            eventKey="Orders" 
+            eventKey={pages.ORDERS_PAGE} 
             title="Orders" 
             disabled> Orders
 			</NavItem>)}
             <NavItem 
-            eventKey="Admin" 
+            eventKey={pages.ADMIN_PAGE}  
             title="Admin"> 
                 Admin
 			</NavItem>
-            {props.activeTable ? 
+            {props.activeTableIndex && (typeof props.activeTableIndex === 'number') ? 
                 (<NavItem 
                 disabled 
-                eventKey="ActiveStuff">  Active Table: {props.activeTable} 
+                eventKey="ActiveStuff">  Active Table: Table {props.activeTableIndex + 1} 
                 </NavItem>) 
                 : null}   
             {
@@ -49,7 +53,7 @@ const navbar = (props) => {
                             title="LogOutUser" 
                             bsSize="large" 
                             bsStyle="danger" 
-                            onClick={props.logOut}>Logout
+                            onClick={props.logout}>Logout
                             </Button>
                         </Hoc>
                     ) 
@@ -60,4 +64,10 @@ const navbar = (props) => {
 
 }
 
-export default navbar;
+const mapStateToProps = state => ({
+    activatePages: state.app.activePage,
+    activeTableIndex: state.order.activeTableIndex,
+    loggedInUser: state.server.serverName,
+})
+
+export default connect(mapStateToProps, { updatePage, logout })(navbar);

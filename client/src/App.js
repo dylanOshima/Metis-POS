@@ -170,20 +170,20 @@ class App extends Component {
       });
     }
 
-    // handles what happens when a table is clicked (sets an active table, active index, and opens the modal
+  // handles what happens when a table is clicked (sets an active table, active index, and opens the modal
   handleTableClick = (item) => {
     let newTableIndex = null;
-    this.props.tables.map((table, index) => {
+    return this.props.tables.map((table, index) => {
       if (table.name === item) {
         newTableIndex = index;
-        this.setState({ activeTable: item, activeTableIndex: newTableIndex },function(){
-          this.props.setTable(newTableIndex);
+        this.props.setTable(newTableIndex);
+        // this.setState({ activeTable: item, activeTableIndex: newTableIndex },function(){
           if(table.isOccupied){
             this.modalOpen(OCCUPIED_MODAL);
           } else {
             this.modalOpen(NEW_SEATING_MODAL);
           }
-        })
+        // })
       }
     })
   }
@@ -363,9 +363,7 @@ class App extends Component {
       switch (this.props.activePage) {
         case TABLES_PAGE:
           activeContent = (
-            <Table 
-            tables={this.state.tables} 
-            clicked={this.handleTableClick} />
+            <Table clicked={this.handleTableClick} />
             
           )
           break;
@@ -399,12 +397,7 @@ class App extends Component {
       // <Hoc>
       <div> 
         <Grid fluid>
-          <Navbar 
-          activePage={this.state.activePage} 
-          handleSelect={this.activePageHandler} 
-          activeTable={this.state.activeTable} 
-          loggedInUser={this.state.user} 
-          logOut={this.unsetUser}/>
+          <Navbar />
         </Grid>
         <Grid>
           <Row>

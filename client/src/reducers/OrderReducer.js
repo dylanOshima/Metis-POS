@@ -141,6 +141,7 @@ export default function orderReducer(state = initialState, action) {
       });
     case RESET_TABLE:
       return Object.assign({}, state, {
+        activeTableIndex: null,
         tables: state.tables.map( table => {
           if(table.name === action.tableID) {
             return Object.assign({}, table, {

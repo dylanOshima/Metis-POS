@@ -5,6 +5,7 @@
 // Hoc is a self wrapper for react
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Button,Panel, Grid, Row, Col, Well } from 'react-bootstrap';
 import Menubuttons from "./MenuButtons";
 import OrderList from "./OrderList";
@@ -111,4 +112,13 @@ class Order extends Component {
     }
 };
 
-export default Order;
+const mapStateToProps = (state, prevProps) => ({
+    table: state.order.tables[state.order.activeTableIndex],
+
+})
+
+/* Function props to deal with: 
+ * updatePendingOrder()
+ * orderSubmit
+*/
+export default connect(mapStateToProps)(Order);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Button, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
-import { addOrder } from '../../../actions/OrderActions';
+import { addOrder, resetTable } from '../../../actions/OrderActions';
 import { hideModal } from '../../../actions/ModalActions';
 
 class newSeating extends Component {
@@ -30,6 +30,11 @@ class newSeating extends Component {
         this.props.hideModal();
     }
 
+    cancel = () => {
+        this.props.resetTable(this.props.newTableIndex);
+        this.props.hideModal();
+    }
+
     render() {
         let disableButton = true;
 
@@ -40,7 +45,6 @@ class newSeating extends Component {
         } else {
             disableButton = true; 
         }
-        console.log(this.props);
 
         return (
             <div className="static-modal">
@@ -101,7 +105,7 @@ class newSeating extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button 
-                        onClick={this.props.hideModal}>Close</Button>
+                        onClick={this.cancel}>Close</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
             </div>
@@ -111,8 +115,13 @@ class newSeating extends Component {
 
 const mapStateToProps = state => ({
     table: state.order.tables[state.order.activeTableIndex],
+    activeTableIndex: state.order.activeTableIndex,
     chosenServer: state.server.serverName,
     servers: state.server.servers,
 })
 
-export default connect(mapStateToProps, { addOrder, hideModal })(newSeating);
+export default connect(mapStateToProps, { 
+    addOrder,
+    hideModal,
+    resetTable,
+ })(newSeating);
