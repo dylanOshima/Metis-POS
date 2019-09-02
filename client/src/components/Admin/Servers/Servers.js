@@ -4,11 +4,11 @@ import { withAlert } from 'react-alert';
 
 // makes it easy to reset the state of the page / clear the forms
 const initialState = {
-                    newServer: {
-                        name: "",   
-                        code: ""
-                    }
-                }
+    newServer: {
+        name: "",   
+        code: ""
+    }
+}
 class Servers extends Component {
     state = initialState;
     //updates states immediately on change
@@ -47,52 +47,51 @@ class Servers extends Component {
     render() {
 
         return (
-                <Row>
-                    <Col md={6} xs={12}>
-                        <Panel>
-                            <h3> Current Servers: </h3>
-                            <ListGroup>
-                            {this.props.servers.map((server) => (
-                                    <ListGroupItem 
-                                    key={server._id}> {server.name} 
-                                    </ListGroupItem>
-                            ))
-                            }
-                            </ListGroup>
-                        </Panel>
-                    </Col>
-                    <Col md={6} xs={12}>
-                        <Panel>
-                            <Well>
-                                <form>
-                                    <FormGroup>
-                                        <div>
-                                            <ControlLabel>New Server Name</ControlLabel>
-                                            <FormControl
-                                             type="text" 
-                                             bsSize="small" 
-                                             value={this.state.newServer.name} 
-                                             onChange={this.newServerNameChangeHandler} />
-                                        </div>
-                                        <div>
-                                            <ControlLabel>New Server Pin Code</ControlLabel>
-                                            <FormControl
-                                             type="text" 
-                                             bsSize="small" 
-                                             value={this.state.newServer.code} 
-                                             onChange={this.newServerCodeChangeHandler} />
-                                        </div>
-                                        <Button 
-                                        bsSize="large" 
-                                        bsStyle="info" 
-                                        onClick={this.newServerSubmitHandler}> Submit 
-                                        </Button>
-                                    </FormGroup>
-                                </form>
-                            </Well>
-                        </Panel>
-                    </Col>
-                </Row>
+            <Row>
+                <Col md={6} xs={12}>
+                    <Panel>
+                        <h3> Current Servers: </h3>
+                        <ListGroup>
+                        {this.props.servers.map((server) => (
+                                <ListGroupItem 
+                                key={server._id}> {server.name} 
+                                </ListGroupItem>
+                        ))}
+                        </ListGroup>
+                    </Panel>
+                </Col>
+                <Col md={6} xs={12}>
+                    <Panel>
+                        <Well>
+                            <form>
+                                <FormGroup>
+                                    <div>
+                                        <ControlLabel>New Server Name</ControlLabel>
+                                        <FormControl
+                                            type="text" 
+                                            bsSize="small" 
+                                            value={this.state.newServer.name} 
+                                            onChange={this.newServerNameChangeHandler} />
+                                    </div>
+                                    <div>
+                                        <ControlLabel>New Server Pin Code</ControlLabel>
+                                        <FormControl
+                                            type="text" 
+                                            bsSize="small" 
+                                            value={this.state.newServer.code} 
+                                            onChange={this.newServerCodeChangeHandler} />
+                                    </div>
+                                    <Button 
+                                    bsSize="large" 
+                                    bsStyle="info" 
+                                    onClick={this.newServerSubmitHandler}> Submit 
+                                    </Button>
+                                </FormGroup>
+                            </form>
+                        </Well>
+                    </Panel>
+                </Col>
+            </Row>
         )
     }
 

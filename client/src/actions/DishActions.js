@@ -20,10 +20,10 @@ export function addDish(dish) {
     newDish.category = dish.category;
 
     return api.client.post("/menu/add", newDish)
-      .then( activeDish => {
+      .then(request => {
         dispatch({
           type: ADD_DISH_SUCCESS,
-          activeDish
+          activeDish: request.data
         })
       }).catch(error => {
         dispatch({

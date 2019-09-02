@@ -22,10 +22,10 @@ export function addServer(server) {
     newServer.code = server.code;
 
     return api.client.post("/servers/add", newServer)
-      .then(newServer => {
+      .then(request => {
         dispatch({
           type: ADD_SERVER_SUCCESS,
-          newServer
+          newServer: request.data
         })
       }).catch(error => {
         dispatch({
