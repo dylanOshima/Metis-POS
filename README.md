@@ -38,6 +38,7 @@ Restaurant PoS is a simple React application for managing restaurant seating. It
 ## Technologies:
 
 * React
+* React-Bootstrap
 * Node
 * create-react-app
 * Express
@@ -49,7 +50,7 @@ Restaurant PoS is a simple React application for managing restaurant seating. It
 * React Alerts
 
 
-# Application Instances
+# Application
 ## *Main Page*
 ![main page display](./imagesMD/1.png)
 
@@ -83,47 +84,68 @@ Restaurant PoS is a simple React application for managing restaurant seating. It
 
 ## API Routes
 
-  * / Renders the main page. *Does NOT return JSON*
+### `/` 
+* / Renders the main page. *Does NOT return JSON*
 
-### /checks
+### `/checks`
 #### GET Routes
  * /checks  returns JSON of all 'checks' entries
  * /checks/paid returns JSON of all paid checks
  * /checks/unpaid returns JSON of all unpaid checks
  * /checks/:id returns single check by ID
+
 #### POST Routes
  * /checks/seat creates a new 'check' or a new gues seating, returns json with ID data
+
 #### PUT Routes
  * /checks/:id Updates check by ID
+
 #### DELETE Routes
  * /checks/delete/:id
 
-### /menu
+### `/menu`
 #### GET Routes
  * /menu returns JSON of all menu entries
  * /menu/:section returns JSON of all menu entries by section / category
+
 #### POST Routes
  * /menu/add Creates a new menu entry, returns JSON with ID
+
 #### DELETE Routes
  * /menu/:id Deletes a menu entry by ID
 
-### /order
+### `/order`
 #### GET Routes
  * /order returns JSON of all order entries
  * /order/paid returns JSON of all paid checks
  * /order/unpaid returns JSON of all unpaid checks
  * /order/:id returns single check by ID / category
+
 #### PUT Routes
  * /order/:id Updates check by ID
 
-### /servers
+### `/servers`
 #### GET Routes
  * /servers returns JSON of all waitstaff entries
  * /servers/:code Validates the user access code
+
 #### POST Routes
  * /servers/add Creates a new waitstaff/server entry, returns JSON with ID
  
- ### Dependencies
+### `/inventory`
+#### GET Routes
+ * /inventory returns JSON of all inventory entries
+
+#### POST Routes
+ * /inventory/add Creates a new inventory entry, returns JSON with the ID and other information
+
+#### PUT Routes
+ * /inventory/:id Updates the inventory with the given id. The body of the request must have: `name`, `unitOfMeasurement`, and `category`
+
+#### DELETE Routes
+* /inventory/delete/:id Removes an inventory item with the given id
+ 
+### Dependencies
 Restaurant PoS depends on several NPM Packages. Find below the various packages and their versions used. 
 Install with `$ npm install`.
 
@@ -155,13 +177,10 @@ Install with `$ npm install`.
 
 ### Installation Instructions:
 
-1) Clone Repository to your local drive
-2) From your favorite terminal enter `$ cd Restaurant-PoS`
-3) Run `$ npm install` to install packages
-4) `$ cd client`
-5) Run `$ npm install` to install React packages
-6) `$ cd ..` into the main app folder
-7) In the app folder run `$ npm start` to run the app. Happy Hacking!
-
-#### Contribution
-> The main purpose of this repository is to continue to test React core, making it accessible and easier to understand and use. Development of this application happens in the open on GitHub, and we are grateful to the [Rutgers Coding Bootcamp Community](https://github.com/RutgersCodingBootcamp) for contributing efforts and improvements.
+1. Clone Repository to your local drive
+2. From your favorite terminal enter `$ cd Restaurant-PoS`
+3. Run `$ npm install` to install packages
+4. `$ cd client`
+5. Run `$ npm install` to install React packages
+6. `$ cd ..` into the main app folder
+7. In the app folder run `$ npm start` to run the app. Happy Hacking!
