@@ -94,7 +94,7 @@ class Menu extends Component {
                                                  componentClass="select"
                                                  value={this.state.newMenu.category}
                                                  onChange={event => this.changeHandler(event,"category")}>
-                                                    <option selected
+                                                    <option defaultValue
                                                         value="appetizer"
                                                         > Appetizer 
                                                     </option>
