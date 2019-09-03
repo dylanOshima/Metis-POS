@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Jumbotron, Tabs, Tab } from'react-bootstrap'
-import Servers from './Servers/Servers'
-import Menu from './Menu/Menu'
+import { Grid, Row, Jumbotron, Tabs, Tab } from'react-bootstrap';
+
+import Servers from './Servers/Servers';
+import Menu from './Menu/Menu';
+import Inventory from './Inventory';
+
 import { addServer } from '../../actions/ServerActions';
 import { addDish } from '../../actions/DishActions';
+import { loadInventory, addInventoryEntry, updateInventoryEntry } from '../../actions/InventoryActions';
 
 class Admin extends Component {
     state = {
         key: 1
+    }
+
+    componentDidMount() {
+        this.props.loadInventory();
     }
 
     handleKeySelect(key) {
@@ -16,7 +24,10 @@ class Admin extends Component {
     }
 
     render() {
-        let { servers, addServer, menu, addDish } = this.props;
+        let { 
+            servers, addServer, menu, addDish,
+            inventory, addInventoryEntry, updateInventoryEntry 
+        } = this.props;
         return (
             <Grid>
                 <Row>
@@ -38,7 +49,12 @@ class Admin extends Component {
                                 menu={menu} 
                                 addMenu={addDish} />
                         </Tab>
-
+                        <Tab eventKey={3} title="Inventory">
+                            <Inventory
+                                inventory={inventory}
+                                addInventoryEntry={addInventoryEntry}
+                                updateInventoryEntry={updateInventoryEntry}/>
+                        </Tab>
                     </Tabs>
                 </Row>  
             </Grid>
@@ -49,6 +65,11 @@ class Admin extends Component {
 const mapStateToProps = state => ({
     servers: state.server.servers,
     menu: state.dish.dishes,
+    inventory: state.inventory.inventory,
 });
 
-export default connect(mapStateToProps, {addServer, addDish})(Admin);
+export default connect(mapStateToProps, {
+    addServer,
+    addDish,
+    loadInventory, addInventoryEntry, updateInventoryEntry
+})(Admin);
