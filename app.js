@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
-//const coupon = require('./routes/coupon');
+const inventory = require('./routes/inventory');
 const menu = require('./routes/menu');
 const order = require('./routes/order');
 const check = require('./routes/check');
@@ -29,7 +29,7 @@ app.use('/menu', menu);
 app.use('/order', order);
 app.use('/check', check);
 app.use('/servers', servers);
-
+app.use('/inventory', inventory);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
