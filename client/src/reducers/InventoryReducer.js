@@ -21,6 +21,7 @@ export default function inventoryReducer(state = initialState, action) {
     case ADD_INVENTORY_SUCCESS:
       let { newEntry } = action;
       return Object.assign({}, state, {
+        isFetching: false,
         inventory: [...state.inventory, newEntry]
       });
     case ADD_INVENTORY_FAILURE:
@@ -32,7 +33,10 @@ export default function inventoryReducer(state = initialState, action) {
       return Object.assign({}, state, { isFetching: true });
     case LOAD_INVENTORY_SUCCESS:
       let { inventory } = action;
-      return Object.assign({}, state, { inventory }); 
+      return Object.assign({}, state, { 
+        isFetching: false,
+        inventory
+      }); 
     case LOAD_INVENTORY_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
