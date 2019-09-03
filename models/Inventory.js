@@ -13,6 +13,7 @@ var newSchema = new Schema({
   'unitOfMeasurement': { type: String, required: true },
   'price': { type: Number }, // per UoM
   'category': { type: String, required: true },
+  'quantity': { type: Number, default: 0, required: true},
   'dishes': { type: Array }, // String array
   'createdAt': { type: Date, default: Date.now },
   'updatedAt': { type: Date, default: Date.now }

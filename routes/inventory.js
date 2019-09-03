@@ -44,6 +44,7 @@ router.put('/:id', (req,res,next)=>{
       item.price = req.body.price;
       item.category = req.body.category;
       item.dishes = req.body.dishes;
+      item.quantity = req.body.quantity;
       item.save((err,updatedItem)=>{
           if (err) return res.json(err); //handleError(err);
           res.send(updatedItem);
