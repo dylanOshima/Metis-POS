@@ -9,22 +9,25 @@ Restaurant PoS is a simple React application for managing restaurant seating. It
 ### TODO
 - [ ] Finish implementing tests for the tables ~~and orders reducer~~
 - [x] Write actionCreators for dishes
-- [ ] Write actionCreators for inventory
+- [x] Write actionCreators for inventory
 - [x] Write reducer for dishes
-- [ ] Write reducer for inventory
+- [x] Write reducer for inventory
 - [x] Connect redux to react
-- [ ] Test replacing the order components with redux state
+- [x] Test replacing the order components with redux state
 - [ ] Write tests for dishes
 - [ ] Write tests for inventory
 - [ ] Make login more secure
-- [ ] Refactor the App.js component
+- [x] Refactor the App.js component
 - [ ] Add error modal
 - [ ] Update code to latest version of `react-bootstrap`
-- [ ] Reset activeTableIndex on logout
+- [ ] Create an endpoint for courses, **courses are just lists of dishes,
+  customers can choose to have different options within a course**
+- [ ] Create reducer, action, and component for courses
 
 ### BUGS
 - [ ] When the order of the tables in the `GET_TABLES` is switched, the empty
   table gets an id.
+- [x] Reset activeTableIndex on logout
 
 ### Future Updates
 
