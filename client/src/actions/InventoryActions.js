@@ -56,7 +56,7 @@ export function loadInventory() {
 
 
 export function updateInventoryEntry(entry) {
-  return dispatch => api.client.put(`/inventory/${entry._id}`)
+  return dispatch => api.client.put(`/inventory/${entry._id}`, entry)
     .then(response => {
       dispatch({
         type: UPDATE_INVENTORY_ENTRY,
@@ -68,12 +68,12 @@ export function updateInventoryEntry(entry) {
 }
 
 // index is the dishes index in the array
-export function deleteInventoryEntry(entry, index) {
-  return dispatch => api.client.delete(`/inventory/${entry._id}`)
+export function deleteInventoryEntry(entry_id) {
+  return dispatch => api.client.delete(`/inventory/delete/${entry_id}`)
     .then(response => {
       dispatch({
         type: DELETE_INVENTORY_ENTRY,
-        index
+        entry_id
       })
     }).catch(error => {
       console.error("problem deleting inventory entry: ", error) // DEBUG

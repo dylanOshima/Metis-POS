@@ -51,9 +51,8 @@ export default function inventoryReducer(state = initialState, action) {
         })
       })
     case DELETE_INVENTORY_ENTRY:
-      let { index } = action;
       return Object.assign({}, state, {
-        inventory: [...state.inventory.slice(index), ...state.inventory.slice(index+1)]
+        inventory: state.inventory.filter(entry => entry._id !== action.entry_id)
       })
     default: 
       return state;

@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { Button, Well, Panel, Grid, FormControl, Row, Col, Table } from 'react-bootstrap'
+
+import { EDIT_INVENTORY_ENTRY } from '../../constants/ModalTypes';
 // import { withAlert } from 'react-alert';
 
 // makes it easy to reset the state of the page / clear the forms
 const initialState = {
-    newEntry: {
-        name: "",
-        description: "",
-        unitOfMeasurement: "",
-        price: "",
-        category: "appetizer",
-        dishes: []
-    }
+  newEntry: {
+      name: "",
+      description: "",
+      price: "",
+      unitOfMeasurement: "",
+      quantity: 0,
+      category: "appetizer",
+      dishes: []
+  }
 }
 
 class Inventory extends Component {
@@ -51,8 +54,10 @@ class Inventory extends Component {
                           <th> Name </th>
                           <th> Description </th>
                           <th> Price </th>
+                          <th> Quantity </th>
                           <th> Dishes </th>
                           <th> Category </th>
+                          <th> Options</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -62,11 +67,21 @@ class Inventory extends Component {
                                 <td> {entry.name} </td>
                                 <td> {entry.description}</td>
                                 <td> {entry.price + " per " + entry.unitOfMeasurement} </td>
+                                <td> {entry.quantity} </td>
                                 <td> {entry.dishes} </td>
                                 <td> {entry.category} </td>
+                                <td> 
+                                  <Button 
+                                    bsSize="small"
+                                    bsStyle="info"
+                                    onClick={() => this.props.showModal(EDIT_INVENTORY_ENTRY, {entry})}>
+                                    edit
+                                  </Button>
+                                </td>
                             </tr>)
-                        })}
-                        <tr>
+                          }
+                        )}
+                         <tr>
                           <td>
                             <FormControl
                               type="text" 
@@ -74,7 +89,6 @@ class Inventory extends Component {
                               value={this.state.newEntry.name} 
                               onChange={event => this.changeHandler(event, "name")} />
                           </td>
-
                           <td>
                             <FormControl 
                               type="text" 
@@ -82,10 +96,9 @@ class Inventory extends Component {
                               value={this.state.newEntry.description} 
                               onChange={event => this.changeHandler(event, "description")} />
                           </td>
-
                           <td>
                             <FormControl
-                              type="text" 
+                              type="number" 
                               bsSize="small" 
                               value={this.state.newEntry.price} 
                               onChange={event => this.changeHandler(event, "price")} />
@@ -96,16 +109,20 @@ class Inventory extends Component {
                                 value={this.state.newEntry.unitOfMeasurement} 
                                 onChange={event => this.changeHandler(event, "unitOfMeasurement")} />
                           </td>
-
+                          <td>
+                            <FormControl
+                              type="number"
+                              bsSize="small"
+                              value={this.state.newEntry.quantity} 
+                              onChange={event => this.changeHandler(event, "quantity")} />
+                          </td>
                           <td>
                             <Button
                               bsSize="small" 
-                              bsStyle="info" 
                               onClick={() => alert("Add dishes!")}>
                               Dishes
                             </Button>
                           </td>
-
                           <td>
                             <FormControl
                               componentClass="select"
