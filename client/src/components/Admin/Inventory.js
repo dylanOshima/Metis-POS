@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Well, Panel, Grid, FormControl, Row, Col, Table } from 'react-bootstrap'
-import { withAlert } from 'react-alert';
+// import { withAlert } from 'react-alert';
 
 // makes it easy to reset the state of the page / clear the forms
 const initialState = {
@@ -32,7 +32,7 @@ class Inventory extends Component {
 
   resetToInitialState = () => {
     this.setState(initialState, function () {
-      this.props.alert.show('New Inventory Entry Successfully Submitted.');
+      console.log('New Inventory Entry Successfully Submitted.');
     })
   }
 
@@ -151,4 +151,4 @@ class Inventory extends Component {
       </Grid>)
   }
 }
-export default withAlert(Inventory);
+export default Inventory;

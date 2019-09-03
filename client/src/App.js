@@ -9,7 +9,6 @@ import ModalRoot from './components/Modals/ModalRoot';
 import Login from './components/Login/Login';
 import { connect } from 'react-redux';
 // Actions
-import { loadServers } from './actions/ServerActions';
 import { getTables,loadOrders } from './actions/OrderActions';
 import { loadDish } from './actions/DishActions';
 // Types
@@ -24,7 +23,6 @@ class App extends Component {
   componentDidMount() {
     this.props.loadDish();
     this.props.getTables();
-    this.props.loadServers();
     this.props.loadOrders();
   }
 
@@ -91,7 +89,6 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   getTables,
-  loadServers,
   loadOrders,
   loadDish,
 }

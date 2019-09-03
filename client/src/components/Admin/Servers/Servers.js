@@ -49,16 +49,17 @@ class Servers extends Component {
         return (
             <Row>
                 <Col md={6} xs={12}>
-                    <Panel>
-                        <h3> Current Servers: </h3>
-                        <ListGroup>
-                        {this.props.servers.map((server) => (
-                                <ListGroupItem 
-                                key={server._id}> {server.name} 
-                                </ListGroupItem>
-                        ))}
-                        </ListGroup>
-                    </Panel>
+                    {this.props.servers ? 
+                        (<Panel>
+                            <h3> Current Servers: </h3>
+                            <ListGroup>
+                            {this.props.servers.map((server) => (
+                                    <ListGroupItem 
+                                    key={server._id}> {server.name} 
+                                    </ListGroupItem>
+                            ))}
+                            </ListGroup>
+                        </Panel>) : null}
                 </Col>
                 <Col md={6} xs={12}>
                     <Panel>

@@ -50,7 +50,7 @@ const navbar = (props) => {
                     <NavItem
                     eventKey="LoggedInServer" 
                     title="LoggedInServer" 
-                    disabled>{props.loggedInUser} 
+                    disabled>Logged in as: {props.loggedInUser} 
                     </NavItem>
                     <Button 
                     title="LogOutUser" 

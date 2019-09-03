@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Well, Panel, Grid, FormControl, Row, Col, Table } from 'react-bootstrap'
-import { withAlert } from 'react-alert';
+// import { withAlert } from 'react-alert';
 
 // makes it easy to reset the state of the page / clear the forms
 
@@ -32,7 +32,7 @@ class Menu extends Component {
     
     resetToInitialState = () => {
         this.setState(initialState, function () {
-            this.props.alert.show('New Menu Item Successfully Submitted.')
+            console.log('New Menu Item Successfully Submitted.');
         })
     }
 
@@ -135,4 +135,4 @@ class Menu extends Component {
 
 
 }
-export default withAlert(Menu);
+export default Menu;

@@ -8,12 +8,7 @@ import { hideModal } from '../../../actions/ModalActions';
 class newSeating extends Component {
 
     state = {
-        chosenServer: "Select Server",
         guestNumber: "Select Number",
-    }
-
-    handleServerSelection = (server) => {
-        this.setState({chosenServer: server});  
     }
 
     setGuests = (numOfGuests) => {
@@ -21,9 +16,9 @@ class newSeating extends Component {
     }
 
     seatGuests = () => {
-        let { chosenServer, guestNumber } = this.state;
+        let { guestNumber } = this.state;
         let seating = {};
-        seating.server = chosenServer;
+        seating.server = this.props.chosenServer;
         seating.guests = guestNumber;
         seating.table = this.props.table.name;
         this.props.addOrder(seating);
@@ -39,8 +34,7 @@ class newSeating extends Component {
         let disableButton = true;
 
         //if the values are both not the defaults, enable the button
-        if (this.state.chosenServer !== "Select Server" 
-        && this.state.guestNumber !== "Select Number") {
+        if (this.state.guestNumber !== "Select Number") {
             disableButton = false;
         } else {
             disableButton = true; 
@@ -53,22 +47,8 @@ class newSeating extends Component {
                         <Modal.Title>{this.props.table.name} New Seating </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Seat New Customers:</p>
-                        <DropdownButton 
-                        bsSize="large" 
-                        title={this.state.chosenServer} 
-                        id="modalDropButtonServer">
-                            {this.props.servers.map((server, index) => {
-                                return (
-                                    <MenuItem 
-                                    key={server._id} 
-                                    eventKey={server.name} 
-                                    value={server.name} 
-                                    onSelect={() => this.handleServerSelection(server.name)}> {server.name} 
-                                    </MenuItem>
-                                )
-                            })}
-                        </DropdownButton>
+                        <p> Create new table as: <b>{this.props.chosenServer}</b></p>
+
                         <p>Number of Guests</p>
                         <DropdownButton 
                         id="modalDropButtonGuests" 
@@ -117,7 +97,6 @@ const mapStateToProps = state => ({
     table: state.order.tables[state.order.activeTableIndex],
     activeTableIndex: state.order.activeTableIndex,
     chosenServer: state.server.serverName,
-    servers: state.server.servers,
 })
 
 export default connect(mapStateToProps, { 

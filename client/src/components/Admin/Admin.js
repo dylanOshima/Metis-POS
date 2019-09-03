@@ -6,7 +6,7 @@ import Servers from './Servers/Servers';
 import Menu from './Menu/Menu';
 import Inventory from './Inventory';
 
-import { addServer } from '../../actions/ServerActions';
+import { addServer, loadServers } from '../../actions/ServerActions';
 import { addDish } from '../../actions/DishActions';
 import { loadInventory, addInventoryEntry, updateInventoryEntry } from '../../actions/InventoryActions';
 
@@ -17,6 +17,7 @@ class Admin extends Component {
 
     componentDidMount() {
         this.props.loadInventory();
+        this.props.loadServers();
     }
 
     handleKeySelect(key) {
@@ -69,7 +70,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-    addServer,
+    addServer, loadServers,
     addDish,
     loadInventory, addInventoryEntry, updateInventoryEntry
 })(Admin);
