@@ -138,6 +138,7 @@ Restaurant PoS is a simple React application for managing restaurant seating. It
 ### `/inventory`
 #### GET Routes
  * /inventory returns JSON of all inventory entries
+ * /inventory/categories returns a JSON of all the unique categories in the inventory
 
 #### POST Routes
  * /inventory/add Creates a new inventory entry, returns JSON with the ID and other information

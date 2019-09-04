@@ -11,6 +11,14 @@ router.get('/', (req, res, next) => {
     .catch(error => res.json(error));
 });
 
+//get all categories of inventory items
+router.get('/categories', (req, res, next) => {
+  inventory.distinct('category', (err, categories) => {
+    if (err) return res.json(err);
+    return res.json(categories);
+  })
+});
+
 
 // Add inventory Item
 router.post('/add', (req,res,next)=>{  
