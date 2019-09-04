@@ -6,12 +6,14 @@ import {
   LOAD_INVENTORY_SUCCESS,
   LOAD_INVENTORY_FAILURE,
   UPDATE_INVENTORY_ENTRY,
-  DELETE_INVENTORY_ENTRY
+  DELETE_INVENTORY_ENTRY,
+  LOAD_INVENTORY_CATEGORIES,
  } from '../constants/ActionTypes';
 
 const initialState = {
   isFetching: false,
   inventory: null, // An array of inventory entries
+  categories: null,
 };
 
 export default function inventoryReducer(state = initialState, action) {
@@ -49,11 +51,15 @@ export default function inventoryReducer(state = initialState, action) {
             return action.entry;
           } else { return entry }
         })
-      })
+      });
     case DELETE_INVENTORY_ENTRY:
       return Object.assign({}, state, {
         inventory: state.inventory.filter(entry => entry._id !== action.entry_id)
-      })
+      });
+    case LOAD_INVENTORY_CATEGORIES:
+      return Object.assign({}, state, {
+        categories: action.categories
+      });
     default: 
       return state;
   }

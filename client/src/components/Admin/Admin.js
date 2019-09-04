@@ -8,7 +8,7 @@ import Inventory from './Inventory';
 
 import { addServer, loadServers } from '../../actions/ServerActions';
 import { addDish } from '../../actions/DishActions';
-import { loadInventory, addInventoryEntry, updateInventoryEntry } from '../../actions/InventoryActions';
+import { loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories } from '../../actions/InventoryActions';
 import { showModal } from '../../actions/ModalActions';
 
 class Admin extends Component {
@@ -18,6 +18,7 @@ class Admin extends Component {
 
     componentDidMount() {
         this.props.loadInventory();
+        this.props.loadInventoryCategories();
         this.props.loadServers();
     }
 
@@ -30,7 +31,8 @@ class Admin extends Component {
             showModal,
             servers, addServer, 
             menu, addDish, 
-            inventory, addInventoryEntry, updateInventoryEntry 
+            inventory, inventoryCategories, 
+            addInventoryEntry, updateInventoryEntry 
         } = this.props;
         return (
             <Grid>
@@ -58,7 +60,8 @@ class Admin extends Component {
                                 inventory={inventory}
                                 addInventoryEntry={addInventoryEntry}
                                 updateInventoryEntry={updateInventoryEntry}
-                                showModal={showModal} />
+                                showModal={showModal}
+                                categories={inventoryCategories} />
                         </Tab>
                     </Tabs>
                 </Row>  
@@ -71,10 +74,11 @@ const mapStateToProps = state => ({
     servers: state.server.servers,
     menu: state.dish.dishes,
     inventory: state.inventory.inventory,
+    inventoryCategories: state.inventory.categories,
 });
 
 export default connect(mapStateToProps, {
     addServer, loadServers,
     addDish, showModal,
-    loadInventory, addInventoryEntry, updateInventoryEntry
+    loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories
 })(Admin);

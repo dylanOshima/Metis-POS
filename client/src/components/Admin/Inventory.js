@@ -128,26 +128,13 @@ class Inventory extends Component {
                               componentClass="select"
                               value={this.state.newEntry.category}
                               onChange={event => this.changeHandler(event,"category")}>
-                                <option defaultValue
-                                  value="appetizer"
-                                  > Appetizer 
-                                </option>
-                                <option
-                                  value="entree"
-                                  > Entree
-                                </option>
-                                <option
-                                  value="drink"
-                                  > Drink
-                                </option>
-                                <option
-                                  value="dessert"
-                                  > Dessert
-                                </option>
-                                <option
-                                  value="special"
-                                  > Special
-                                </option>
+                                {this.props.categories ? this.props.categories.map(((category, index) => {
+                                  return (<option
+                                            key={index}
+                                            value={category}
+                                            > {category} 
+                                          </option>)
+                                })) : null}
                             </FormControl>
                           </td>
                           <td>

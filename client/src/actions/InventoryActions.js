@@ -9,6 +9,7 @@ import {
   LOAD_INVENTORY_FAILURE,
   UPDATE_INVENTORY_ENTRY,
   DELETE_INVENTORY_ENTRY,
+  LOAD_INVENTORY_CATEGORIES
  } from '../constants/ActionTypes';
 
 export function addInventoryEntry(entry) {
@@ -67,13 +68,26 @@ export function updateInventoryEntry(entry) {
     })
 }
 
-// index is the dishes index in the array
+// index is the entry id in the array
 export function deleteInventoryEntry(entry_id) {
   return dispatch => api.client.delete(`/inventory/delete/${entry_id}`)
     .then(response => {
       dispatch({
         type: DELETE_INVENTORY_ENTRY,
         entry_id
+      })
+    }).catch(error => {
+      console.error("problem deleting inventory entry: ", error) // DEBUG
+    })
+}
+
+// index is the dishes index in the array
+export function loadInventoryCategories() {
+  return dispatch => api.client.get('/inventory/categories/')
+    .then(response => {
+      dispatch({
+        type: LOAD_INVENTORY_CATEGORIES,
+        categories: response.data
       })
     }).catch(error => {
       console.error("problem deleting inventory entry: ", error) // DEBUG
