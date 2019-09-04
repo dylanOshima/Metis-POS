@@ -150,17 +150,18 @@ class Inventory extends Component {
                                 </option>
                             </FormControl>
                           </td>
+                          <td>
+                          <Button 
+                            bsSize="small" 
+                            bsStyle="info" 
+                            onClick={this.newEntrySubmitHandler}> 
+                            Submit 
+                          </Button>
+                          </td>
                         </tr>
                       </tbody>
                   </Table>) 
                 : null }
-
-                <Button 
-                  bsSize="large" 
-                  bsStyle="info" 
-                  onClick={this.newEntrySubmitHandler}> 
-                  Submit 
-                </Button>
               </Well>
             </Panel>
          </Col>

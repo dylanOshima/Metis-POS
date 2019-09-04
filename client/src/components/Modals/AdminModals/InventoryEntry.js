@@ -80,7 +80,7 @@ class AdminEntry extends Component {
                           value={this.state.quantity ? this.state.quantity : 0} 
                           onChange={event => this.changeHandler(event, "quantity")} />
                       </Col>
-                      <Col componentClass={ControlLabel} sm={2}>
+                      <Col componentClass={ControlLabel} sm={1}>
                         Price
                       </Col>
                       <Col sm={2}>
@@ -91,8 +91,8 @@ class AdminEntry extends Component {
                           onChange={event => this.changeHandler(event, "price")} />
                       </Col>
 
-                      <Col componentClass={ControlLabel} sm={2}>
-                        Unit of Measurement
+                      <Col componentClass={ControlLabel} sm={1}>
+                        Unit
                       </Col>
                       <Col sm={2}>
                         <FormControl
@@ -107,7 +107,7 @@ class AdminEntry extends Component {
                       <Col componentClass={ControlLabel} sm={2}>
                         Dishes
                       </Col>
-                      <Col>
+                      <Col sm={2}>
                         <Button
                           bsSize="small" 
                           onClick={() => alert("Add dishes!")}>
