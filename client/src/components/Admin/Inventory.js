@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Well, Panel, Grid, FormControl, Row, Col, Table } from 'react-bootstrap'
-
+import AutoSuggestWrapper from '../CustomInput/AutoSuggestWrapper';
 import { EDIT_INVENTORY_ENTRY } from '../../constants/ModalTypes';
 // import { withAlert } from 'react-alert';
 
@@ -12,18 +13,24 @@ const initialState = {
       price: "",
       unitOfMeasurement: "",
       quantity: 0,
-      category: "appetizer",
+      category: "",
       dishes: []
   }
 }
 
 class Inventory extends Component {
+  static propTypes = {
+    addInventoryEntry: PropTypes.func,
+    inventory: PropTypes.instanceOf(Array),
+    categories: PropTypes.instanceOf(Array)
+  }
+
   state = initialState;
 
   //updates states immediately on change for all onChange events
   changeHandler = (event, item) => {
     let entry = { ...this.state.newEntry }
-    entry[item] = event.target.value
+    entry[item] = event.target.value ? event.target.value : initialState.newEntry[item];
     this.setState({ newEntry: entry })
   }
 
@@ -74,7 +81,10 @@ class Inventory extends Component {
                                   <Button 
                                     bsSize="small"
                                     bsStyle="info"
-                                    onClick={() => this.props.showModal(EDIT_INVENTORY_ENTRY, {entry})}>
+                                    onClick={() => this.props.showModal(EDIT_INVENTORY_ENTRY, {
+                                      entry,
+                                      categories: this.props.categories
+                                    })}>
                                     edit
                                   </Button>
                                 </td>
@@ -123,20 +133,14 @@ class Inventory extends Component {
                               Dishes
                             </Button>
                           </td>
-                          <td>
-                            <FormControl
-                              componentClass="select"
-                              value={this.state.newEntry.category}
-                              onChange={event => this.changeHandler(event,"category")}>
-                                {this.props.categories ? this.props.categories.map(((category, index) => {
-                                  return (<option
-                                            key={index}
-                                            value={category}
-                                            > {category} 
-                                          </option>)
-                                })) : null}
-                            </FormControl>
-                          </td>
+                          {this.props.categories ? 
+                            (<td>
+                              <AutoSuggestWrapper 
+                                suggestions={this.props.categories}
+                                value={this.state.newEntry.category}
+                                changeHandler={this.changeHandler}
+                              />
+                            </td>) : null}
                           <td>
                           <Button 
                             bsSize="small" 

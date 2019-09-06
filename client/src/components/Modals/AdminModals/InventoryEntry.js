@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Button, Modal, Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
-
 import { hideModal } from '../../../actions/ModalActions';
+import AutoSuggestWrapper from '../../CustomInput/AutoSuggestWrapper';
 import { 
   updateInventoryEntry,
   deleteInventoryEntry
@@ -17,9 +17,10 @@ class AdminEntry extends Component {
 
   state = Object.assign({}, this.props.entry);
 
+  //updates states immediately on change for all onChange events
   changeHandler = (event, item) => {
-    let entry = { ...this.state }
-    entry[item] = event.target.value
+    let entry = { ...this.props.newEntry };
+    entry[item] = event.target.value ? event.target.value : "";
     this.setState(entry);
   }
 
@@ -121,31 +122,11 @@ class AdminEntry extends Component {
                         Category
                       </Col>
                       <Col sm={8}>
-                        <FormControl
-                          // componentClass="select"
+                        <AutoSuggestWrapper
+                          suggestions={this.props.categories}
                           value={this.state.category}
-                          onChange={event => this.changeHandler(event,"category")}>
-                            {/* <option defaultValue
-                              value="appetizer"> 
-                              Appetizer 
-                            </option>
-                            <option
-                              value="entree"> 
-                              Entree
-                            </option>
-                            <option
-                              value="drink"> 
-                              Drink
-                            </option>
-                            <option
-                              value="dessert">
-                              Dessert
-                            </option>
-                            <option
-                              value="special"> 
-                              Special
-                            </option> */}
-                        </FormControl>
+                          changeHandler={this.changeHandler}
+                        />
                       </Col>
                     </FormGroup>
                   </Form>
