@@ -23,7 +23,8 @@ class Inventory extends Component {
     addInventoryEntry: PropTypes.func,
     updateModal: PropTypes.func,
     inventory: PropTypes.instanceOf(Array),
-    categories: PropTypes.instanceOf(Array),
+    dishCategories: PropTypes.instanceOf(Array),
+    inventoryCategories: PropTypes.instanceOf(Array),
   }
 
   state = initialState;
@@ -60,6 +61,17 @@ class Inventory extends Component {
 
   }
 
+  displayDishes = dishes => {
+    if(!dishes.length) {return ""}
+    let out = dishes[0].name,
+        i = 1;
+    while(i < dishes.length && out.length < 35) {
+      out += ", " + dishes[i].name;
+      i++;
+    }
+    return out
+  }
+
   //submits new inventory entry
   newEntrySubmitHandler = () => {
     this.props.addInventoryEntry(this.state.newEntry);
@@ -94,6 +106,7 @@ class Inventory extends Component {
                         </tr>
                       </thead>
                       <tbody>
+                        {/* Inventory items */}
                         {this.props.inventory.map(entry => {
                           return (
                             <tr key={entry._id}>
@@ -101,22 +114,20 @@ class Inventory extends Component {
                                 <td> {entry.description}</td>
                                 <td> {entry.price + " per " + entry.unitOfMeasurement} </td>
                                 <td> {entry.quantity} </td>
-                                <td> {entry.dishes} </td>
+                                <td> {this.displayDishes(entry.dishes)} </td>
                                 <td> {entry.category} </td>
                                 <td> 
                                   <Button 
                                     bsSize="small"
                                     bsStyle="info"
-                                    onClick={() => this.props.showModal(EDIT_INVENTORY_ENTRY, {
-                                      entry,
-                                      categories: this.props.categories
-                                    })}>
+                                    onClick={() => this.props.showModal(EDIT_INVENTORY_ENTRY, { entry })}>
                                     edit
                                   </Button>
                                 </td>
                             </tr>)
                           }
                         )}
+                        {/* Add new inventory item */}
                          <tr>
                           <td>
                             <FormControl
@@ -159,14 +170,16 @@ class Inventory extends Component {
                                 selected: this.state.newEntry.dishes,
                                 title: "Select Dishes",
                                 updateSelected: this.addSelectedDish,
+                                categories: this.props.dishCategories,
+                                options: this.props.dishes
                               })}>
                               Dishes
                             </Button>
                           </td>
-                          {this.props.categories ? 
+                          {this.props.inventoryCategories ? 
                             (<td>
                               <AutoSuggestWrapper 
-                                suggestions={this.props.categories}
+                                suggestions={this.props.inventoryCategories}
                                 value={this.state.newEntry.category}
                                 changeHandler={this.changeHandler}
                               />

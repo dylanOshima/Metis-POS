@@ -7,7 +7,7 @@ import Menu from './Menu/Menu';
 import Inventory from './Inventory';
 
 import { addServer, loadServers } from '../../actions/ServerActions';
-import { addDish } from '../../actions/DishActions';
+import { addDish, loadDishCategories } from '../../actions/DishActions';
 import { loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories } from '../../actions/InventoryActions';
 import { showModal, updateModal } from '../../actions/ModalActions';
 
@@ -19,6 +19,7 @@ class Admin extends Component {
     componentDidMount() {
         this.props.loadInventory();
         this.props.loadInventoryCategories();
+        this.props.loadDishCategories();
         this.props.loadServers();
     }
 
@@ -30,7 +31,7 @@ class Admin extends Component {
         let { 
             showModal, updateModal,
             servers, addServer, 
-            menu, addDish, 
+            menu, dishes, dishCategories, addDish, 
             inventory, inventoryCategories, 
             addInventoryEntry, updateInventoryEntry
         } = this.props;
@@ -58,11 +59,13 @@ class Admin extends Component {
                         <Tab eventKey={3} title="Inventory">
                             <Inventory
                                 inventory={inventory}
+                                dishes={dishes}
                                 addInventoryEntry={addInventoryEntry}
                                 updateInventoryEntry={updateInventoryEntry}
                                 showModal={showModal}
                                 updateModal={updateModal}
-                                categories={inventoryCategories} />
+                                inventoryCategories={inventoryCategories}
+                                dishCategories={dishCategories} />
                         </Tab>
                     </Tabs>
                 </Row>  
@@ -76,10 +79,13 @@ const mapStateToProps = state => ({
     menu: state.dish.dishes,
     inventory: state.inventory.inventory,
     inventoryCategories: state.inventory.categories,
+    dishes: state.dish.dishes,
+    dishCategories: state.dish.categories,
 });
 
 export default connect(mapStateToProps, {
     addServer, loadServers,
-    addDish, showModal, updateModal,
+    addDish, loadDishCategories,
+    showModal, updateModal,
     loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories
 })(Admin);

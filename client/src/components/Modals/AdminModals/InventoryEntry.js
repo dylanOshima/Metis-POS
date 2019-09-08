@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Button, Modal, Form, FormGroup, FormControl, Col, Row, ControlLabel } from 'react-bootstrap';
+import { Button, Modal, Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
 import AutoSuggestWrapper from '../../CustomInput/AutoSuggestWrapper';
 import MultiPicker from '../AdminModals/MultiPicker';
 import { updateInventoryEntry, deleteInventoryEntry } from '../../../actions/InventoryActions';
-import { showModal } from '../../../actions/ModalActions';
 
 /**
  * @param {object:props} contains:
  *   @param {object:entry} contains information on the entry
  */
 
-class AdminEntry extends Component {
+class InventoryEntry extends Component {
 
   state = Object.assign({}, this.props.entry);
 
@@ -36,7 +35,7 @@ class AdminEntry extends Component {
 
   //updates states immediately on change for all onChange events
   changeHandler = (event, item) => {
-    let entry = { ...this.props.newEntry };
+    let entry = { ...this.state };
     entry[item] = event.target.value ? event.target.value : "";
     this.setState(entry);
   }
@@ -52,6 +51,7 @@ class AdminEntry extends Component {
   }
 
   render() {
+    console.log(this.state);
     
     return(
         <div>
@@ -59,7 +59,7 @@ class AdminEntry extends Component {
                 <Modal.Header>
                   Updating <b>{this.state.name}</b> 
                 </Modal.Header>
-                <Modal.Body style={{'maxHeight': 'calc(100vh - 210px)', 'overflowY': 'auto'}}>
+                <Modal.Body>
                   <Form horizontal>
                     <FormGroup>
                       <Col componentClass={ControlLabel} sm={2}>
@@ -127,7 +127,7 @@ class AdminEntry extends Component {
                       </Col>
                       <Col sm={8}>
                         <AutoSuggestWrapper
-                          suggestions={this.props.categories}
+                          suggestions={this.props.inventoryCategories}
                           value={this.state.category}
                           changeHandler={this.changeHandler}
                         />
@@ -136,11 +136,13 @@ class AdminEntry extends Component {
 
                     <FormGroup>
                       <MultiPicker
+                        title="Update Dishes"
                         haveTitles={false}
                         embedded
                         selected={this.state.dishes}
-                        title={"Update Dishes"}
                         updateSelected={this.updateDishHandler}
+                        categories={this.props.dishCategories}
+                        options={this.props.dishes}
                       />
                     </FormGroup>
                   </Form>
@@ -156,8 +158,14 @@ class AdminEntry extends Component {
   }
 }
 
-export default connect(null, { 
+const mapStateToProps = (state, prevProps) => ({
+  entry: prevProps.entry,
+  inventoryCategories: state.inventory.categories,
+  dishCategories: state.dish.categories,
+  dishes: state.dish.dishes,
+});
+
+export default connect(mapStateToProps, { 
   updateInventoryEntry,
-  deleteInventoryEntry,
-  showModal
-})(AdminEntry);
+  deleteInventoryEntry
+})(InventoryEntry);

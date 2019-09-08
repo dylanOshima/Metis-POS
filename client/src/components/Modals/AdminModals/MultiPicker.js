@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ListGroup, ListGroupItem, Modal, Row, Col, Panel, PanelGroup, Button, ControlLabel } from 'react-bootstrap';
 
@@ -124,9 +123,9 @@ class MultiPicker extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  categories: state.inventory.categories,
-  options: state.inventory.inventory,
-})
+// const mapStateToProps = state => ({
+//   categories: state.inventory.categories,
+//   options: state.inventory.inventory,
+// })
 
-export default connect(mapStateToProps)(MultiPicker);
+export default MultiPicker;
