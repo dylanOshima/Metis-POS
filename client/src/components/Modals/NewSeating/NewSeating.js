@@ -41,54 +41,49 @@ class newSeating extends Component {
         }
 
         return (
-            <div className="static-modal">
-                <Modal.Dialog>
-                    <Modal.Header>
-                        <Modal.Title>{this.props.table.name} New Seating </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p> Create new table as: <b>{this.props.chosenServer}</b></p>
+            <Modal show onHide={this.cancel}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{this.props.table.name} New Seating </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p> Create new table as: <b>{this.props.chosenServer}</b></p>
 
-                        <p>Number of Guests</p>
-                        <DropdownButton 
-                        id="modalDropButtonGuests" 
-                        title={this.state.guestNumber}>
-                            <MenuItem 
-                            value={1} onSelect={() => this.setGuests(1)}>1
-                            </MenuItem>
-                            <MenuItem 
-                            value={2} onSelect={() => this.setGuests(2)}>2
-                            </MenuItem>
-                            <MenuItem 
-                            value={3} onSelect={() => this.setGuests(3)}>3
-                            </MenuItem>
-                            <MenuItem 
-                            value={4} onSelect={() => this.setGuests(4)}>4
-                            </MenuItem>
-                            <MenuItem 
-                            value={5} onSelect={() => this.setGuests(5)}>5
-                            </MenuItem>
-                            <MenuItem 
-                            value={6} onSelect={() => this.setGuests(6)}>6
-                            </MenuItem>
-                            <MenuItem 
-                            value={7} onSelect={() => this.setGuests(7)}>7
-                            </MenuItem>
-                            <MenuItem 
-                            value={8} onSelect={() => this.setGuests(8)}>8
-                            </MenuItem>
-                        </DropdownButton>
+                    <p>Number of Guests</p>
+                    <DropdownButton 
+                    id="modalDropButtonGuests" 
+                    title={this.state.guestNumber}>
+                        <MenuItem 
+                        value={1} onSelect={() => this.setGuests(1)}>1
+                        </MenuItem>
+                        <MenuItem 
+                        value={2} onSelect={() => this.setGuests(2)}>2
+                        </MenuItem>
+                        <MenuItem 
+                        value={3} onSelect={() => this.setGuests(3)}>3
+                        </MenuItem>
+                        <MenuItem 
+                        value={4} onSelect={() => this.setGuests(4)}>4
+                        </MenuItem>
+                        <MenuItem 
+                        value={5} onSelect={() => this.setGuests(5)}>5
+                        </MenuItem>
+                        <MenuItem 
+                        value={6} onSelect={() => this.setGuests(6)}>6
+                        </MenuItem>
+                        <MenuItem 
+                        value={7} onSelect={() => this.setGuests(7)}>7
+                        </MenuItem>
+                        <MenuItem 
+                        value={8} onSelect={() => this.setGuests(8)}>8
+                        </MenuItem>
+                    </DropdownButton>
 
-                        <Button 
-                        onClick={() => this.seatGuests()} 
-                        disabled={disableButton}> Submit</Button>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button 
-                        onClick={this.cancel}>Close</Button>
-                    </Modal.Footer>
-                </Modal.Dialog>
-            </div>
+                    <Button 
+                    onClick={() => this.seatGuests()} 
+                    disabled={disableButton}> Submit</Button>
+                </Modal.Body>
+                <Modal.Footer />
+            </Modal>
         )
     }
 }

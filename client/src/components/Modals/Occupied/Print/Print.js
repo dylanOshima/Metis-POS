@@ -2,7 +2,7 @@
 
 // Uses react-bootstrap for CSS styling
 import React from 'react'
-import { Row,Col,Modal, Button } from 'react-bootstrap';
+import { Row,Col,Modal } from 'react-bootstrap';
 
 const align = {
     textAlign: "right"
@@ -37,48 +37,44 @@ const createReceipt = (items) => {
 // Renders headers and costs.
 const print = props => {
     return (
-        <div className="static-modal">
-            <Modal.Dialog>
-                <Modal.Header>
-                    <Modal.Title>Receipt</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Row>
-                        <Col 
-                        md={3}>
-                            <h3>Item</h3>
-                        </Col>
-                        <Col 
-                        md={3}>
-                            <h3>#</h3>
-                        </Col>
-                        <Col 
-                        md={3}>
-                            <h3>Cost</h3>
-                        </Col>  
-                    </Row>
-                        {createReceipt(props.order.items)}
-                    <Row>
-                        <Col mdOffset={4}  md={5} style={align}>
-                            <h4>Sub-Total: ${parseFloat(props.order.sub_total).toFixed(2)}</h4>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col mdOffset={4} md={5} style={align}>
-                            <h4>Tax: ${parseFloat(props.order.tax).toFixed(2)}</h4>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col mdOffset={4} md={5} style={align}>
-                            <h4>Total: ${parseFloat(props.order.total).toFixed(2)}</h4>
-                        </Col>
-                    </Row>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={() => props.cancel()}>Close</Button>
-                </Modal.Footer>
-            </Modal.Dialog>
-        </div>
+        <Modal show onHide={props.cancel}>
+            <Modal.Header closeButton>
+                <Modal.Title>Receipt</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Row>
+                    <Col 
+                    md={3}>
+                        <h3>Item</h3>
+                    </Col>
+                    <Col 
+                    md={3}>
+                        <h3>#</h3>
+                    </Col>
+                    <Col 
+                    md={3}>
+                        <h3>Cost</h3>
+                    </Col>  
+                </Row>
+                    {createReceipt(props.order.items)}
+                <Row>
+                    <Col mdOffset={4}  md={5} style={align}>
+                        <h4>Sub-Total: ${parseFloat(props.order.sub_total).toFixed(2)}</h4>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col mdOffset={4} md={5} style={align}>
+                        <h4>Tax: ${parseFloat(props.order.tax).toFixed(2)}</h4>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col mdOffset={4} md={5} style={align}>
+                        <h4>Total: ${parseFloat(props.order.total).toFixed(2)}</h4>
+                    </Col>
+                </Row>
+            </Modal.Body>
+            <Modal.Footer />
+        </Modal>
     )
 }
 

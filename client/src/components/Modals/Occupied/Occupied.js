@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ButtonGroup } from 'react-bootstrap';
-import { showModal, hideModal } from '../../../actions/ModalActions';
+import { showModal } from '../../../actions/ModalActions';
 import { updatePage } from '../../../actions/AppActions';
 import { ORDERS_PAGE } from '../../../constants/PageTypes';
 import {
@@ -11,12 +11,12 @@ import {
 
 const occupied = props => {
     return (
-        <div className="static-modal">
-            <Modal.Dialog>
-                <Modal.Header>
-                    <Modal.Title>{props.table.name}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Guests: {props.table.guestNumber} </Modal.Body>
+        <Modal show onHide={props.hideModal}>
+            <Modal.Header closeButton>
+                <Modal.Title>{props.table.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                Guests: {props.table.guestNumber}
                 <ButtonGroup vertical block>
                     <Button 
                     bsSize="large" 
@@ -44,11 +44,9 @@ const occupied = props => {
                     })}> Checkout
                     </Button>
                 </ButtonGroup>
-                <Modal.Footer>
-                    <Button onClick={() => props.hideModal()}>Close</Button>
-                </Modal.Footer>
-            </Modal.Dialog>
-        </div>
+            </Modal.Body>
+            <Modal.Footer />
+        </Modal>
     )
 }
 // click(), submitPayment, close,
@@ -62,6 +60,5 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, { 
     showModal, 
-    hideModal,
     updatePage,
 })(occupied);

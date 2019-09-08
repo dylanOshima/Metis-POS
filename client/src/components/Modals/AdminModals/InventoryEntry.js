@@ -50,111 +50,108 @@ class InventoryEntry extends Component {
     this.props.hideModal();
   }
 
-  render() {
-    console.log(this.state);
-    
+  render() {    
     return(
-        <div>
-            <Modal.Dialog bsSize="large">
-                <Modal.Header>
-                  Updating <b>{this.state.name}</b> 
-                </Modal.Header>
-                <Modal.Body>
-                  <Form horizontal>
-                    <FormGroup>
-                      <Col componentClass={ControlLabel} sm={2}>
-                        Name
-                      </Col>
-                      <Col sm={10}>
-                        <FormControl
-                          type="text" 
-                          bsSize="small" 
-                          value={this.state.name} 
-                          onChange={event => this.changeHandler(event, "name")} />
-                      </Col>
-                    </FormGroup>
+      <Modal.Dialog bsSize="large">
+        <Modal.Header>
+          Updating <b>{this.state.name}</b> 
+        </Modal.Header>
+        <Modal.Body style={{'overflowY': 'scroll'}}>
+          <Form horizontal>
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={2}>
+                Name
+              </Col>
+              <Col sm={10}>
+                <FormControl
+                  type="text" 
+                  bsSize="small" 
+                  value={this.state.name} 
+                  onChange={event => this.changeHandler(event, "name")} />
+              </Col>
+            </FormGroup>
 
-                    <FormGroup>
-                      <Col componentClass={ControlLabel} sm={2}>
-                        Description
-                      </Col>
-                      <Col sm={10}>
-                        <FormControl 
-                          type="text" 
-                          bsSize="small" 
-                          value={this.state.description} 
-                          onChange={event => this.changeHandler(event, "description")} />
-                      </Col>
-                    </FormGroup>
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={2}>
+                Description
+              </Col>
+              <Col sm={10}>
+                <FormControl 
+                  type="text" 
+                  bsSize="small" 
+                  value={this.state.description} 
+                  onChange={event => this.changeHandler(event, "description")} />
+              </Col>
+            </FormGroup>
 
-                    <FormGroup>
-                      <Col componentClass={ControlLabel} sm={2}>
-                        Quantity
-                      </Col>
-                      <Col sm={2}>
-                        <FormControl
-                          type="number"
-                          bsSize="small"
-                          value={this.state.quantity ? this.state.quantity : 0} 
-                          onChange={event => this.changeHandler(event, "quantity")} />
-                      </Col>
-                      <Col componentClass={ControlLabel} sm={1}>
-                        Price
-                      </Col>
-                      <Col sm={2}>
-                        <FormControl
-                          type="number" 
-                          bsSize="small" 
-                          value={this.state.price} 
-                          onChange={event => this.changeHandler(event, "price")} />
-                      </Col>
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={2}>
+                Quantity
+              </Col>
+              <Col sm={2}>
+                <FormControl
+                  type="number"
+                  bsSize="small"
+                  value={this.state.quantity ? this.state.quantity : 0} 
+                  onChange={event => this.changeHandler(event, "quantity")} />
+              </Col>
+              <Col componentClass={ControlLabel} sm={1}>
+                Price
+              </Col>
+              <Col sm={2}>
+                <FormControl
+                  type="number" 
+                  bsSize="small" 
+                  value={this.state.price} 
+                  onChange={event => this.changeHandler(event, "price")} />
+              </Col>
 
-                      <Col componentClass={ControlLabel} sm={1}>
-                        Unit
-                      </Col>
-                      <Col sm={2}>
-                        <FormControl
-                            type="text" 
-                            bsSize="small" 
-                            value={this.state.unitOfMeasurement} 
-                            onChange={event => this.changeHandler(event, "unitOfMeasurement")} />
-                      </Col>
-                    </FormGroup>
+              <Col componentClass={ControlLabel} sm={1}>
+                Unit
+              </Col>
+              <Col sm={2}>
+                <FormControl
+                    type="text" 
+                    bsSize="small" 
+                    value={this.state.unitOfMeasurement} 
+                    onChange={event => this.changeHandler(event, "unitOfMeasurement")} />
+              </Col>
+            </FormGroup>
 
-                    <FormGroup>
-                      <Col componentClass={ControlLabel} sm={2}>
-                        Category
-                      </Col>
-                      <Col sm={8}>
-                        <AutoSuggestWrapper
-                          suggestions={this.props.inventoryCategories}
-                          value={this.state.category}
-                          changeHandler={this.changeHandler}
-                        />
-                      </Col>
-                    </FormGroup>
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={2}>
+                Category
+              </Col>
+              <Col sm={8}>
+                <AutoSuggestWrapper
+                  suggestions={this.props.inventoryCategories}
+                  value={this.state.category}
+                  changeHandler={this.changeHandler}
+                />
+              </Col>
+            </FormGroup>
 
-                    <FormGroup>
-                      <MultiPicker
-                        title="Update Dishes"
-                        haveTitles={false}
-                        embedded
-                        selected={this.state.dishes}
-                        updateSelected={this.updateDishHandler}
-                        categories={this.props.dishCategories}
-                        options={this.props.dishes}
-                      />
-                    </FormGroup>
-                  </Form>
-                </Modal.Body>
+            <FormGroup>
+              <MultiPicker
+                title="Update Dishes"
+                haveTitles={false}
+                embedded
+                selected={this.state.dishes}
+                updateSelected={this.updateDishHandler}
+                categories={this.props.dishCategories}
+                options={this.props.dishes}
+              />
+            </FormGroup>
+          </Form>
+        </Modal.Body>
 
-                <Modal.Footer>
-                  <Button bsStyle="success" onClick={this.submitEntry}>Submit</Button>
-                  <Button bsStyle="danger" onClick={this.deleteEntry}>Delete</Button>
-                  <Button onClick={this.props.hideModal}>Cancel</Button>
-                </Modal.Footer>
-            </Modal.Dialog>
-        </div>)
+        <Modal.Footer>
+          <Button bsStyle="success" onClick={this.submitEntry}>Submit</Button>
+          <Button bsStyle="danger" onClick={this.deleteEntry}>Delete</Button>
+          <Button onClick={this.props.hideModal}>Cancel</Button>
+        </Modal.Footer>
+      </Modal.Dialog>
+    )
   }
 }
 

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { ListGroup, ListGroupItem, Modal, Row, Col, Panel, PanelGroup, Button, ControlLabel } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, Modal, Row, Col, Panel, PanelGroup, ControlLabel } from 'react-bootstrap';
 
 class MultiPicker extends Component {
   static propTypes = {
@@ -97,7 +97,7 @@ class MultiPicker extends Component {
                     </Col>
                   </Row>);
     return this.props.embedded ?
-    (<div>
+    (<Fragment>
       <ControlLabel style={{'margin':'1em 3em'}}>{title}</ControlLabel>
       <div style={{
         'margin':'0em 3em',
@@ -106,20 +106,16 @@ class MultiPicker extends Component {
         }}>
         {content}
       </div>
-    </div>) 
-    :(<Fragment>
-      <Modal.Dialog>
+    </Fragment>) 
+    :(<Modal show onHide={hideModal}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{'overflowY': 'scroll'}}>
           {content}
         </Modal.Body>
-        <Modal.Footer>
-          <Button bsSize="lg" onClick={hideModal}>Close</Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </Fragment>)
+        <Modal.Footer />
+      </Modal>)
   }
 }
 
