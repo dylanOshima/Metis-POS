@@ -7,7 +7,7 @@ import Menu from './Menu/Menu';
 import Inventory from './Inventory';
 
 import { addServer, loadServers } from '../../actions/ServerActions';
-import { addDish, loadDishCategories } from '../../actions/DishActions';
+import { addDish, loadDish, loadDishCategories } from '../../actions/DishActions';
 import { loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories } from '../../actions/InventoryActions';
 import { showModal, updateModal } from '../../actions/ModalActions';
 
@@ -19,6 +19,7 @@ class Admin extends Component {
     componentDidMount() {
         this.props.loadInventory();
         this.props.loadInventoryCategories();
+        this.props.loadDish();
         this.props.loadDishCategories();
         this.props.loadServers();
     }
@@ -54,7 +55,8 @@ class Admin extends Component {
                         <Tab eventKey={2} title="Dishes">
                             <Menu
                                 menu={menu} 
-                                addMenu={addDish} />
+                                addMenu={addDish}
+                                showModal={showModal} />
                         </Tab>
                         <Tab eventKey={3} title="Inventory">
                             <Inventory
@@ -85,7 +87,7 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     addServer, loadServers,
-    addDish, loadDishCategories,
+    addDish, loadDishCategories, loadDish,
     showModal, updateModal,
     loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories
 })(Admin);

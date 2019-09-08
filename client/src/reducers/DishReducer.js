@@ -39,17 +39,16 @@ export default function dishReducer(state = initialState, action) {
     case UPDATE_DISH:
       return Object.assign({}, state, {
         dishes: state.dishes.map((dish) => {
-          if(dish._id === action.dish._id) {
-            return action.dish
+          if(dish._id === action.menu._id) {
+            return action.menu
           } else {
             return dish;
           }
         })
       });
     case DELETE_DISH:
-      let { index } = action;
       return Object.assign({}, state, {
-        dishes: [...state.dishes.slice(index), ...state.dishes.slice(index+1)]
+        dishes: state.dishes.filter(dish => dish._id !== action.dish_id)
       });
     case LOAD_DISHES_CATEGORIES:
       return Object.assign({}, state, {

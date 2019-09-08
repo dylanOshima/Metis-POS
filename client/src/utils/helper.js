@@ -12,6 +12,24 @@ export function getTableNumber(table) {
   }
 }
 
+/**
+ * Displays characters in a list format.
+ * 
+ * params: takes in an array of strings
+ */
+
+const MAX_CHARS = 35;
+export function displayArray(arr) {
+  if(!arr || !arr.length) {return ""}
+  let out = arr[0].name,
+      i = 1;
+  while(i < arr.length && out.length < MAX_CHARS) {
+    out += ", " + arr[i].name;
+    i++;
+  }
+  return out
+}
+
 /** 
  * Updates an order to include all costing information
  * params: an order object, a list of menu object

@@ -10,15 +10,20 @@ import {
   LOAD_DISHES_CATEGORIES,
  } from '../constants/ActionTypes';
 
+function validateDish(dish) {
+  return Object.assign({}, dish, {
+    cost: parseInt(dish.cost,10),
+    markup: parseInt(dish.cost,10),
+    retailPrice: parseInt(dish.cost,10) + parseInt(dish.markup,10),
+    category: dish.category.toLowerCase(),
+  });
+}
+
 export function addDish(dish) {
   return function(dispatch) {
     dispatch({ type: ADD_DISH_REQUEST });
 
-    let newDish = {};
-    newDish.name = dish.name
-    newDish.description = dish.description;
-    newDish.cost = parseInt(dish.cost,10);
-    newDish.category = dish.category;
+    let newDish = validateDish(dish);
 
     return api.client.post("/menu/add", newDish)
       .then(request => {
@@ -52,26 +57,27 @@ export function loadDish() {
 
 
 export function updateDish(dish) {
-  // TODO: Add backend for this
-  return dispatch => api.client.put(`/menu/${dish._id}`)
+  let newDish = validateDish(dish);
+
+  return dispatch => api.client.put(`/menu/${dish._id}`, newDish)
     .then(response => {
       dispatch({
         type: UPDATE_DISH,
-        menu: dish
+        menu: response.data
       })
     }).catch(error => {
       // throw error
+      console.log("problem updating dish: ", error);
     })
 }
 
 // index is the dishes index in the array
-export function deleteDish(dish, index) {
-  let URL = encodeURI("/check/"+dish._id);
-  return dispatch => api.client.delete('/menu/' + URL)
+export function deleteDish(dish_id) {
+  return dispatch => api.client.delete(`/menu/delete/${dish_id}`)
     .then(response => {
       dispatch({
         type: DELETE_DISH,
-        index
+        dish_id
       })
     }).catch(error => {
       // throw error

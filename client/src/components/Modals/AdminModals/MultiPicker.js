@@ -16,7 +16,8 @@ class MultiPicker extends Component {
 
   static defaultProps = {
     embedded: false,
-    haveTitles: true
+    haveTitles: true,
+    selected: []
   }
 
   state = {

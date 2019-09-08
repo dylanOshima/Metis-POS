@@ -27,6 +27,11 @@ Restaurant PoS is a simple React application for managing restaurant seating. It
 ### BUGS
 - [ ] When the order of the tables in the `GET_TABLES` is switched, the empty
   table gets an id.
+- [ ] When you delete a dish in the admin page that existed in an order or a
+  dish, removing it becomes weird. - fix: when an item is deleted it must be
+  cascaded in all possible references of the item. Also when an item holds
+  another item it should only hold a reference, that way if the reference
+  cannot be found then it must have been deleted.
 - [x] Reset activeTableIndex on logout
 
 ### Future Updates
