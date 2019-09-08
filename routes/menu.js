@@ -11,6 +11,14 @@ router.get('/', (req, res, next) => {
     .catch(error => res.json(error));
 });
 
+//get all categories of menu items
+router.get('/categories', (req, res, next) => {
+    menu.distinct('category', (err, categories) => {
+      if (err) return res.json(err);
+      return res.json(categories);
+    })
+  });
+
 
 // Add menu Item
 router.post('/add', (req,res,next)=>{
