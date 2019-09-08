@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Button, Modal, Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
+import { Button, Modal, Form, FormGroup, FormControl, Col, Row, ControlLabel } from 'react-bootstrap';
 import AutoSuggestWrapper from '../../CustomInput/AutoSuggestWrapper';
-import { 
-  updateInventoryEntry,
-  deleteInventoryEntry
-} from '../../../actions/InventoryActions';
+import MultiPicker from '../AdminModals/MultiPicker';
+import { updateInventoryEntry, deleteInventoryEntry } from '../../../actions/InventoryActions';
+import { showModal } from '../../../actions/ModalActions';
 
 /**
  * @param {object:props} contains:
@@ -15,6 +14,25 @@ import {
 class AdminEntry extends Component {
 
   state = Object.assign({}, this.props.entry);
+
+  updateDishHandler = (dish) => {
+    let newEntry = { ...this.state };
+
+    // update dish
+    let _dish = {
+      _id: dish._id,
+      name: dish.name
+    }
+
+    // Check if dish already exists
+    if(newEntry.dishes.findIndex(dish => dish._id === _dish._id) < 0) {
+      let dishes = [...newEntry.dishes, _dish];
+      
+      // propagate changes
+      this.setState({ dishes });
+      this.props.updateModal({selected: newEntry.dishes});
+    }
+  }
 
   //updates states immediately on change for all onChange events
   changeHandler = (event, item) => {
@@ -37,11 +55,11 @@ class AdminEntry extends Component {
     
     return(
         <div>
-            <Modal.Dialog>
+            <Modal.Dialog bsSize="large">
                 <Modal.Header>
                   Updating <b>{this.state.name}</b> 
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body style={{'maxHeight': 'calc(100vh - 210px)', 'overflowY': 'auto'}}>
                   <Form horizontal>
                     <FormGroup>
                       <Col componentClass={ControlLabel} sm={2}>
@@ -105,19 +123,6 @@ class AdminEntry extends Component {
 
                     <FormGroup>
                       <Col componentClass={ControlLabel} sm={2}>
-                        Dishes
-                      </Col>
-                      <Col sm={2}>
-                        <Button
-                          bsSize="small" 
-                          onClick={() => alert("Add dishes!")}>
-                          Dishes
-                        </Button>
-                      </Col>
-                    </FormGroup>
-
-                    <FormGroup>
-                      <Col componentClass={ControlLabel} sm={2}>
                         Category
                       </Col>
                       <Col sm={8}>
@@ -127,6 +132,16 @@ class AdminEntry extends Component {
                           changeHandler={this.changeHandler}
                         />
                       </Col>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <MultiPicker
+                        haveTitles={false}
+                        embedded
+                        selected={this.state.dishes}
+                        title={"Update Dishes"}
+                        updateSelected={this.updateDishHandler}
+                      />
                     </FormGroup>
                   </Form>
                 </Modal.Body>
@@ -143,5 +158,6 @@ class AdminEntry extends Component {
 
 export default connect(null, { 
   updateInventoryEntry,
-  deleteInventoryEntry
+  deleteInventoryEntry,
+  showModal
 })(AdminEntry);
