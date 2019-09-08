@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Well, Panel, Grid, FormControl, Row, Col, Table } from 'react-bootstrap'
 import AutoSuggestWrapper from '../CustomInput/AutoSuggestWrapper';
-import { EDIT_INVENTORY_ENTRY } from '../../constants/ModalTypes';
+import { EDIT_INVENTORY_ENTRY, OPEN_MULTI_PICKER } from '../../constants/ModalTypes';
 // import { withAlert } from 'react-alert';
 
 // makes it easy to reset the state of the page / clear the forms
@@ -21,8 +21,9 @@ const initialState = {
 class Inventory extends Component {
   static propTypes = {
     addInventoryEntry: PropTypes.func,
+    updateModal: PropTypes.func,
     inventory: PropTypes.instanceOf(Array),
-    categories: PropTypes.instanceOf(Array)
+    categories: PropTypes.instanceOf(Array),
   }
 
   state = initialState;
@@ -32,6 +33,31 @@ class Inventory extends Component {
     let entry = { ...this.state.newEntry }
     entry[item] = event.target.value ? event.target.value : initialState.newEntry[item];
     this.setState({ newEntry: entry })
+  }
+
+  // Used in dishes modal for adding new dishes,
+  // Takes a dish and propogates changes
+  addSelectedDish = (dish) => {    
+    let newEntry = { ...this.state.newEntry };
+
+    // update dish
+    let _dish = {
+      _id: dish._id,
+      name: dish.name
+    }
+
+    // Check if dish already exists
+    if(newEntry.dishes.findIndex(dish => dish._id === _dish._id) < 0) {
+      newEntry.dishes = [...newEntry.dishes, _dish];
+      
+      // propagate changes
+      this.setState({newEntry});
+      this.props.updateModal({selected: newEntry.dishes});
+    }
+  }
+
+  removeSelectedDish = (index) => {
+
   }
 
   //submits new inventory entry
@@ -129,7 +155,11 @@ class Inventory extends Component {
                           <td>
                             <Button
                               bsSize="small" 
-                              onClick={() => alert("Add dishes!")}>
+                              onClick={() => this.props.showModal(OPEN_MULTI_PICKER, {
+                                selected: this.state.newEntry.dishes,
+                                title: "Select Dishes",
+                                updateSelected: this.addSelectedDish,
+                              })}>
                               Dishes
                             </Button>
                           </td>

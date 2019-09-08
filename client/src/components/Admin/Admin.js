@@ -9,7 +9,7 @@ import Inventory from './Inventory';
 import { addServer, loadServers } from '../../actions/ServerActions';
 import { addDish } from '../../actions/DishActions';
 import { loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories } from '../../actions/InventoryActions';
-import { showModal } from '../../actions/ModalActions';
+import { showModal, updateModal } from '../../actions/ModalActions';
 
 class Admin extends Component {
     state = {
@@ -28,11 +28,11 @@ class Admin extends Component {
 
     render() {
         let { 
-            showModal,
+            showModal, updateModal,
             servers, addServer, 
             menu, addDish, 
             inventory, inventoryCategories, 
-            addInventoryEntry, updateInventoryEntry 
+            addInventoryEntry, updateInventoryEntry
         } = this.props;
         return (
             <Grid>
@@ -61,6 +61,7 @@ class Admin extends Component {
                                 addInventoryEntry={addInventoryEntry}
                                 updateInventoryEntry={updateInventoryEntry}
                                 showModal={showModal}
+                                updateModal={updateModal}
                                 categories={inventoryCategories} />
                         </Tab>
                     </Tabs>
@@ -79,6 +80,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     addServer, loadServers,
-    addDish, showModal,
+    addDish, showModal, updateModal,
     loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories
 })(Admin);
