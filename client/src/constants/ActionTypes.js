@@ -6,6 +6,7 @@ export const RESOLVE_ERROR = "RESOLVE_ERROR";
 // Modals
 export const SHOW_MODAL = "SHOW_MODAL";
 export const HIDE_MODAL = "HIDE_MODAL";
+export const UPDATE_MODAL_PROPS = "UPDATE_MODAL_PROPS";
 
 // Orders & Tables
 export const ADD_ORDER_REQUEST    = "ADD_ORDER_REQUEST";
