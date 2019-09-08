@@ -32,12 +32,14 @@ router.post('/add', (req,res,next)=>{
 // Delete menu item
 router.delete('/delete/:id', (req,res,next)=>{
     if (req.params.id) {
-        menu
-            .remove({_id: req.params.id})
+        menu.findById(req.params.id, (err, item)=>{
+          if (err) return res.json(err); //handleError(err);
+          menu.remove({_id: req.params.id})
             .then(result => res.json(result))
             .catch(error => res.json(error));
+        });
     }
-})
+});
 
 //get menu list from selected menu section
 router.get('/:section', (req, res, next) => {
