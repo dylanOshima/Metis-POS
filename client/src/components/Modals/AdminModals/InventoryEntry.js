@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Button, Modal, Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
-import { hideModal } from '../../../actions/ModalActions';
 import AutoSuggestWrapper from '../../CustomInput/AutoSuggestWrapper';
 import { 
   updateInventoryEntry,
@@ -143,7 +142,6 @@ class AdminEntry extends Component {
 }
 
 export default connect(null, { 
-  hideModal,
   updateInventoryEntry,
   deleteInventoryEntry
 })(AdminEntry);
