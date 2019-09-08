@@ -48,4 +48,25 @@ router.get('/:section', (req, res, next) => {
         .catch(error => res.json(error));
 });
 
+// Update menu item
+router.put('/:id', (req,res,next)=>{
+    if (req.params.id) {    
+      menu.findById(req.params.id, (err,item)=>{
+        if (err) return res.json(err); // Previously handleError
+        item.name = req.body.name;
+        item.description = req.body.description;
+        item.recipe = req.body.recipe;
+        item.servingSize = req.body.servingSize;
+        item.cost = req.body.cost;
+        item.markup = req.body.markup;
+        item.retailPrice = req.body.retailPrice;
+        item.category = req.body.category;
+        item.save((err,updatedItem)=>{
+            if (err) return res.json(err); //handleError(err);
+            res.send(updatedItem);
+        });
+      });
+    }
+  });
+
 module.exports = router;

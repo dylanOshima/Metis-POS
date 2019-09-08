@@ -9,7 +9,11 @@ if (mongoose.connection.readyState === 0) {
 var newSchema = new Schema({
   'name': { type: String, required: true},
   'description': { type: String },
-  'cost': { type: Number, required: true },
+  'recipe': { type: Array, required: true },
+  'servingSize': { type: Number, default: 1 }, // per serving size
+  'cost': { type: Number, required: true }, // per serving size
+  'markup': { type: Number, default: 0 }, // per serving size
+  'retailPrice': { type: Number }, // per serving size
   'category': { type: String, required: true },
   'createdAt': { type: Date, default: Date.now },
   'updatedAt': { type: Date, default: Date.now }
