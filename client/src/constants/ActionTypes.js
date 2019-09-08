@@ -35,6 +35,7 @@ export const ADD_DISH_FAILURE = "ADD_DISH_FAILURE";
 export const LOAD_DISHES      = "LOAD_DISHES";
 export const UPDATE_DISH      = "UPDATE_DISH";
 export const DELETE_DISH      = "DELETE_DISH";
+export const LOAD_DISHES_CATEGORIES = "LOAD_DISHES_CATEGORIES";
 
 // Servers
 export const ADD_SERVER_REQUEST   = "ADD_SERVER_REQUEST";

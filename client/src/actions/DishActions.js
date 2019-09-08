@@ -6,7 +6,8 @@ import {
   ADD_DISH_FAILURE,
   LOAD_DISHES,
   UPDATE_DISH,
-  DELETE_DISH
+  DELETE_DISH,
+  LOAD_DISHES_CATEGORIES,
  } from '../constants/ActionTypes';
 
 export function addDish(dish) {
@@ -75,5 +76,18 @@ export function deleteDish(dish, index) {
     }).catch(error => {
       // throw error
       console.error("problem deleting dish: ", error)
+    })
+}
+
+// index is the dishes index in the array
+export function loadDishCategories() {
+  return dispatch => api.client.get('/menu/categories/')
+    .then(response => {
+      dispatch({
+        type: LOAD_DISHES_CATEGORIES,
+        categories: response.data
+      })
+    }).catch(error => {
+      console.error("problem loading menu categories: ", error) // DEBUG
     })
 }

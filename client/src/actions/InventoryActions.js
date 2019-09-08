@@ -90,6 +90,6 @@ export function loadInventoryCategories() {
         categories: response.data
       })
     }).catch(error => {
-      console.error("problem deleting inventory entry: ", error) // DEBUG
+      console.error("problem loading inventory categories: ", error) // DEBUG
     })
 }
