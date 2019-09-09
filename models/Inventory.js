@@ -15,6 +15,7 @@ var newSchema = new Schema({
   'category': { type: String, required: true },
   'quantity': { type: Number, default: 0, required: true},
   'dishes': { type: Array }, // String array
+  'history': { type: Map, of: Number }, // A sequence of order ids and their quantity
   'createdAt': { type: Date, default: Date.now },
   'updatedAt': { type: Date, default: Date.now }
 },
