@@ -50,4 +50,35 @@ newSchema.pre('findOneAndUpdate', function() {
   this.update({}, { $set: { updatedAt: Date.now()} });
 });
 
+
+/** TODO: Clean this shit up.
+ * 1. Iterates over every dish in the order
+ * 2. Saves number of times that dish was ordered
+ * 3. Finds the menu item
+ * 4. Iterates over every ingredient in the menu's recipe
+ * 5. Gets the quantity of the ingredient in that recipe
+ * 6. Finds the ingredient
+ * 7. Calculates the recipeQuantity * numbOrders
+ * 8. updates the quantity of the ingredient using the delta provided
+ */
+newSchema.methods.updateInventory = function() {
+  const orderId = this._id;
+  this.items.forEach(dish => {
+    let numOrders = dish.quantity;
+    this.model('Menu').findById(dish._id,'recipe',(err, menuItem) => {
+      if(err) return err;
+      if(!menuItem) return; // Cannot find item
+      menuItem.recipe.forEach(ingredient => {
+        let recipeQuantity = ingredient.quantity;
+        this.model('Inventory').findOne({_id:ingredient._id},function(err, entry) {
+          if(err) return err;
+          if(!entry) return; // Cannot find item
+          let delta = -(recipeQuantity*numOrders);
+          entry.consume(delta, orderId);
+        })
+      })
+    })
+  })
+};
+
 module.exports = mongoose.model('Receipts', newSchema);

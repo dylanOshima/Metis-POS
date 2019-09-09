@@ -21,7 +21,8 @@ router.get('/categories', (req, res, next) => {
 
 
 // Add inventory Item
-router.post('/add', (req,res,next)=>{  
+router.post('/add', (req,res,next)=>{
+  if(!req.body.history) req.body.history = {};
   inventory.create(req.body)
     .then(results => res.json(results))
     .catch(error => {      
@@ -53,6 +54,7 @@ router.put('/:id', (req,res,next)=>{
       item.category = req.body.category;
       item.dishes = req.body.dishes;
       item.quantity = req.body.quantity;
+      item.history = req.body.history;
       item.save((err,updatedItem)=>{
           if (err) return res.json(err); //handleError(err);
           res.send(updatedItem);

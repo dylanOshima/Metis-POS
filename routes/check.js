@@ -56,7 +56,7 @@ router.post('/seat', (req, res, next) => {
 
 // Update check information
 router.put('/:id', (req, res, next) => {
-    receipt.findById( req.params.id,(err,check)=>{
+    receipt.findById(req.params.id,(err,check)=>{
         if (err) return handleError(err);
         check.paid= req.body.paid;
         check.card = req.body.card
@@ -65,18 +65,15 @@ router.put('/:id', (req, res, next) => {
         check.paidTime = Date.now();
         check.save((err,updatedCheck)=>{
             if (err) return handleError(err);
-            res.send(updatedCheck)
+            res.send(updatedCheck);
+            if (updatedCheck.paid) updatedCheck.updateInventory();
         });
     });
 });
 
 // Query for check based on ID field
 router.get('/:id', (req, res, next) => {
-    receipt.findOne({
-        where: {
-            _id: req.params.id
-        }
-    })
+    receipt.findById(String(req.params.id))
         .then(result => {
             console.log(result)
             res.json(result)
