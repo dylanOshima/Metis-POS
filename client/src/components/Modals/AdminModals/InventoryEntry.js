@@ -14,23 +14,9 @@ class InventoryEntry extends Component {
 
   state = Object.assign({}, this.props.entry);
 
-  updateDishHandler = (dish) => {
-    let newEntry = { ...this.state };
-
-    // update dish
-    let _dish = {
-      _id: dish._id,
-      name: dish.name
-    }
-
-    // Check if dish already exists
-    if(newEntry.dishes.findIndex(dish => dish._id === _dish._id) < 0) {
-      let dishes = [...newEntry.dishes, _dish];
-      
-      // propagate changes
-      this.setState({ dishes });
-      this.props.updateModal({selected: newEntry.dishes});
-    }
+  multipickerHandler = (dishes) => {
+    this.setState({ dishes });
+    this.props.updateModal({selected: dishes});
   }
 
   //updates states immediately on change for all onChange events
@@ -133,11 +119,11 @@ class InventoryEntry extends Component {
 
             <FormGroup>
               <MultiPicker
-                title="Update Dishes"
+                propertyName="dishes"
                 haveTitles={false}
                 embedded
                 selected={this.state.dishes}
-                updateSelected={this.updateDishHandler}
+                selectedHandler={this.multipickerHandler}
                 categories={this.props.dishCategories}
                 options={this.props.dishes}
               />

@@ -38,27 +38,11 @@ class Inventory extends Component {
 
   // Used in dishes modal for adding new dishes,
   // Takes a dish and propogates changes
-  addSelectedDish = (dish) => {    
-    let newEntry = { ...this.state.newEntry };
+  multipickerHandler = (dishes) => {    
+    let newEntry = Object.assign({}, this.state.newEntry, { dishes })
 
-    // update dish
-    let _dish = {
-      _id: dish._id,
-      name: dish.name
-    }
-
-    // Check if dish already exists
-    if(newEntry.dishes.findIndex(dish => dish._id === _dish._id) < 0) {
-      newEntry.dishes = [...newEntry.dishes, _dish];
-      
-      // propagate changes
-      this.setState({newEntry});
-      this.props.updateModal({selected: newEntry.dishes});
-    }
-  }
-
-  removeSelectedDish = (index) => {
-
+    this.setState({newEntry});
+    this.props.updateModal({selected: newEntry.dishes});
   }
 
   displayDishes = dishes => {
@@ -168,8 +152,8 @@ class Inventory extends Component {
                               bsSize="small" 
                               onClick={() => this.props.showModal(OPEN_MULTI_PICKER, {
                                 selected: this.state.newEntry.dishes,
-                                title: "Select Dishes",
-                                updateSelected: this.addSelectedDish,
+                                propertyName: "dishes",
+                                selectedHandler: this.multipickerHandler,
                                 categories: this.props.dishCategories,
                                 options: this.props.dishes
                               })}>

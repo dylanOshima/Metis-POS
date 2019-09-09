@@ -14,27 +14,9 @@ class MenuItem extends Component {
 
   state = Object.assign({}, this.props.menu);
 
-  updateRecipeHandler = (newIngredient) => {
-    let item = { ...this.state };
-
-    // update dish
-    let _ingredient = {
-      _id: newIngredient._id,
-      name: newIngredient.name
-    }
-
-    // Check if dish already exists
-    let recipe;
-    if(item.recipe === undefined) {
-      recipe = [_ingredient]
-      this.setState({recipe});
-      this.props.updateModal({selected: recipe});
-
-    } else if(item.recipe.findIndex(ingredient => ingredient._id === _ingredient._id) < 0) {
-      recipe = [...item.recipe, _ingredient];
-      this.setState({ recipe });
-      this.props.updateModal({selected: recipe});
-    }    
+  multipickerHandler = recipe => {
+    this.setState({ recipe });
+    this.props.updateModal({selected: recipe});
   }
 
   //updates states immediately on change for all onChange events
@@ -138,11 +120,11 @@ class MenuItem extends Component {
 
             <FormGroup>
               <MultiPicker
-                title="Update Recipe"
+                propertyName="recipe"
                 haveTitles={false}
-                embedded
+                embedded selectMultiple
                 selected={this.state.recipe}
-                updateSelected={this.updateRecipeHandler}
+                selectedHandler={this.multipickerHandler}
                 categories={this.props.inventoryCategories}
                 options={this.props.inventory}
               />

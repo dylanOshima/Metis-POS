@@ -13,7 +13,7 @@ import {
 function validateDish(dish) {
   return Object.assign({}, dish, {
     cost: parseInt(dish.cost,10),
-    markup: parseInt(dish.cost,10),
+    markup: parseInt(dish.markup,10),
     retailPrice: parseInt(dish.cost,10) + parseInt(dish.markup,10),
     category: dish.category.toLowerCase(),
   });
@@ -58,7 +58,6 @@ export function loadDish() {
 
 export function updateDish(dish) {
   let newDish = validateDish(dish);
-
   return dispatch => api.client.put(`/menu/${dish._id}`, newDish)
     .then(response => {
       dispatch({
