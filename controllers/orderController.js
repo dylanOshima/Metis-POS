@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
+// ./controllers/orderController.js
+
 const mongoose = require('mongoose');
 const models = require('../models/all-models.js');
 const receipts = models.Receipts;
 
 // 
-router.get('/', (req, res, next) => {
+exports.getOrders = async (req, res, next) => {
     receipts.find()
         .then(results => {
             res.json(results)
@@ -13,9 +13,9 @@ router.get('/', (req, res, next) => {
         .catch(error => {
             res.json(error)
         })
-})
+};
 
-router.get('/paid', (req, res, next) => {
+exports.getPaid = async (req, res, next) => {
     receipts.find().where('paid').equals(true)
         .then(results => {
             res.json(results)
@@ -23,9 +23,9 @@ router.get('/paid', (req, res, next) => {
         .catch(error => {
             res.json(error)
         })
-})
+};
 
-router.get('/unpaid', (req, res, next) => {
+exports.getUnpaid = async (req, res, next) => {
     receipts.find().where("paid").equals(false)
         .then(results => {
             res.json(results)
@@ -34,10 +34,10 @@ router.get('/unpaid', (req, res, next) => {
             res.json(error)
         })
 
-})
+};
 
 //add order to receipt
-router.put('/:id', (req, res, next) => {
+exports.updateOrder = async (req, res, next) => {
     receipts.update({_id: req.params.id}, {
         'items': req.body.bill.items,
         'total': req.body.bill.total,
@@ -47,6 +47,4 @@ router.put('/:id', (req, res, next) => {
             res.json(result)
         })
         .catch(error => res.json("error" + error));
-});
-
-module.exports = router;
+};
