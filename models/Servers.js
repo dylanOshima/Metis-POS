@@ -10,7 +10,10 @@ if (mongoose.connection.readyState === 0) {
 
 var newSchema = new Schema({
   'name': { type: String, require: true },
-  'code': { type: Number, require: true },
+  'code': { type: String, require: true },
+  'role': { type: String, default: 'basic', 
+    enum:['basic', 'admin']},
+  'accessToken': { type: String },
   'createdAt': { type: Date, default: Date.now },
   'updatedAt': { type: Date, default: Date.now }
 });

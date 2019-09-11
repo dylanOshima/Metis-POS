@@ -7,7 +7,12 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+const jwt = require('jsonwebtoken');
 const routes = require('./routes/route');
+
+require("dotenv").config({
+  path: path.join(__dirname, ".env")
+});
 
 const app = express();
 const cors = require('cors');
@@ -20,6 +25,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname,"client/build")));
 app.use(cors());
+
+// Collects the accessToken from the request
+app.use(async (req,res,next) => {
+  if(req.headers["x-access-token"]) {
+    try {
+      const accessToken = req.headers["x-access-token"];
+      const { serverId, exp } = jwt.verify(accessToken, process.env.JWT_SECRET) 
+      // Check if token expired
+      if (exp < Date.now().valueOf() / 1000) {
+        return res.status(401).json({ 
+          error: "Your token has expired, please login to create a new one"
+        });
+      }
+      res.locals.loggedInServerId = serverId;
+      next();
+    } catch(error){ next(error); }
+  } else {
+    next();
+  }
+})
 
 app.use('/', routes);
 
@@ -36,6 +61,7 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  if(req.app.get('env')) console.log(res.locals.error);
   // render the error page
   res.status(err.status || 500);
   res.json('error');

@@ -8,12 +8,16 @@
     "server": "node ./bin/www"
   },
   "dependencies": {
+    "accesscontrol": "^2.2.1",
+    "bcrypt": "^3.0.6",
     "body-parser": "~1.18.2",
     "concurrently": "^3.5.1",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "debug": "~2.6.9",
+    "dotenv": "^8.1.0",
     "express": "~4.15.5",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.13",
     "morgan": "~1.9.0",
     "nodemon": "^1.14.0",
