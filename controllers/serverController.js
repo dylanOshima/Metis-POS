@@ -8,8 +8,10 @@ const servers  = models.Servers;
 
 //print check and close out order
 exports.getServers = async (req, res, next) => {
-    let fields = 'name -_id';
-    if(res.locals.loggedInServerId) fields += ' role updatedAt'; // Only if logged in
+    let fields;
+    // Check if logged in
+    if(res.locals.loggedInServerId) fields = 'name role updatedAt';
+    else fields = 'name -_id';
     servers.find({}, fields)
         .then(result => res.json(result))
         .catch(error => res.json(error));
@@ -67,9 +69,9 @@ exports.login = async (req,res,next) => {
     try {
         const { name, code } = req.body;
         const server = await servers.findOne({name});
-        if(!server) return next(new Error("Server doesn't exist"))
+        if(!server) return res.status(404).json("Server doesn't exist");
         const valid = await validatePassword(code, server.code);
-        if(!valid) return next(new Error("Incorrect code"));
+        if(!valid) return res.status(404).json("Incorrect code");
         const accessToken = jwt.sign({ serverId: server._id }, process.env.JWT_SECRET, {
             expiresIn: "1d"
         });

@@ -61,6 +61,7 @@ exports.updateCheck = async (req, res, next) => {
         check.card = req.body.card
         check.amountTendered = req.body.amountTendered;
         check.paymentType = req.body.paymentType;
+        check.discountType = req.body.discountType;
         check.paidTime = Date.now();
         check.save((err,updatedCheck)=>{
             if (err) return handleError(err);

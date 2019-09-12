@@ -17,6 +17,7 @@ var newSchema = new Schema({
     _id: Schema.ObjectId,
     name: String,
     quantity: Number,
+    price: Number,
   }],
   'sub_total': { type: Number, default: 0.00 },
   'discountType': { type: String },

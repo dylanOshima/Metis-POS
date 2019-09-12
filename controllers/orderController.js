@@ -36,7 +36,7 @@ exports.getUnpaid = async (req, res, next) => {
 
 };
 
-//add order to receipt
+//used for adding items to an order receipt
 exports.updateOrder = async (req, res, next) => {
     receipts.update({_id: req.params.id}, {
         'items': req.body.bill.items,
