@@ -14,7 +14,7 @@ import {
 
 const initialState = {
   isFetching: false,
-  serverName: null,
+  currentServer: null,
   servers: [],
   // error: null
 };
@@ -37,10 +37,10 @@ export default function serverReducer(state = initialState, action) {
     case LOGIN_REQUEST:
         return Object.assign({}, state, { isFetching: true });
     case LOGIN_SUCCESS:
-      let { serverName } = action;
+      let { server } = action;
       return Object.assign({}, state, {
         isFetching: false,
-        serverName
+        currentServer: server
       });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
@@ -74,7 +74,9 @@ export default function serverReducer(state = initialState, action) {
         })
       });
     case LOGOUT:
-      return Object.assign({}, state, { serverName: null });
+      return Object.assign({}, state, { 
+        currentServer: null,
+      });
     default:
       return state;
   }

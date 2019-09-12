@@ -91,7 +91,7 @@ class newSeating extends Component {
 const mapStateToProps = state => ({
     table: state.order.tables[state.order.activeTableIndex],
     activeTableIndex: state.order.activeTableIndex,
-    chosenServer: state.server.serverName,
+    chosenServer: state.server.currentServer.name,
 })
 
 export default connect(mapStateToProps, { 

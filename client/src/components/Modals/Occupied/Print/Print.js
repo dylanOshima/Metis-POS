@@ -25,7 +25,7 @@ const createReceipt = (items) => {
                     </Col>
 
                     <Col style={align} md={3}>
-                    ${parseFloat(item.charge).toFixed(2)}
+                    ${(item.quantity*item.price).toFixed(2)}
                     </Col>
 
                 </Row>

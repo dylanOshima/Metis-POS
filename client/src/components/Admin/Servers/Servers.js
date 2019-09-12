@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Well, Panel, FormControl, Row, FormGroup, ControlLabel, Col, ListGroup, ListGroupItem } from 'react-bootstrap'
+import { Button, Well, Panel, FormControl, Row, FormGroup, ControlLabel, Col, Table } from 'react-bootstrap'
 import { withAlert } from 'react-alert';
 
 // makes it easy to reset the state of the page / clear the forms
@@ -49,17 +49,28 @@ class Servers extends Component {
         return (
             <Row>
                 <Col md={6} xs={12}>
-                    {this.props.servers ? 
-                        (<Panel>
-                            <h3> Current Servers: </h3>
-                            <ListGroup>
-                            {this.props.servers.map((server) => (
-                                    <ListGroupItem 
-                                    key={server._id}> {server.name} 
-                                    </ListGroupItem>
-                            ))}
-                            </ListGroup>
-                        </Panel>) : null}
+                    <h3> Current Servers: </h3>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th> Name </th>
+                                <th> Role </th>
+                                <th> Last Updated </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.props.servers ? 
+                                this.props.servers.map((server, index) => {
+                                    let date = new Date(server.updatedAt);
+                                    return (
+                                        <tr key={index}>
+                                            <td> {server.name} </td>
+                                            <td> {server.role} </td>
+                                            <td> {date.toLocaleDateString()} </td>
+                                        </tr>)
+                            }): null}
+                        </tbody>
+                    </Table>
                 </Col>
                 <Col md={6} xs={12}>
                     <Panel>

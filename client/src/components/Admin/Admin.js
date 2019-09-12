@@ -17,11 +17,11 @@ class Admin extends Component {
     }
 
     componentDidMount() {
+        this.props.loadServers();
         this.props.loadInventory();
         this.props.loadInventoryCategories();
         this.props.loadDish();
         this.props.loadDishCategories();
-        this.props.loadServers();
     }
 
     handleKeySelect(key) {
@@ -29,6 +29,7 @@ class Admin extends Component {
     }
 
     render() {
+        // TODO: Clean dis shit up.
         let { 
             showModal, updateModal,
             servers, addServer, 

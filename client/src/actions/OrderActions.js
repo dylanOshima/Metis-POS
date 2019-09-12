@@ -23,7 +23,8 @@ export function addOrder(seating) {
     dispatch({
       type: ADD_ORDER_REQUEST
     });
-
+    console.log(seating);
+    
     return api.client.post("/check/seat", seating)
       .then(response => {
         let currentOrder = response.data;
@@ -70,7 +71,6 @@ export function loadOrders() {
 };
 
 export function updateOrder(order) {
-  // Interpreted by the thunk middleware:
   return function(dispatch) {
     dispatch({ type: UPDATE_ORDER_REQUEST });
 
@@ -92,12 +92,19 @@ export function updateOrder(order) {
 };
 
 export function checkout(order) {
-  // Interpreted by the thunk middleware:
   return function(dispatch) {
     dispatch({ type: UPDATE_ORDER_REQUEST });
 
     let newPayment = Object.assign({}, order, {
       paid: true,
+      paymentType: order.paymentMethod,
+      // discountType: order.discountType,
+      amountTendered: order.amountTendered,
+      card: {
+        number: order.card.cardNumber,
+        cardexp: order.card.cardExp,
+        cvc: order.card.cvc
+      }
     });
 
     let URL = encodeURI("/check/" + order.id);

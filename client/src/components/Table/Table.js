@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Col, Row, Grid, Jumbotron, Panel } from 'react-bootstrap';
 // import Aux from '../Hoc/Hoc'
 import { connect } from 'react-redux';
@@ -6,25 +6,32 @@ import './Table.css';
 
 import { NEW_SEATING_MODAL, OCCUPIED_MODAL } from '../../constants/ModalTypes';
 import { showModal } from '../../actions/ModalActions';
-import { setTable } from '../../actions/OrderActions';
+import { setTable,getTables,loadOrders } from '../../actions/OrderActions';
 
-const table = props => {
-        const handleTableClick = (item) => {
-            let newTableIndex = null;
-            props.tables.map((table, index) => {
-                if (table.name === item) {
-                    newTableIndex = index;
-                    props.setTable(newTableIndex);
-                    if(table.isOccupied){
-                        props.showModal(OCCUPIED_MODAL);
-                    } else {
-                        props.showModal(NEW_SEATING_MODAL);
-                    }
-                } 
-                return table;
-            })
-        }
+class Table extends Component  {
+    
+    componentDidMount() {
+        this.props.getTables();
+        this.props.loadOrders();
+    }
 
+    handleTableClick = (item) => {
+        let newTableIndex = null;
+        this.props.tables.map((table, index) => {
+            if (table.name === item) {
+                newTableIndex = index;
+                this.props.setTable(newTableIndex);
+                if(table.isOccupied){
+                    this.props.showModal(OCCUPIED_MODAL);
+                } else {
+                    this.props.showModal(NEW_SEATING_MODAL);
+                }
+            } 
+            return table;
+        })
+    }
+
+    render() {
         return(
             <Grid fluid>
                 <Grid>
@@ -34,7 +41,7 @@ const table = props => {
                         <h2> Select a table to perform functions </h2>
                     </Jumbotron>
                     <Row>
-                        {props.tables.map( (table)=>{
+                        {this.props.tables.map( (table)=>{
                         return (
                             <Col 
                             className="tablePanels" 
@@ -43,7 +50,7 @@ const table = props => {
                             key={table.name}>
                                 <Panel 
                                 className="tablePanels" 
-                                onClick={()=> handleTableClick(table.name)} 
+                                onClick={()=> this.handleTableClick(table.name)} 
                                 bsStyle={ table.isOccupied? "danger" : "success" }>
                                     <Panel.Heading 
                                     className="tablePanel" >
@@ -81,8 +88,9 @@ const table = props => {
                     </Row>
                 </Grid>
             </Grid> 
-            )
-        }
+        )
+    }
+}
 
 const mapStateToProps = (state, ownProps) => ({
     tables: state.order.tables,
@@ -90,6 +98,13 @@ const mapStateToProps = (state, ownProps) => ({
     servers: state.server.servers
 })
 
-export default connect(mapStateToProps, { setTable, showModal })(table);
+const mapDispatchToProps = {
+    setTable,
+    showModal,
+    loadOrders,
+    getTables,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
 
         

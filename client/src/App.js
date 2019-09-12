@@ -9,7 +9,6 @@ import ModalRoot from './components/Modals/ModalRoot';
 import Login from './components/Login/Login';
 import { connect } from 'react-redux';
 // Actions
-import { getTables,loadOrders } from './actions/OrderActions';
 import { loadDish } from './actions/DishActions';
 // Types
 import { 
@@ -22,28 +21,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.loadDish();
-    this.props.getTables();
-    this.props.loadOrders();
   }
-
-  //clears the active table;
-  cleanTable = () => {
-    let misterClean = [...this.state.tables];
-      misterClean[this.state.activeTableIndex].isOccupied= false;
-      misterClean[this.state.activeTableIndex].guestNumber= null;
-      misterClean[this.state.activeTableIndex].server= null;
-      misterClean[this.state.activeTableIndex].pendingOrder= [];
-      misterClean[this.state.activeTableIndex].bill.id= null;
-      misterClean[this.state.activeTableIndex].bill.items= [];
-      misterClean[this.state.activeTableIndex].total= null;
-
-      this.setState({
-        tables: misterClean,
-        activeTable: null,
-        activeTableIndex: null,
-        modalActive: false
-      });
-    }
 
   render() {
     let activeContent = null;
@@ -84,12 +62,10 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   activePage: state.app.activePage,
-  user: state.server.serverName,
+  user: state.server.currentServer,
 })
 
 const actionCreators = {
-  getTables,
-  loadOrders,
   loadDish,
 }
 

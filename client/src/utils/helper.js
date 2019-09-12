@@ -49,10 +49,10 @@ export function updateTotal(order, menu) {
     
     let newItem = Object.assign({}, item, {
       quantity: parseInt(item.quantity,10),
-      charge: ((parseInt(item.quantity,10) * parseFloat(menuItem.cost)).toFixed(2)),
+      price: parseFloat(menuItem.cost,10),
     })
-
-    sub_total += parseFloat(newItem.charge);
+    let charge = (newItem.quantity*newItem.price).toFixed(2)
+    sub_total += parseFloat(charge);
     return newItem;
   })  
 

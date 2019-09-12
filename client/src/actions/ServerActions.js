@@ -82,23 +82,23 @@ export function deleteServer(server) {
     })
 }
 
-export function login(code) {
+export function login(payload) {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST });
-
-    return api.client.get(`/servers/login/${code}`)
-    .then(request => {   
-      let server = request.data;       
-      if(typeof server === 'string' && server.length > 0){
-        server = request.data;
+    return api.client.post(`/servers/login/`, payload)
+    .then(response => {
+      let { data, accessToken } = response.data;
+      let server;
+      if(typeof data.name === 'string' && data.name.length > 0){
+        server = data;
+        api.setAPIToken(accessToken);
       } else {
         server = null;
       }
       dispatch({
         type: LOGIN_SUCCESS,
-        serverName: server
-      });
-        
+        server: server,
+      }); 
     }).catch(error => {
       dispatch({
         type: LOGIN_FAILURE,
