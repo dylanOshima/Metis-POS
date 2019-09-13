@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Col, Row, Grid, Jumbotron, Panel } from 'react-bootstrap';
+import { Col, Row, Grid, Jumbotron, Panel, Image } from 'react-bootstrap';
 // import Aux from '../Hoc/Hoc'
 import { connect } from 'react-redux';
 import './Table.css';
+import logo from '../../logo.jpg';
 
 import { NEW_SEATING_MODAL, OCCUPIED_MODAL } from '../../constants/ModalTypes';
 import { showModal } from '../../actions/ModalActions';
@@ -35,10 +36,10 @@ class Table extends Component  {
         return(
             <Grid fluid>
                 <Grid>
-                    <Jumbotron 
-                    className="text-center dinerTitle">
-                        <h1> Mel's Diner </h1>
-                        <h2> Select a table to perform functions </h2>
+                    <Jumbotron style={{'textAlign':'center', 'margin':'3em'}}>
+                        <span><Image src={logo} style={{'maxHeight':'20vh'}} /></span>
+                        {/* <h1> Mel's Diner </h1>
+                        <h2> Select a table to perform functions </h2> */}
                     </Jumbotron>
                     <Row>
                         {this.props.tables.map( (table)=>{

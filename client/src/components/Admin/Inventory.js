@@ -74,8 +74,6 @@ class Inventory extends Component {
       <Grid fluid>
         <Row>
           <Col xs={12}>
-            <Panel>
-              <Well>
                 { this.props.inventory ?
                   (<Table striped bordered condensed hover>
                       <thead>
@@ -180,8 +178,6 @@ class Inventory extends Component {
                       </tbody>
                   </Table>) 
                 : null }
-              </Well>
-            </Panel>
          </Col>
         </Row>
       </Grid>)

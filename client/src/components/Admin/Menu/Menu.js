@@ -19,8 +19,7 @@ const Menu = props => {
         <Grid fluid>
             <Row>
                 <Col xs={12}>
-                    <Panel>
-                        <Well>
+
                             <Table striped bordered condensed hover>
                                 <thead>
                                     <tr>
@@ -58,8 +57,6 @@ const Menu = props => {
                             })}>
                             New 
                             </Button>
-                        </Well>
-                    </Panel>
                 </Col>
             </Row>
         </Grid>
