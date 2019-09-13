@@ -8,6 +8,7 @@ const INVENTORY = 'inventory';
 const SERVER = 'server';
 const ORDERS = 'orders';
 const MENU = 'menu';
+const COURSES = 'courses';
 
 exports.roles = (function() {
   ac.grant('basic') // Servers

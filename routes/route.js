@@ -8,6 +8,7 @@ const inventoryController = require('../controllers/inventoryController');
 const menuController = require('../controllers/menuController');
 const orderController = require('../controllers/orderController');
 const checkController = require('../controllers/checkController');
+const courseController = require('../controllers/courseController');
 
 const { grantAccess, allowIfLoggedIn} = require('./auth/auth');
 //------------- Index
@@ -51,5 +52,12 @@ router.post('/check/seat',allowIfLoggedIn,grantAccess('createOwn','orders'),chec
 router.put('/check/:id',allowIfLoggedIn,grantAccess('updateAny','orders'),checkController.updateCheck);
 // router.get('/check/:id', checkController.getByID);
 router.delete('/check/delete/:id',allowIfLoggedIn,grantAccess('deleteAny','orders'),checkController.deleteCheck);
+
+//------------- Check
+router.get('/course',courseController.getCourses);
+router.post('/course',courseController.addCourse);
+router.put('/course/:id',courseController.updateCourse);
+router.delete('/course/delete/:id',courseController.deleteCourse);
+router.get('/course/:id',courseController.getById);
 
 module.exports = router;
