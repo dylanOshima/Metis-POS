@@ -1,5 +1,5 @@
 // import axios from '../utils/API_Ref';
-import api from '../utils/API_Ref';
+import { inventoryCalls as api} from '../utils/API_Ref';
 import { 
   ADD_INVENTORY_REQUEST,
   ADD_INVENTORY_SUCCESS,
@@ -20,8 +20,7 @@ export function addInventoryEntry(entry) {
       price: parseInt(entry.price,10)
     });
 
-    return api.client.post("/inventory/add", newEntry)
-      .then(request => {
+    return api.postInventory(newEntry).then(request => {
         dispatch({
           type: ADD_INVENTORY_SUCCESS,
           newEntry: request.data
@@ -39,8 +38,7 @@ export function loadInventory() {
   return dispatch => {
     dispatch({ type: LOAD_INVENTORY_REQUEST });
 
-    return api.client.get("/inventory")
-      .then(response => {
+    return api.getInventory().then(response => {
         dispatch({
           type: LOAD_INVENTORY_SUCCESS,
           inventory: response.data,
@@ -57,7 +55,7 @@ export function loadInventory() {
 
 
 export function updateInventoryEntry(entry) {
-  return dispatch => api.client.put(`/inventory/${entry._id}`, entry)
+  return dispatch => api.putInventory(entry)
     .then(response => {
       dispatch({
         type: UPDATE_INVENTORY_ENTRY,
@@ -70,7 +68,7 @@ export function updateInventoryEntry(entry) {
 
 // index is the entry id in the array
 export function deleteInventoryEntry(entry_id) {
-  return dispatch => api.client.delete(`/inventory/delete/${entry_id}`)
+  return dispatch => api.deleteInventory(entry_id)
     .then(response => {
       dispatch({
         type: DELETE_INVENTORY_ENTRY,
@@ -83,7 +81,7 @@ export function deleteInventoryEntry(entry_id) {
 
 // index is the dishes index in the array
 export function loadInventoryCategories() {
-  return dispatch => api.client.get('/inventory/categories/')
+  return dispatch => api.getInventoryCategories()
     .then(response => {
       dispatch({
         type: LOAD_INVENTORY_CATEGORIES,

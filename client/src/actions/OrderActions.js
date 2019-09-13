@@ -1,4 +1,4 @@
-import api from '../utils/API_Ref';
+import {orderCalls as api} from '../utils/API_Ref';
 import { 
   ADD_ORDER_REQUEST,
   ADD_ORDER_SUCCESS,
@@ -23,10 +23,8 @@ export function addOrder(seating) {
     dispatch({
       type: ADD_ORDER_REQUEST
     });
-    console.log(seating);
     
-    return api.client.post("/check/seat", seating)
-      .then(response => {
+    return api.postOrder(seating).then(response => {
         let currentOrder = response.data;
         dispatch({
           type: ADD_ORDER_SUCCESS,
@@ -48,8 +46,7 @@ export function loadOrders() {
     });
 
     // Dispatch vanilla actions asynchronously
-    return api.client.get("/order") // Returns an array of order objs
-      .then(response => {
+    return api.getOrders().then(response => {
         let orderList = response.data;
         let orderDic = {};
         for(let i=0;i<orderList.length;i++){
@@ -74,9 +71,7 @@ export function updateOrder(order) {
   return function(dispatch) {
     dispatch({ type: UPDATE_ORDER_REQUEST });
 
-    let URL = encodeURI("/order/"+ order.bill._id);
-    return api.client.put(URL, order)
-      .then(response => {
+    return api.putOrder(order).then(response => {
         dispatch({
           type: UPDATE_ORDER_SUCCESS,
           orderID: order.bill._id,
@@ -107,9 +102,7 @@ export function checkout(order) {
       }
     });
 
-    let URL = encodeURI("/check/" + order.id);
-    return api.client.put(URL, newPayment)
-      .then(response => {
+    return api.checkout(newPayment).then(response => {
         let updatedOrder = response.data;
         dispatch({
           type: UPDATE_ORDER_SUCCESS,
@@ -127,8 +120,7 @@ export function checkout(order) {
 
 export function getTables() {
   return (dispatch) => {
-    return api.client.get("/check/unpaid")
-      .then((response) => {
+    return api.getUnpaidOrders().then((response) => {
         let unpaidOrders = response.data;
         let unpaidOrdersDic = {};
         for(let i=0;i<unpaidOrders.length;i++){

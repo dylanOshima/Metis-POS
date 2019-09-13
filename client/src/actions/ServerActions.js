@@ -1,4 +1,4 @@
-import api from '../utils/API_Ref';
+import { setAPIToken, server as api, } from '../utils/API_Ref' ;
 import { 
   ADD_SERVER_REQUEST,
   ADD_SERVER_SUCCESS,
@@ -21,7 +21,7 @@ export function addServer(server) {
     newServer.name = server.name;
     newServer.code = server.code;
 
-    return api.client.post("/servers/add", newServer)
+    return api.postServer(newServer)
       .then(request => {
         dispatch({
           type: ADD_SERVER_SUCCESS,
@@ -40,8 +40,7 @@ export function loadServers() {
   return function(dispatch) {
     dispatch({ type: LOAD_SERVERS_REQUEST });
 
-    return api.client.get("/servers")
-    .then(servers => {
+    return api.getServers().then(servers => {
       dispatch({
         type: LOAD_SERVERS_SUCCESS,
         servers: servers.data
@@ -55,9 +54,7 @@ export function loadServers() {
 
 
 export function updateServer(server) {
-  // TODO: Add backend for this
-  return dispatch => api.client.put(`/server/${server._id}`)
-    .then(response => {
+  return dispatch => api.putServer(server).then(response => {
       dispatch({
         type: UPDATE_SERVER,
         userID: server._id,
@@ -69,9 +66,7 @@ export function updateServer(server) {
 }
 
 export function deleteServer(server) {
-  // TODO: Add backend for this
-  return dispatch => api.client.delete(`/server/${server._id}`)
-    .then(response => {
+  return dispatch => api.deleteServer(server).then(() => {
       dispatch({
         type: DELETE_SERVER,
         index: server._id
@@ -85,13 +80,13 @@ export function deleteServer(server) {
 export function login(payload) {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST });
-    return api.client.post(`/servers/login/`, payload)
-    .then(response => {
+
+    return api.login(payload).then(response => {
       let { data, accessToken } = response.data;
       let server;
       if(typeof data.name === 'string' && data.name.length > 0){
         server = data;
-        api.setAPIToken(accessToken);
+        setAPIToken(accessToken);
       } else {
         server = null;
       }

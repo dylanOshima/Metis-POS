@@ -1,5 +1,5 @@
 // import axios from '../utils/API_Ref';
-import api from '../utils/API_Ref';
+import { menuCalls as api} from '../utils/API_Ref';
 import { 
   ADD_DISH_REQUEST,
   ADD_DISH_SUCCESS,
@@ -25,7 +25,7 @@ export function addDish(dish) {
 
     let newDish = validateDish(dish);
 
-    return api.client.post("/menu/add", newDish)
+    return api.postMenu(newDish)
       .then(request => {
         dispatch({
           type: ADD_DISH_SUCCESS,
@@ -42,8 +42,7 @@ export function addDish(dish) {
 
 export function loadDish() {
   return dispatch => {
-    return api.client.get("/menu")
-      .then(response => {
+    return api.getMenu().then(response => {
         dispatch({
           type: LOAD_DISHES,
           menu: response.data,
@@ -58,7 +57,7 @@ export function loadDish() {
 
 export function updateDish(dish) {
   let newDish = validateDish(dish);
-  return dispatch => api.client.put(`/menu/${dish._id}`, newDish)
+  return dispatch => api.putMenu(newDish)
     .then(response => {
       dispatch({
         type: UPDATE_DISH,
@@ -72,7 +71,7 @@ export function updateDish(dish) {
 
 // index is the dishes index in the array
 export function deleteDish(dish_id) {
-  return dispatch => api.client.delete(`/menu/delete/${dish_id}`)
+  return dispatch => api.deleteMenu(dish_id)
     .then(response => {
       dispatch({
         type: DELETE_DISH,
@@ -86,7 +85,7 @@ export function deleteDish(dish_id) {
 
 // index is the dishes index in the array
 export function loadDishCategories() {
-  return dispatch => api.client.get('/menu/categories/')
+  return dispatch => api.getMenuCategories()
     .then(response => {
       dispatch({
         type: LOAD_DISHES_CATEGORIES,
