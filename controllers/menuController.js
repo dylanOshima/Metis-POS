@@ -54,17 +54,16 @@ exports.byCategory = async (req, res, next) => {
 exports.updateItem = async (req,res,next)=>{
   if (req.params.id) {    
     menu.findById(req.params.id, (err,item)=>{
-      if (err) return res.json(err); // Previously handleError
+      if (err) return next(err);
       item.name = req.body.name;
       item.description = req.body.description;
       item.recipe = req.body.recipe;
       item.servingSize = req.body.servingSize;
       item.cost = req.body.cost;
       item.markup = req.body.markup;
-      item.retailPrice = req.body.retailPrice;
       item.category = req.body.category;
-      item.save((err,updatedItem)=>{
-          if (err) return res.json(err); //handleError(err);
+      item.save((err,updatedItem) => {
+          if (err) return next(err);
           res.send(updatedItem);
       });
     });

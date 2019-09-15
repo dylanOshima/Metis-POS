@@ -58,6 +58,7 @@ router.delete('/check/delete/:id',allowIfLoggedIn,grantAccess('deleteAny','order
 router.get('/course',allowIfLoggedIn,grantAccess('readAny','courses'),courseController.getCourses);
 router.post('/course',allowIfLoggedIn,grantAccess('createOwn','courses'),courseController.addCourse);
 router.put('/course/:id',allowIfLoggedIn,grantAccess('updateAny','courses'),courseController.updateCourse);
+router.put('/course/dishes/:id',allowIfLoggedIn,grantAccess('updateAny','courses'),courseController.addToDishes);
 router.delete('/course/delete/:id',allowIfLoggedIn,grantAccess('deleteAny','courses'),courseController.deleteCourse);
 router.get('/course/:id',allowIfLoggedIn,grantAccess('readAny','courses'),courseController.getById);
 

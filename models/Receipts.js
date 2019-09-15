@@ -9,21 +9,33 @@ if (mongoose.connection.readyState === 0) {
   });
 }
 
+// TODO; Put in config file
+const TAX_PERCENT = 0.12; 
+const discountTypes = {
+  SENIOR_CITIZEN: "senior_citizen", // 0.2 and no VAT
+  CASH_PAYMENT: "cash_payment",     // 0.05
+}
+const paymentTypes = {
+  CARD: 'card',
+  CASH: 'cash'
+}
+
 var newSchema = new Schema({
   'table': { type: String, required: true },
   'guests': { type: Number, required: true },
   'server': { type: String, required: true },
   'items': [{ 
     _id: { type: Schema.ObjectId, required: true},
-    name: { type: String },
-    quantity: { type: Number, default: 0},
-    charge: { type: Number, required: true},
+    name: { type: String },                            // auto
+    quantity: { type: Number, default: 1},
+    charge: { type: Number },                          // auto
+    comments: { type: String }
   }],
-  'sub_total': { type: Number, default: 0.00 },     // auto
+  'sub_total': { type: Number, default: 0.00 },         // auto
   'discountType': { type: String },
   'discountAmount': { type: Number, default: 0.00 },
   'tax': { type: Number, default: 0.00  },
-  'total': { type: Number, default: 0.00  },        // auto
+  'total': { type: Number, default: 0.00, min: 0.00 }, // auto
   'paid': { type: Boolean, default: false  },
   'card': { 
       'number': { type: Number },
@@ -35,11 +47,57 @@ var newSchema = new Schema({
   'amountTendered': { type: Number },
   'createdAt': { type: Date, default: Date.now },     // auto
   'lastUpdatedAt': { type: Date, default: Date.now }, // auto
-  'change': { type: Number }, // auto
+  'change': { type: Number, min: 0.00 },              // auto
+});
+
+newSchema.methods.getDiscount = function() {
+  let { SENIOR_CITIZEN, CASH_PAYMENT } = discountTypes;
+
+  // IN PERCENT FORM
+  switch(this.discountType) {
+    case SENIOR_CITIZEN:
+      return 0.2;
+    case CASH_PAYMENT:
+      return 0.05;
+    default: return 1;
+  }
+}
+
+/**
+ * IDEA: Thios function could just be invoked after being saved
+ * so that the data is not actually stored in the datebase. 
+ * This could save in space and efficiency.
+ **/ 
+newSchema.statics.updateItems = async function(items) {
+  return await Promise.all(items.map(async item => {
+    if(!item.charge || !item.name) {
+      let { retailPrice, name } = await this.model('Menu').findById(item._id, 'retailPrice name');
+      item.charge = retailPrice;
+      item.name = name;
+    }
+    return item;
+  }));
+}
+
+newSchema.pre('validate', function(next){
+  // update sub_total
+  this.sub_total = this.items.reduce((total, item) => {
+    let { quantity, charge } = item;
+    return total + charge*quantity;
+  }, 0);
+  // updates tax
+  if(this.paid) {
+    // this.tax = this.tax || (this.sub_total/(TAX_PERCENT)).toFixed(2);
+    let total = this.sub_total/(1+TAX_PERCENT) // VAT exempt sales
+    this.discountAmount = (total*this.getDiscount()).toFixed(2);
+    this.total = this.sub_total - this.discountAmount;
+    this.change = this.change || this.amountTendered - this.total;
+  }
+  next();
 });
 
 newSchema.pre('save', function(next){
-  this.updatedAt = Date.now();
+  this.lastUpdatedAt = Date.now();
   next();
 });
 

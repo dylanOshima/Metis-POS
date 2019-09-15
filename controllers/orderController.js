@@ -50,9 +50,8 @@ exports.updateOrder = async (req, res, next) => {
         order.card = req.body.card;
         order.paymentType = req.body.paymentType;
         order.amountTendered = req.body.amountTendered;
-        order.change = req.body.change;
         order.save((err, updatedOrder) => {
-            if(err) next(error);
+            if(err) next(err);
             res.json(updatedOrder);
         });
     }).catch(error => res.json("error" + error));
@@ -60,14 +59,17 @@ exports.updateOrder = async (req, res, next) => {
 
 //used for adding items to an order receipt
 exports.addOrderItem = async (req, res, next) => {
-    receipts.findById(req.params.id, (err, order) => {
-        if(err) next(error);
+    try {
+        const order = await receipts.findById(req.params.id);
         if(!order) next(new Error("Couldn't find order: " + req.params.id));
         if(order.paid === true) return next(new Error("This order has already been paid."));
-        order.items = req.body.items;
+        order.items = await receipts.updateItems(req.body.items);
+
         order.save((err, updatedOrder) => {
-            if(err) next(error);
+            if(err) next(err);
             res.json(updatedOrder);
         });
-    }).catch(error => res.json("error" + error));
+    } catch(error) {
+        next(error)
+    }
 };
