@@ -55,20 +55,26 @@ exports.seat = async (req, res, next) => {
 
 // Update check information
 exports.updateCheck = async (req, res, next) => {
-    receipt.findById(req.params.id,(err,check)=>{
-        if (err) return handleError(err);
-        check.paid= req.body.paid;
-        check.card = req.body.card
-        check.amountTendered = req.body.amountTendered;
-        check.paymentType = req.body.paymentType;
-        check.discountType = req.body.discountType;
-        check.paidTime = Date.now();
-        check.save((err,updatedCheck)=>{
-            if (err) return handleError(err);
-            res.send(updatedCheck);
-            if (updatedCheck.paid) updatedCheck.updateInventory();
+    try {
+        receipt.findById(req.params.id,(err,check)=>{
+            if(err) return next(err);
+            if(!check) return next(new Error("Couldn't find check!"));
+            if(check.paid === true) return next(new Error("This order has already been paid."));
+            check.paid = true;
+            check.card = req.body.card
+            check.amountTendered = req.body.amountTendered;
+            check.paymentType = req.body.paymentType;
+            check.discountType = req.body.discountType;
+            check.paidTime = Date.now();
+            check.save((err,updatedCheck)=>{
+                if (err) return next(err);
+                res.send(updatedCheck);
+                if (updatedCheck.paid) updatedCheck.updateInventory();
+            });
         });
-    });
+    } catch(error) {
+        next(error);
+    }
 };
 
 // Query for check based on ID field

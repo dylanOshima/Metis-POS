@@ -43,6 +43,7 @@ router.get('/order',allowIfLoggedIn,grantAccess('readAny','orders'),orderControl
 router.get('/order/paid',allowIfLoggedIn,orderController.getPaid);
 router.get('/order/unpaid',allowIfLoggedIn,orderController.getUnpaid);
 router.put('/order/:id',allowIfLoggedIn,grantAccess('updateAny','orders'),orderController.updateOrder);
+router.put('/order/items/:id',allowIfLoggedIn,grantAccess('updateAny','orders'),orderController.addOrderItem);
 
 //------------- Check
 router.get('/check',allowIfLoggedIn,checkController.getChecks);

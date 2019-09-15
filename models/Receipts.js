@@ -14,16 +14,16 @@ var newSchema = new Schema({
   'guests': { type: Number, required: true },
   'server': { type: String, required: true },
   'items': [{ 
-    _id: Schema.ObjectId,
-    name: String,
-    quantity: Number,
-    price: Number,
+    _id: { type: Schema.ObjectId, required: true},
+    name: { type: String },
+    quantity: { type: Number, default: 0},
+    charge: { type: Number, required: true},
   }],
-  'sub_total': { type: Number, default: 0.00 },
+  'sub_total': { type: Number, default: 0.00 },     // auto
   'discountType': { type: String },
   'discountAmount': { type: Number, default: 0.00 },
   'tax': { type: Number, default: 0.00  },
-  'total': { type: Number, default: 0.00  },
+  'total': { type: Number, default: 0.00  },        // auto
   'paid': { type: Boolean, default: false  },
   'card': { 
       'number': { type: Number },
@@ -33,9 +33,9 @@ var newSchema = new Schema({
   'paidTime': { type: Date },
   'paymentType':{ type: String },
   'amountTendered': { type: Number },
-  'createdAt': { type: Date, default: Date.now },
-  'lastUpdatedAt': { type: Date, default: Date.now },
-  'bills': { type: Array },
+  'createdAt': { type: Date, default: Date.now },     // auto
+  'lastUpdatedAt': { type: Date, default: Date.now }, // auto
+  'change': { type: Number }, // auto
 });
 
 newSchema.pre('save', function(next){
