@@ -54,10 +54,10 @@ router.put('/check/:id',allowIfLoggedIn,grantAccess('updateAny','orders'),checkC
 router.delete('/check/delete/:id',allowIfLoggedIn,grantAccess('deleteAny','orders'),checkController.deleteCheck);
 
 //------------- Check
-router.get('/course',courseController.getCourses);
-router.post('/course',courseController.addCourse);
-router.put('/course/:id',courseController.updateCourse);
-router.delete('/course/delete/:id',courseController.deleteCourse);
-router.get('/course/:id',courseController.getById);
+router.get('/course',allowIfLoggedIn,grantAccess('readAny','courses'),courseController.getCourses);
+router.post('/course',allowIfLoggedIn,grantAccess('createOwn','courses'),courseController.addCourse);
+router.put('/course/:id',allowIfLoggedIn,grantAccess('updateAny','courses'),courseController.updateCourse);
+router.delete('/course/delete/:id',allowIfLoggedIn,grantAccess('deleteAny','courses'),courseController.deleteCourse);
+router.get('/course/:id',allowIfLoggedIn,grantAccess('readAny','courses'),courseController.getById);
 
 module.exports = router;

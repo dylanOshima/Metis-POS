@@ -22,7 +22,11 @@ exports.roles = (function() {
     .createOwn(MENU)
     .readAny(ORDERS)
     .updateAny(ORDERS)
-    .createOwn(ORDERS);
+    .createOwn(ORDERS)
+    .readAny(COURSES)
+    .updateAny(COURSES)
+    .deleteAny(COURSES)
+    .createOwn(COURSES);
 
   ac.grant('admin') // Admin
     .extend('basic')
