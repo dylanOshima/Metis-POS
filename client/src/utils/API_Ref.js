@@ -39,6 +39,11 @@ const getMenuCategories = () => client.get('/menu/categories/');
 const postMenu = dish => client.post("/menu/add", dish);
 const putMenu = dish => client.put(`/menu/${dish._id}`, dish); 
 const deleteMenu = id => client.delete(`/menu/delete/${id}`);
+//-------- Course API calls
+const getCourses = () => client.get("/course");
+const postCourse = course => client.post("/course/", course);
+const putCourse = course => client.put(`/course/${course._id}`, course); 
+const deleteCourse = id => client.delete(`/course/delete/${id}`);
   
 export const orderCalls = {
   postOrder,
@@ -67,4 +72,10 @@ export const menuCalls = {
   postMenu,
   putMenu,
   deleteMenu
+}
+export const courseCalls = {
+  getCourses,
+  postCourse,
+  putCourse,
+  deleteCourse
 }

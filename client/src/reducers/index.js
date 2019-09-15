@@ -5,6 +5,7 @@ import serverReducer from './ServerReducer';
 import modalReducer from './ModalReducer';
 import appReducer from './AppReducer';
 import inventoryReducer from './InventoryReducer';
+import courseReducer from './CourseReducer';
 
 const rootReducer = combineReducers({
   order: orderReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   server: serverReducer,
   modal: modalReducer,
   app: appReducer,
-  inventory: inventoryReducer
+  inventory: inventoryReducer,
+  course: courseReducer,
 });
 
 export default rootReducer;
