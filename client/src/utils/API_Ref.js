@@ -24,8 +24,9 @@ const postServer = server => client.post("/servers/add", server)
 //-------- Order API calls
 const postOrder = seating => client.post("/check/seat", seating);
 const getOrders = () => client.get("/order");
-const putOrder = order => client.put(`/order/${order.bill._id}`, order);
-const checkout = order => client.put(`/check/${order.id}`, order);
+const putOrder = order => client.put(`/order/${order._id}`, order);
+const putDishOrder = order => client.put(`/order/items/${order._id}`, order);
+const checkout = order => client.put(`/check/${order._id}`, order);
 const getUnpaidOrders = () => client.get("/check/unpaid");
 //-------- Inventory API calls
 const postInventory = entry => client.post("/inventory/add", entry);
@@ -49,6 +50,7 @@ export const orderCalls = {
   postOrder,
   getOrders,
   putOrder,
+  putDishOrder,
   checkout,
   getUnpaidOrders
 }

@@ -9,7 +9,8 @@ import { connect } from 'react-redux';
 import { Button,Panel, Grid, Row, Col, Well } from 'react-bootstrap';
 import Menubuttons from "./MenuButtons";
 import OrderList from "./OrderList";
-import { updateOrder } from "../../actions/OrderActions";
+// Actions
+import { addDishToOrder } from "../../actions/OrderActions";
 import { updatePage } from "../../actions/AppActions";
 import { TABLES_PAGE } from '../../constants/PageTypes';
 
@@ -61,16 +62,12 @@ class Order extends Component {
 
     // Upon clicking the Submit button this function is called
     orderSubmit = () => {
-        // TODO: CLEAN THIS SHIT UP
+
         let newOrder = Object.assign({}, this.props.order, {
             items: this.state.orderList
         });
-        let table = Object.assign({}, this.props.table, {
-            pendingOrder: undefined,
-            bill: updateTotal(newOrder, this.props.menu),
-        })
-        
-        this.props.updateOrder(table);
+
+        this.props.addDishToOrder(newOrder);
         this.props.updatePage(TABLES_PAGE);
     }
 
@@ -123,9 +120,10 @@ const mapStateToProps = state => {
         menu: state.dish.dishes,
     }
 }
+const mapDispatchToProps = {
+    addDishToOrder,
+    updatePage,
+    loadCourses,
+}
 
-/* Function props to deal with: 
- * updatePendingOrder()
- * orderSubmit
-*/
-export default connect(mapStateToProps, { updateOrder, updatePage })(Order);
+export default connect(mapStateToProps, mapDispatchToProps)(Order);

@@ -67,15 +67,16 @@ export function loadOrders() {
   }
 };
 
-export function updateOrder(order) {
+// TODO: Fix name, this is actually hitting the update dishes endpoint
+export function addDishToOrder(order) {
   return function(dispatch) {
     dispatch({ type: UPDATE_ORDER_REQUEST });
 
-    return api.putOrder(order).then(response => {
+    return api.putDishOrder(order).then(response => {
         dispatch({
           type: UPDATE_ORDER_SUCCESS,
-          orderID: order.bill._id,
-          updatedOrder: order.bill
+          orderID: response.data._id,
+          updatedOrder: response.data,
         });
       }).catch(error => {
         dispatch({

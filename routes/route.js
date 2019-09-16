@@ -54,7 +54,7 @@ router.put('/check/:id',allowIfLoggedIn,grantAccess('updateAny','orders'),checkC
 // router.get('/check/:id', checkController.getByID);
 router.delete('/check/delete/:id',allowIfLoggedIn,grantAccess('deleteAny','orders'),checkController.deleteCheck);
 
-//------------- Check
+//------------- Course
 router.get('/course',allowIfLoggedIn,grantAccess('readAny','courses'),courseController.getCourses);
 router.post('/course',allowIfLoggedIn,grantAccess('createOwn','courses'),courseController.addCourse);
 router.put('/course/:id',allowIfLoggedIn,grantAccess('updateAny','courses'),courseController.updateCourse);
