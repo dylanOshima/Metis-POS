@@ -31,16 +31,15 @@ app.use(async (req,res,next) => {
   if(req.headers["x-access-token"]) {
     try {
       const accessToken = req.headers["x-access-token"];
-      const { serverId, exp } = jwt.verify(accessToken, process.env.JWT_SECRET) 
-      // Check if token expired
-      if (exp < Date.now().valueOf() / 1000) {
-        return res.status(401).json({ 
-          error: "Your token has expired, please login to create a new one"
-        });
-      }
+      const { serverId } = jwt.verify(accessToken, process.env.JWT_SECRET);
       res.locals.loggedInServerId = serverId;
       next();
-    } catch(error){ next(error); }
+    } catch(error){
+      if(error.name === 'TokenExpiredError')
+        res.status(401).json({error: "Your session has expired. Please login again."});
+      else
+        next(error); 
+    }
   } else {
     next();
   }
