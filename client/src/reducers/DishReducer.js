@@ -5,14 +5,15 @@ import {
   LOAD_DISHES,
   UPDATE_DISH,
   DELETE_DISH,
-  LOAD_DISHES_CATEGORIES
+  LOAD_DISHES_CATEGORIES,
  } from '../constants/ActionTypes';
 
 const initialState = {
   isFetching: false,
   dishes: [],
   activeDish: null,
-  categories: []
+  categories: [],
+  names: []
 };
 
 export default function dishReducer(state = initialState, action) {
@@ -35,6 +36,7 @@ export default function dishReducer(state = initialState, action) {
     case LOAD_DISHES:
       return Object.assign({}, state, { 
         dishes: action.menu,
+        names: action.menu.map(dish => dish.name)
       });
     case UPDATE_DISH:
       return Object.assign({}, state, {
