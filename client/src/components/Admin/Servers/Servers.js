@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Well, Panel, FormControl, Row, FormGroup, ControlLabel, Col, Table } from 'react-bootstrap'
-import { withAlert } from 'react-alert';
 
 // makes it easy to reset the state of the page / clear the forms
 const initialState = {
@@ -109,4 +108,4 @@ class Servers extends Component {
 
 
 }
-export default withAlert(Servers);
+export default Servers;
