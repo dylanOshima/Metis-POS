@@ -9,6 +9,7 @@ import NewSeating from './NewSeating/NewSeating';
 import InventoryEntry from './AdminModals/InventoryEntry';
 import MultiPicker from './AdminModals/MultiPicker';
 import MenuItem from './AdminModals/MenuItem';
+import PickDish from './AdminModals/PickDish';
 
 import { hideModal, updateModal } from '../../actions/ModalActions'
 
@@ -19,7 +20,8 @@ import { NEW_SEATING_MODAL,
   PRINT_RECEIPT_MODAL,
   EDIT_INVENTORY_ENTRY,
   OPEN_MULTI_PICKER,
-  EDIT_MENU_ITEM
+  EDIT_MENU_ITEM,
+  PICK_DISH
 } from '../../constants/ModalTypes';
 
 const MODAL_COMPONENTS = {
@@ -31,6 +33,7 @@ const MODAL_COMPONENTS = {
   [EDIT_INVENTORY_ENTRY]: InventoryEntry,
   [OPEN_MULTI_PICKER]: MultiPicker,
   [EDIT_MENU_ITEM]: MenuItem,
+  [PICK_DISH]: PickDish,
 }
 
 const ModalRoot = ({ modalType, modalProps, hideModal, updateModal}) => {
