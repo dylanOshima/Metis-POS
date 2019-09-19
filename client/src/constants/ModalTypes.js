@@ -10,3 +10,6 @@ export const EDIT_INVENTORY_ENTRY = "EDIT_INVENTORY_ENTRY";
 export const EDIT_MENU_ITEM = "EDIT_MENU_ITEM";
 export const OPEN_MULTI_PICKER = "OPEN_MULTI_PICKER";
 export const PICK_DISH = "PICK_DISH";
+
+// Alert Modals
+export const CONFIRM_ALERT = "CONFIRM_ALERT";

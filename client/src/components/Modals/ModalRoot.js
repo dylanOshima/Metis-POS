@@ -10,6 +10,7 @@ import InventoryEntry from './AdminModals/InventoryEntry';
 import MultiPicker from './AdminModals/MultiPicker';
 import MenuItem from './AdminModals/MenuItem';
 import PickDish from './AdminModals/PickDish';
+import Confirm from './Alerts/ConfirmAlert';
 
 import { hideModal, updateModal } from '../../actions/ModalActions'
 
@@ -21,7 +22,8 @@ import { NEW_SEATING_MODAL,
   EDIT_INVENTORY_ENTRY,
   OPEN_MULTI_PICKER,
   EDIT_MENU_ITEM,
-  PICK_DISH
+  PICK_DISH,
+  CONFIRM_ALERT,
 } from '../../constants/ModalTypes';
 
 const MODAL_COMPONENTS = {
@@ -34,6 +36,7 @@ const MODAL_COMPONENTS = {
   [OPEN_MULTI_PICKER]: MultiPicker,
   [EDIT_MENU_ITEM]: MenuItem,
   [PICK_DISH]: PickDish,
+  [CONFIRM_ALERT]: Confirm,
 }
 
 const ModalRoot = ({ modalType, modalProps, hideModal, updateModal}) => {
