@@ -31,11 +31,21 @@ exports.addCourse = async (req,res,next) => {
 exports.updateCourse = async (req, res, next) => {
   try {
     if(!req.params.id) next(new Error("No id given"));
-    else course.findById(req.params.id,(err,course)=>{
+    else course.findById(req.params.id, async (err,course)=>{
       if (err) next(err);
       course.name = req.body.name;
-      course.dishes = req.body.dishes;
       course.markup = req.body.markup;
+      course.dishes = await Promise.all(req.body.dishes.map(async dish => {
+        dish.options = await Promise.all(dish.options.map(async option => {
+          if(!option.cost || !option.name) {
+            let { cost, name } = await models.Menu.findById(option._id, 'cost name');
+            option.cost = cost;
+            option.name = name;
+          }
+          return option
+        }));
+        return dish;
+      }));
       course.save((err,result)=>{
           if (err) next(err);
           res.send(result);
