@@ -7,13 +7,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button,Panel, Grid, Row, Col, Well } from 'react-bootstrap';
+// Compoonents
 import Menubuttons from "./MenuButtons";
+import CourseSelect from "../CustomInput/CourseSelect";
 import OrderList from "./OrderList";
 // Actions
 import { addDishToOrder } from "../../actions/OrderActions";
 import { updatePage } from "../../actions/AppActions";
+import { loadCourses } from "../../actions/CourseActions";
+// 
 import { TABLES_PAGE } from '../../constants/PageTypes';
-
 import { updateTotal } from '../../utils/helper';
 
 
@@ -23,6 +26,10 @@ class Order extends Component {
         category: "",
         orderList: this.props.order.items,
     };
+
+    componentDidMount = () => {
+        this.props.loadCourses();
+    }
 
     // Passed as prop to Menu buttons and processes the clicking of an item to be added to the pending order
     addToOrder = (newItem) => {
@@ -80,6 +87,7 @@ class Order extends Component {
                         <Col id="section" md={2}>
                             <Panel>
                                 <Well>
+                                    <h2 onClick={(event) => this.onItemClick(event)} id={"courses"}>    Courses     </h2>
                                     <h2 onClick={(event) => this.onItemClick(event)} id={"drink"}>      Drinks     </h2>
                                     <h2 onClick={(event) => this.onItemClick(event)} id={"appetizer"}>  Appetizers </h2>
                                     <h2 onClick={(event) => this.onItemClick(event)} id={"entree"}>     Entree     </h2>
@@ -91,7 +99,16 @@ class Order extends Component {
                         <Col id="items" md={4}>
                             <Panel>
                                 <Well>
-                                    <Menubuttons addToOrder={this.addToOrder.bind(this)} menu={this.props.menu} category={this.state.category} />
+                                    { this.state.category === 'courses' ?
+                                        (
+                                            <CourseSelect 
+                                            addToOrder={this.addToOrder.bind(this)} />
+                                        )
+                                        : (<Menubuttons
+                                            addToOrder={this.addToOrder.bind(this)}
+                                            menu={this.props.menu}
+                                            category={this.state.category} />)
+                                    }
                                 </Well>
                             </Panel>
                         </Col>

@@ -48,7 +48,7 @@ export function loadCourses() {
 
 export function updateCourse(course) {
   return dispatch => {
-    return api.postCourse(course).then(response => {
+    return api.putCourse(course).then(response => {
         dispatch({
           type: UPDATE_COURSE,
           course: response.data,

@@ -5,11 +5,13 @@ import { Grid, Row, Jumbotron, Tabs, Tab } from'react-bootstrap';
 import Servers from './Servers/Servers';
 import Menu from './Menu/Menu';
 import Inventory from './Inventory';
+import Course from './Courses/Course';
 
 import { addServer, loadServers } from '../../actions/ServerActions';
 import { addDish, loadDish, loadDishCategories } from '../../actions/DishActions';
 import { loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories } from '../../actions/InventoryActions';
 import { showModal, updateModal } from '../../actions/ModalActions';
+import { loadCourses } from '../../actions/CourseActions';
 
 class Admin extends Component {
     state = {
@@ -22,6 +24,7 @@ class Admin extends Component {
         this.props.loadInventoryCategories();
         this.props.loadDish();
         this.props.loadDishCategories();
+        this.props.loadCourses();
     }
 
     handleKeySelect(key) {
@@ -70,6 +73,12 @@ class Admin extends Component {
                                 inventoryCategories={inventoryCategories}
                                 dishCategories={dishCategories} />
                         </Tab>
+                        <Tab eventKey={4} title="Course">
+                            <Course
+                                categories={dishCategories}
+                                showModal={showModal}
+                                updateModal={updateModal} />
+                        </Tab>
                     </Tabs>
                 </Row>  
             </Grid>
@@ -87,7 +96,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-    addServer, loadServers,
+    addServer, loadServers, loadCourses,
     addDish, loadDishCategories, loadDish,
     showModal, updateModal,
     loadInventory, addInventoryEntry, updateInventoryEntry, loadInventoryCategories

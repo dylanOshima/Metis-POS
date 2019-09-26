@@ -1,0 +1,40 @@
+.course-select > .row {
+  margin: 0em;
+}
+
+.course-select #name {
+  height: 2em;
+  padding: 4px 11px;
+  font-size: 2em;
+  color: #e6e6e6;
+  background-color: #484e55;
+  border: 1px solid #000000;
+  border-radius: 4px;
+}
+
+tbody > .blank_row {
+    height: 10px;
+    background-color: #1c1e22;
+}
+
+.course-menu {
+  background-color: #313539;
+  border-radius: 5px;
+  margin: 0.75em auto;
+  padding: .2em;
+  overflow-y: scroll;
+}
+
+.course-select > .btn {
+  text-shadow: none;
+  color: #1c1e22;
+}
+
+.course-label, .course-options {
+  text-align: center;
+}
+
+.radio-default {
+  position: inherit;
+  margin-left: 0;
+}
