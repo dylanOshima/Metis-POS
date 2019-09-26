@@ -5,7 +5,9 @@ import {
   ADD_COURSE_FAILURE,
   LOAD_COURSES,
   UPDATE_COURSE,
-  DELETE_COURSE
+  DELETE_COURSE,
+  UPDATE_ACTIVE_COURSE,
+  RESET_ACTIVE_COURSE,
 } from '../constants/ActionTypes';
 
 export function addCourse(course) {
@@ -69,7 +71,15 @@ export function deleteCourse(courseId) {
         })
       }).catch(error => {
         // throw error
-        console.error("problem deleting course: ", error)
+        console.error("problem deleting course: ", error);
     })
   }
+}
+
+export function updateActiveCourse(course) {
+  return { type: UPDATE_ACTIVE_COURSE, course };
+}
+
+export function resetActiveCourse() {
+  return { type: RESET_ACTIVE_COURSE };
 }

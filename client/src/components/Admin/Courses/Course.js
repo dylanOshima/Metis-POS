@@ -1,31 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, ListGroup, ListGroupItem, Button, Glyphicon } from 'react-bootstrap'
-import CourseSelect from '../../CustomInput/CourseSelect';
+import CourseSelect from './CourseSelect';
 import { showModal } from '../../../actions/ModalActions';
 import { CONFIRM_ALERT } from '../../../constants/ModalTypes';
-import { updateCourse, addCourse, deleteCourse } from '../../../actions/CourseActions';
-
-const defaultCourseDish = {
-  courseName: 'Course',
-  defaultIndex: 0,
-  optional: false,
-  options: []
-}
-
-const initialCourse = {
-  new: true,
-  name: "New Course",
-  dishes: [defaultCourseDish],
-  cost: 0,
-  markup: 0,
-  retailPrice: 0
-}
+import { updateCourse, addCourse, deleteCourse, updateActiveCourse, resetActiveCourse } from '../../../actions/CourseActions';
 
 class Course extends Component {
 
   state = {
-    course: initialCourse,
     activeCourseIndex: 0,
   };
 
@@ -34,30 +17,33 @@ class Course extends Component {
   }
 
   handleMenuSelect = activeCourseIndex => {
-    let course = Object.assign(this.props.courses[activeCourseIndex]);
-    this.setState({activeCourseIndex, course});
+    this.setState({activeCourseIndex});
+    this.props.updateActiveCourse(this.props.courses[activeCourseIndex]);
   }
 
   // Course Modifiers
 
   handleCourseChange = event => {
-    let course = Object.assign({}, this.state.course, event);
-    this.setState({course})
+    // Assumes the event has key,value pairs that correspond 
+    // to properties of the course
+    this.props.updateActiveCourse(event);
+  }
+
+  handleNewCourse = () => {
+    this.setState({ activeCourseIndex: -1 });
+    this.props.resetActiveCourse();
   }
 
   submitCourse = () => {
-    if(this.state.course.new) this.props.addCourse(this.state.course);
-    else this.props.updateCourse(this.state.course);
+    if(!this.props.course._id) this.props.addCourse(this.props.course);
+    else this.props.updateCourse(this.props.course);
   }
 
   render() {        
     const { activeCourseIndex } = this.state;
-    const { courses, dishes, categories, 
-      showModal, deleteCourse
-    } = this.props;    
-
-    let selectedCourse = this.state.course;
-    // console.log("Course.js: ", selectedCourse);
+    const { course, courses, dishes, categories, 
+      showModal, deleteCourse,
+    } = this.props;
     return (
       <Row>
         <Col style={{'overflowX':'scroll'}} md={3} xs={8}>
@@ -84,7 +70,7 @@ class Course extends Component {
                 </ListGroupItem>)
             })}
 
-            {this.state.course.new ? 
+            {!this.props.course._id ? 
               <ListGroupItem>
                 <Button disabled> New Course </Button>
               </ListGroupItem> 
@@ -93,17 +79,15 @@ class Course extends Component {
             <Button
               style={{'marginTop':'1em'}}
               bsStyle="success"
-              onClick={() => this.setState({
-                activeCourseIndex: -1,
-                course: initialCourse
-              })}>
+              onClick={this.handleNewCourse}>
               New
             </Button>
+            
           </ListGroup>
         </Col>
-        {selectedCourse
+        {course
           ? (<CourseSelect 
-              course={selectedCourse}
+              course={course}
               dishes={dishes}
               categories={categories}
               updateCourse={this.handleCourseChange}
@@ -118,13 +102,13 @@ class Course extends Component {
 
 const mapStateToProps = state => ({
   courses: state.course.courses,
+  course: state.course.activeCourse,
   dishes: state.dish.dishes,
   categories: state.dish.categories,
 });
 
 export default connect(mapStateToProps, { 
   showModal,
-  updateCourse,
-  addCourse,
-  deleteCourse
+  updateCourse, addCourse, deleteCourse,
+  updateActiveCourse, resetActiveCourse,
 })(Course);

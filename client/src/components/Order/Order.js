@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { Button,Panel, Grid, Row, Col, Well } from 'react-bootstrap';
 // Compoonents
 import Menubuttons from "./MenuButtons";
-import CourseSelect from "../CustomInput/CourseSelect";
+import CourseSelect from "../Admin/Courses/CourseSelect";
 import OrderList from "./OrderList";
 // Actions
 import { addDishToOrder } from "../../actions/OrderActions";

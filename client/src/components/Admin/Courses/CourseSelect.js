@@ -5,7 +5,8 @@ import {
   FormControl, Col, Checkbox 
 } from 'react-bootstrap';
 
-import { PICK_DISH, CONFIRM_ALERT } from '../../constants/ModalTypes';
+import { PICK_DISH, CONFIRM_ALERT } from '../../../constants/ModalTypes';
+import CourseInfo from './CourseInfo';
 import './CourseSelect.css';
 
 class CourseSelect extends Component {
@@ -90,7 +91,7 @@ class CourseSelect extends Component {
           <div className="well course-select">
             <form>
               <FormGroup>
-                {!course.new?
+                {course._id?
                   (<HelpBlock style={{'float':'right', 'fontSize':'0.8em', 'color':'#5d6368'}}>
                     <i>lastUpdated: {(new Date(course.updatedAt)).toLocaleString()}</i>
                   </HelpBlock>)
@@ -223,18 +224,9 @@ class CourseSelect extends Component {
         </Col>
         {/* Costings and overview of  */}
         <Col md={3} xs={5}>
-              <div 
-                className="well">
-                <h4>Cost: {course.cost}</h4>
-                <h4>Markup: {course.markup}</h4>
-                <h3><strong>Retail Price:</strong> {course.retailPrice}</h3>
-                <br />
-                <Button
-                  bsStyle='success'
-                  onClick={submitCourse}>
-                  Update
-                </Button>
-              </div>
+            <CourseInfo 
+              course={this.props.course}
+              buttonFunc={submitCourse} />
         </Col>
         </Fragment>
       )
