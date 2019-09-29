@@ -110,6 +110,7 @@ export function checkout(order) {
           orderID: updatedOrder._id,
           updatedOrder
         });
+        dispatch(resetTable(updatedOrder.table));
       }).catch(error => {
         dispatch({
           type: UPDATE_ORDER_FAILURE,

@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import { Button,Panel, Grid, Row, Col, Well } from 'react-bootstrap';
 // Compoonents
 import Menubuttons from "./MenuButtons";
-import CourseSelect from "../Admin/Courses/CourseSelect";
 import OrderList from "./OrderList";
+import CourseView from './CourseView';
 // Actions
 import { addDishToOrder } from "../../actions/OrderActions";
 import { updatePage } from "../../actions/AppActions";
@@ -23,7 +23,7 @@ import { updateTotal } from '../../utils/helper';
 class Order extends Component {
     // State category holds the selected food category to be displayed ex:entree
     state = {
-        category: "",
+        category: "courses",
         orderList: this.props.order.items,
     };
 
@@ -31,13 +31,21 @@ class Order extends Component {
         this.props.loadCourses();
     }
 
+    // Verifies if two items in an order are the same
+    verifyItems = (item1, item2) => (
+        item1._id === item2._id &&
+        item1.charge === item2.charge &&
+        item1.comments === item2.comments
+    )
+
     // Passed as prop to Menu buttons and processes the clicking of an item to be added to the pending order
     addToOrder = (newItem) => {
         //props.table is passed in from app.js and is information for that table from state.
         let orderList = [...this.state.orderList];
         
-        //Looks to see if the item already exists in orderList if found increase its quantity count by 1 if not found push the information into the list.
-        let itemIndex = orderList.findIndex(index => index.name === newItem.name);
+        //Looks to see if the item already exists in orderList if found increase 
+        // its quantity count by 1 if not found push the information into the list.
+        let itemIndex = orderList.findIndex(index => this.verifyItems(index, newItem));
         itemIndex !== -1 
             ? orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) + 1 
             : orderList.push(newItem);
@@ -48,15 +56,18 @@ class Order extends Component {
     /* 
         When the remove button ("X") is clicked in orderList this function is called to remove 1 unit of that item from the list. 
     */
-    removeFromOrder = (itemToRemove) => {
+    removeFromOrder = (item) => {
         let orderList = [...this.state.orderList];
 
         // Find the index position of the item in the list
-        let itemIndex = orderList.findIndex(index => index.name === itemToRemove);
-        
+        // Should never return -1 since the object was clicked
+        let itemIndex = orderList.findIndex(index => this.verifyItems(index, item));
+
         // if quantity of item is greater then 1 subtract 1 from the quantity else remove the item completely
-        orderList[itemIndex].quantity > 1 ? orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) - 1 : orderList.splice(orderList[itemIndex],1);  
-        
+        orderList[itemIndex].quantity > 1 ? 
+            orderList[itemIndex].quantity = parseInt(orderList[itemIndex].quantity,10) - 1 :
+            orderList.splice(itemIndex,1);  
+
         this.setState({orderList});
     }
 
@@ -101,7 +112,8 @@ class Order extends Component {
                                 <Well>
                                     { this.state.category === 'courses' ?
                                         (
-                                            <CourseSelect 
+                                            <CourseView
+                                            courses={this.props.courses}
                                             addToOrder={this.addToOrder.bind(this)} />
                                         )
                                         : (<Menubuttons
@@ -116,13 +128,13 @@ class Order extends Component {
                             <Panel>
                                 <Well>
                                     <OrderList removeFromOrder={this.removeFromOrder.bind(this)} currentOrderList={this.state.orderList} />
+                                    <div>
+                                        <Button onClick={this.orderSubmit.bind(this)}>Submit</Button>
+                                    </div>
                                 </Well>
                             </Panel>
                         </Col>
                     </Row>
-                    <div>
-                        <Button onClick={this.orderSubmit.bind(this)}>Submit</Button>
-                    </div>
                 </div>
             </Grid>
         )
@@ -135,6 +147,7 @@ const mapStateToProps = state => {
         table,
         order: state.order.orders[table.pendingOrder],
         menu: state.dish.dishes,
+        courses: state.course.courses,
     }
 }
 const mapDispatchToProps = {

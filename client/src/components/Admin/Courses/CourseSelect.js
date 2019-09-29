@@ -17,12 +17,7 @@ class CourseSelect extends Component {
       updateCourse: PropTypes.func,
       submitCourse: PropTypes.func,
     }
-
-    selectDish = (index) => {
-      // this.state.course.defaultIndex = index;
-      console.log("selectedDish()")
-    }
-
+    
     addDish = (e) => {
       let dish = {
         courseName: "New Course",

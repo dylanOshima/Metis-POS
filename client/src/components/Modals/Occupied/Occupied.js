@@ -4,6 +4,7 @@ import { Button, Modal, ButtonGroup } from 'react-bootstrap';
 import { showModal } from '../../../actions/ModalActions';
 import { updatePage } from '../../../actions/AppActions';
 import { ORDERS_PAGE } from '../../../constants/PageTypes';
+import { updateTotal } from '../../../utils/helper';
 import {
     CHECKOUT_MODAL,
     PRINT_RECEIPT_MODAL
@@ -53,7 +54,7 @@ const occupied = props => {
 const mapStateToProps = state => {
     let table = state.order.tables[state.order.activeTableIndex];
     return{ 
-        order: state.order.orders[table.pendingOrder],
+        order: updateTotal(state.order.orders[table.pendingOrder]), // TODO: This should be replaced by backend
         table
     }
 }

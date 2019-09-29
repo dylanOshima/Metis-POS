@@ -41,25 +41,35 @@ export function displayArray(arr) {
 
 const TAX_AMOUNT = 0.12; // PUT IN CONFIG
 
-export function updateTotal(order, menu) {
-  let sub_total = parseFloat(order.total);
-  let currentOrderList = order.items.map((item) => {
+export function updateOrderItems(items, menu) {
+  return items.map((item) => {
     const menuItemIndex = menu.findIndex(index => index._id === item._id);
     const menuItem = menu[menuItemIndex];
     
     let newItem = Object.assign({}, item, {
       quantity: parseInt(item.quantity,10),
-      price: parseFloat(menuItem.cost,10),
+      charge: parseFloat(menuItem.cost,10),
     })
-    let charge = (newItem.quantity*newItem.price).toFixed(2)
-    sub_total += parseFloat(charge);
+
     return newItem;
   })  
+}
+
+export function updateTotal(order, menu=null) {
+  let sub_total = 0.00;
+  let currentOrderList = order.items;
+
+  // Updates the values of the items based on the menu
+  if(menu) currentOrderList = updateOrderItems(order.items, menu);
+
+  currentOrderList.forEach(item => {
+    sub_total += parseFloat(item.charge)*parseFloat(item.quantity);
+  })
 
   // Cleanup
+  sub_total = sub_total.toFixed(2);
   let tax = (sub_total * TAX_AMOUNT).toFixed(2);
   let total = (sub_total - tax).toFixed(2);
-  sub_total = sub_total.toFixed(2);
 
   // Store updated info into table object
   return Object.assign({}, order, {

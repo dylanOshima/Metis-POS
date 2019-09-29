@@ -9,30 +9,28 @@ class OrderList extends Component {
                 <Table striped bordered condensed hover>
                     <thead>
                         <tr>
-                            <th>
-                                Item
-                            </th>
-                            <th>
-                                Quantity
-                            </th>
-                            <th>
-                                Delete
-                            </th>
+                            <th> Item </th>
+                            <th> Quantity </th>
+                            <th> Price </th>
+                            <th> Comments </th>
+                            <th> Delete </th>
                             </tr>
                     </thead>
                     <tbody>
                         {/* Loops through orderList from app.js state and dispays the item name, quantity and delete button */}
                         {newOrderList.map((item, index) => {
                             return (
-                                <tr key={item._id}>
+                                <tr key={item._id+index}>
+                                    <td>{item.name}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{item.charge}</td>
+                                    <td>{item.comments}</td>
                                     <td>
-                                        {item.name}
-                                    </td>
-                                    <td>
-                                        {item.quantity}
-                                    </td>
-                                    <td>
-                                        <Button id={item.name + "delete"} onClick={(event) => this.getItemToRemove(event)}>X</Button>
+                                        <Button 
+                                            id={item.name + "delete"}
+                                            onClick={e => this.props.removeFromOrder(item)}>
+                                            X
+                                        </Button>
                                     </td>
                                 </tr>
                             );
@@ -43,14 +41,6 @@ class OrderList extends Component {
             </Grid>
         );
     };
-
-    // called when delete ("X") button is clicked
-    getItemToRemove = (event) => {
-        // Retrieves the id information and removes the word delete to retrieve the item name
-        const itemToRemove = event.target.id.replace("delete","");
-        // passes the item to Order to be processed
-        this.props.removeFromOrder(itemToRemove);
-    }
 
     // Renders the page by calling function
      render(){

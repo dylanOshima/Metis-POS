@@ -4,6 +4,8 @@ import { Button, Modal, ListGroup, ListGroupItem, DropdownButton, MenuItem, Form
 import { checkout, resetTable } from '../../../../actions/OrderActions';
 import { hideModal } from '../../../../actions/ModalActions';
 
+/** TODO: Reformat this component */
+
 //initial state 
 const initialState = {
     paymentMethod: "Payment Method",
@@ -47,15 +49,11 @@ class Checkout extends Component {
 
     submitPayment=()=>{
         let paymentObject = Object.assign({}, this.state, {
-            id: this.props.table.pendingOrder
+            _id: this.props.table.pendingOrder
         })
 
         this.props.checkout(paymentObject);
         this.props.hideModal();
-
-        //reset the state
-        this.props.resetTable(this.props.table.name);
-        this.setState(initialState);
     }
 
     render() {

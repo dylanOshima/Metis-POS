@@ -14,7 +14,7 @@ const createReceipt = (items) => {
     return(
         items.map(item => {
             return(
-                <Row key={item.name}>
+                <Row key={item.name+item.charge}>
 
                     <Col md={3} style={align}>
                         {item.name}

@@ -1,0 +1,32 @@
+.course-view {
+
+}
+
+.course-view .menu {
+
+}
+
+.course-view .menu-button {
+
+}
+
+.order-course {
+  text-align: center;
+  margin: 2em;
+}
+
+.dish {
+  margin-bottom: 1em;
+  background-color: #3a3f44;
+  padding: 0.5em;
+}
+
+.dish .btn-block { 
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.optional-dish {
+
+}
