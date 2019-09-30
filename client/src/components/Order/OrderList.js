@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Grid, Table } from 'react-bootstrap';
+import TextAndInput from '../CustomInput/TextAndInput';
 
 // Renders a list of all items selected in the Order screen
 class OrderList extends Component {
@@ -24,7 +25,11 @@ class OrderList extends Component {
                                     <td>{item.name}</td>
                                     <td>{item.quantity}</td>
                                     <td>{item.charge}</td>
-                                    <td>{item.comments}</td>
+                                    <td>
+                                        <TextAndInput 
+                                        value={item.comments}
+                                        onChange={e => this.props.updateComment(e, index)}/>
+                                    </td>
                                     <td>
                                         <Button 
                                             id={item.name + "delete"}

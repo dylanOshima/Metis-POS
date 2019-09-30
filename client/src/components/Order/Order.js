@@ -17,7 +17,6 @@ import { updatePage } from "../../actions/AppActions";
 import { loadCourses } from "../../actions/CourseActions";
 // 
 import { TABLES_PAGE } from '../../constants/PageTypes';
-import { updateTotal } from '../../utils/helper';
 
 
 class Order extends Component {
@@ -78,6 +77,13 @@ class Order extends Component {
         });
     }
 
+    // Updates the comment of the given order
+    updateComment = (event, orderIndex) => {
+        let orderList = [...this.state.orderList];
+        orderList[orderIndex].comments = event.target.value;
+        this.setState({orderList});
+    }
+
     // Upon clicking the Submit button this function is called
     orderSubmit = () => {
 
@@ -127,7 +133,10 @@ class Order extends Component {
                         <Col id="order-list" md={6}>
                             <Panel>
                                 <Well>
-                                    <OrderList removeFromOrder={this.removeFromOrder.bind(this)} currentOrderList={this.state.orderList} />
+                                    <OrderList 
+                                    removeFromOrder={this.removeFromOrder.bind(this)} 
+                                    currentOrderList={this.state.orderList}
+                                    updateComment={this.updateComment} />
                                     <div>
                                         <Button onClick={this.orderSubmit.bind(this)}>Submit</Button>
                                     </div>
