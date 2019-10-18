@@ -3,7 +3,7 @@ import { Col, Row, Grid, Jumbotron, Panel, Image } from 'react-bootstrap';
 // import Aux from '../Hoc/Hoc'
 import { connect } from 'react-redux';
 import './Table.css';
-import logo from '../../logo.jpg';
+import logo from '../../images/logo.jpg';
 
 import { NEW_SEATING_MODAL, OCCUPIED_MODAL } from '../../constants/ModalTypes';
 import { showModal } from '../../actions/ModalActions';
