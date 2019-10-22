@@ -18,7 +18,8 @@ router.get('/', (req, res, next) => {
 
 //------------- Servers
 router.get('/servers',serverController.getServers);
-router.post('/servers/add',allowIfLoggedIn,grantAccess('createOwn','server'),serverController.signup);
+// router.post('/servers/add',allowIfLoggedIn,grantAccess('createOwn','server'),serverController.signup);
+router.post('/servers/add',serverController.signup);
 router.post('/servers/login/', serverController.login);
 router.delete('/servers/delete/:id',allowIfLoggedIn,grantAccess('deleteAny','server'),serverController.deleteServer);
 

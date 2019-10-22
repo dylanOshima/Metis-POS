@@ -16,11 +16,22 @@ import {
   ORDERS_PAGE,
   ADMIN_PAGE,
 } from './constants/PageTypes';
+// Electron
+import { channels } from './shared/constants';
+const { ipcRenderer } = window; 
 
 class App extends Component {
 
   componentDidMount() {
     this.props.loadDish();
+
+    // IPC test
+    ipcRenderer.send(channels.APP_INFO);
+    ipcRenderer.on(channels.APP_INFO, (event, arg) => {
+      ipcRenderer.removeAllListeners(channels.APP_INFO);
+      const { appName, appVersion } = arg;
+      console.log("Running: ", appName, " with version: ", appVersion);
+    });
   }
 
   render() {

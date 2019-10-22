@@ -2,9 +2,14 @@ const electron = require('electron');
 
 const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.
+const ipcMain = electron.ipcMain;
 
 const path = require('path');
 const url = require('url');
+
+// IPC
+const { channels } = require('../src/shared/constants');
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -12,14 +17,20 @@ let mainWindow;
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 1000, height: 800});
+    mainWindow = new BrowserWindow({
+        width: 1200,
+        height: 1000,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+        },
+    });
 
     // and load the index.html of the app.
     // mainWindow.loadURL('http://localhost:3000');
 
     // and load the index.html of the app.
     const startUrl = process.env.ELECTRON_START_URL || url.format({
-        pathname: path.join(__dirname, '/../build/index.html'),
+        pathname: path.join(__dirname, '../index.html'),
         protocol: 'file:',
         slashes: true
     });
@@ -59,5 +70,9 @@ app.on('activate', function () {
     }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+ipcMain.on(channels.APP_INFO, (event) => {
+    event.sender.send(channels.APP_INFO, {
+      appName: app.getName(),
+      appVersion: app.getVersion(),
+    });
+});
