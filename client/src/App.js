@@ -26,12 +26,14 @@ class App extends Component {
     this.props.loadDish();
 
     // IPC test
-    ipcRenderer.send(channels.APP_INFO);
-    ipcRenderer.on(channels.APP_INFO, (event, arg) => {
-      ipcRenderer.removeAllListeners(channels.APP_INFO);
-      const { appName, appVersion } = arg;
-      console.log("Running: ", appName, " with version: ", appVersion);
-    });
+    if(ipcRenderer) {
+      ipcRenderer.send(channels.APP_INFO);
+      ipcRenderer.on(channels.APP_INFO, (event, arg) => {
+        ipcRenderer.removeAllListeners(channels.APP_INFO);
+        const { appName, appVersion } = arg;
+        console.log("Running: ", appName, " with version: ", appVersion);
+      });
+    }
   }
 
   render() {
