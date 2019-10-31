@@ -3,6 +3,7 @@
 const mongoose 	= require('mongoose');
 const models 	= require('../models/all-models.js');
 const inventory = models.Inventory;
+const { inventoryConfig } = require('../config');
 
 //get all inventory items
 exports.getInventory = async (req, res, next) => {
@@ -13,8 +14,10 @@ exports.getInventory = async (req, res, next) => {
 
 //get all categories of inventory items
 exports.categories = async (req, res, next) => {
-  inventory.distinct('category', (err, categories) => {
+  inventory.distinct('category', (err, cat) => {
     if (err) return res.json(err);
+    let categories = inventoryConfig.categories;
+    categories.concat(cat);
     return res.json(categories);
   })
 };
