@@ -96,8 +96,7 @@ class MultiPicker extends Component {
                         accordion
                         id="options-panel-list"
                         activeKey={this.state.activeCategoryIndex}
-                        onSelect={this.handleSelect}
-                      >
+                        onSelect={this.handleSelect}>
                         {categories.map((category, index) => {
                           return (
                             <Panel key={index} eventKey={index} >

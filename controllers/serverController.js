@@ -5,6 +5,7 @@ const bcrypt   = require('bcrypt');
 const jwt      = require('jsonwebtoken');
 const models   = require('../models/all-models.js');
 const servers  = models.Servers;
+const { secret } = require('../config');
 
 //print check and close out order
 exports.getServers = async (req, res, next) => {
@@ -53,7 +54,7 @@ exports.signup = async (req,res,next) => {
         }).catch((error) => {return next(error);});
         const accessToken = jwt.sign(
             { serverId: newServer._id }, 
-            process.env.JWT_SECRET,
+            secret,
             { expiresIn: "1d" },
         );
         newServer.accessToken = accessToken;
@@ -72,7 +73,7 @@ exports.login = async (req,res,next) => {
         if(!server) return res.status(404).json("Server doesn't exist");
         const valid = await validatePassword(code, server.code);
         if(!valid) return res.status(404).json("Incorrect code");
-        const accessToken = jwt.sign({ serverId: server._id }, process.env.JWT_SECRET, {
+        const accessToken = jwt.sign({ serverId: server._id }, secret, {
             expiresIn: "1d"
         });
         await servers.findByIdAndUpdate(server.id, { accessToken });

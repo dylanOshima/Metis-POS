@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 
 const jwt = require('jsonwebtoken');
 const routes = require('./routes/route');
+const { secret } = require('./config');
 
 require("dotenv").config({
   path: path.join(__dirname, ".env")
@@ -31,7 +32,7 @@ app.use(async (req,res,next) => {
   if(req.headers["x-access-token"]) {
     try {
       const accessToken = req.headers["x-access-token"];
-      const { serverId } = jwt.verify(accessToken, process.env.JWT_SECRET);
+      const { serverId } = jwt.verify(accessToken, secret);
       res.locals.loggedInServerId = serverId;
       next();
     } catch(error){

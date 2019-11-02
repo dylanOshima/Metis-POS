@@ -56,8 +56,16 @@ class Inventory extends Component {
     return out
   }
 
+  validInput = (entry) => {
+    return entry.name && entry.price && entry.unitOfMeasurement && entry.quantity && entry.category;
+  };
+
   //submits new inventory entry
   newEntrySubmitHandler = () => {
+    if(!this.validInput(this.state.newEntry)) {
+      console.error("Invalid input");
+      return false;
+    }
     this.props.addInventoryEntry(this.state.newEntry);
     this.resetToInitialState();
   }
@@ -69,6 +77,7 @@ class Inventory extends Component {
   }
 
   render() {
+    let { newEntry } = this.state;
 
     return (
       <Grid fluid>
@@ -82,30 +91,21 @@ class Inventory extends Component {
                           <th> Description </th>
                           <th> Price </th>
                           <th> Quantity </th>
-                          <th> Dishes </th>
                           <th> Category </th>
-                          <th> Options</th>
                         </tr>
                       </thead>
                       <tbody>
                         {/* Inventory items */}
                         {this.props.inventory.map(entry => {
                           return (
-                            <tr key={entry._id}>
+                            <tr 
+                              key={entry._id} 
+                              onClick={() => this.props.showModal(EDIT_INVENTORY_ENTRY, { entry })}>
                                 <td> {entry.name} </td>
                                 <td> {entry.description}</td>
-                                <td> {entry.price + " per " + entry.unitOfMeasurement} </td>
+                                <td> {`₱${entry.price} per ${entry.unitOfMeasurement}`} </td>
                                 <td> {entry.quantity} </td>
-                                <td> {this.displayDishes(entry.dishes)} </td>
                                 <td> {entry.category} </td>
-                                <td> 
-                                  <Button 
-                                    bsSize="small"
-                                    bsStyle="info"
-                                    onClick={() => this.props.showModal(EDIT_INVENTORY_ENTRY, { entry })}>
-                                    edit
-                                  </Button>
-                                </td>
                             </tr>)
                           }
                         )}
@@ -113,66 +113,62 @@ class Inventory extends Component {
                          <tr>
                           <td>
                             <FormControl
-                              type="text" 
-                              bsSize="small" 
-                              value={this.state.newEntry.name} 
+                              type="text"
+                              bsSize="small"
+                              placeholder="item name"
+                              value={newEntry.name ? newEntry.name : undefined} 
                               onChange={event => this.changeHandler(event, "name")} />
                           </td>
                           <td>
                             <FormControl 
-                              type="text" 
-                              bsSize="small" 
-                              value={this.state.newEntry.description} 
+                              type="text"
+                              bsSize="small"
+                              placeholder="description"
+                              value={newEntry.description ? newEntry.description : undefined} 
                               onChange={event => this.changeHandler(event, "description")} />
                           </td>
                           <td>
                             <FormControl
+                              style={{width: "5em", float:"left"}}
                               type="number" 
-                              bsSize="small" 
-                              value={this.state.newEntry.price} 
+                              bsSize="small"
+                              placeholder="75.5"
+                              value={newEntry.price ? newEntry.price : undefined} 
                               onChange={event => this.changeHandler(event, "price")} />
                           
                             <FormControl
+                                style={{width: "3em", float:"left"}}
                                 type="text" 
                                 bsSize="small" 
-                                value={this.state.newEntry.unitOfMeasurement} 
+                                placeholder="kg"
+                                value={newEntry.unitOfMeasurement ? newEntry.unitOfMeasurement : undefined} 
                                 onChange={event => this.changeHandler(event, "unitOfMeasurement")} />
                           </td>
                           <td>
                             <FormControl
                               type="number"
                               bsSize="small"
-                              value={this.state.newEntry.quantity} 
+                              placeholder="1"
+                              value={newEntry.quantity ? newEntry.quantity : undefined} 
                               onChange={event => this.changeHandler(event, "quantity")} />
                           </td>
                           <td>
-                            <Button
-                              bsSize="small" 
-                              onClick={() => this.props.showModal(OPEN_MULTI_PICKER, {
-                                selected: this.state.newEntry.dishes,
-                                propertyName: "dishes",
-                                selectedHandler: this.multipickerHandler,
-                                categories: this.props.dishCategories,
-                                options: this.props.dishes
-                              })}>
-                              Dishes
-                            </Button>
-                          </td>
-                          {this.props.inventoryCategories ? 
-                            (<td>
+                            {this.props.inventoryCategories ? 
                               <AutoSuggestWrapper 
                                 suggestions={this.props.inventoryCategories}
-                                value={this.state.newEntry.category}
+                                value={newEntry.category}
                                 changeHandler={this.changeHandler}
-                              />
-                            </td>) : null}
+                            />: null}
+                          </td>
+                        </tr>
+                        <tr>
                           <td>
-                          <Button 
-                            bsSize="small" 
-                            bsStyle="info" 
-                            onClick={this.newEntrySubmitHandler}> 
-                            Submit 
-                          </Button>
+                            <Button 
+                              bsSize="small" 
+                              bsStyle="info" 
+                              onClick={this.newEntrySubmitHandler}> 
+                              Submit 
+                            </Button>
                           </td>
                         </tr>
                       </tbody>
