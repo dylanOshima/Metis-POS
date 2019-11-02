@@ -29,6 +29,7 @@ router.get('/inventory/categories',allowIfLoggedIn,inventoryController.categorie
 router.post('/inventory/add',allowIfLoggedIn,grantAccess('createOwn','inventory'),inventoryController.addEntry);
 router.delete('/inventory/delete/:id',allowIfLoggedIn,grantAccess('deleteAny','inventory'),inventoryController.deleteEntry);
 router.put('/inventory/:id',allowIfLoggedIn,grantAccess('updateAny','menu'),inventoryController.updateEntry);
+router.put('/inventory/history/:id',allowIfLoggedIn,grantAccess('updateAny','menu'),inventoryController.updateHistory);
 // router.get('/inventory/:section', inventoryController.getByCategory);
 
 //------------- Menu

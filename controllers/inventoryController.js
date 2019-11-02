@@ -66,6 +66,35 @@ exports.updateEntry = async (req,res,next)=>{
   }
 };
 
+// Only update history
+exports.updateHistory = async (req,res,next)=>{
+  if (req.params.id && req.body.history) {
+    try {
+      inventory.findById(req.params.id, (err,item)=>{
+        if (err) return next(err); // Previously handleError
+        let { history } = req.body;
+        item.history = item.history.concat(history);
+
+        // Update the price of the item
+        if(history.length > 0) item.price = history[history.length-1].price;
+        
+        // Update the quantity
+        history.forEach(change => {
+          item.quantity += change.value;
+        });
+
+        // Save
+        item.save((err,updatedItem)=>{
+            if (err) return next(err); //handleError(err);
+            res.send(updatedItem);
+        });
+      });
+    } catch(err) {
+      next(err);v
+    }
+  }
+};
+
 //get inventory list from selected inventory section
 // , (req, res, next) => {
 //     inventory
