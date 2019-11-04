@@ -3,7 +3,21 @@
 const mongoose 	= require('mongoose');
 const models 	= require('../models/all-models.js');
 const inventory = models.Inventory;
-const { inventoryConfig } = require('../config');
+const inventoryConfig = {
+  categories: [
+    "Vegetables",
+    "Dry Goods",
+    "Condiments",
+    "Dairy",
+    "Meat",
+    "Fish",
+    "Fermented",
+    "Mains",
+    "Entrees",
+    "Desserts",
+    "Sauces",
+  ] 
+}
 
 //get all inventory items
 exports.getInventory = async (req, res, next) => {

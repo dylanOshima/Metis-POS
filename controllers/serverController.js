@@ -5,7 +5,13 @@ const bcrypt   = require('bcrypt');
 const jwt      = require('jsonwebtoken');
 const models   = require('../models/all-models.js');
 const servers  = models.Servers;
-const { secret } = require('../config');
+let secret;
+if(!process.env.secret) {
+    config = require('../config');
+    secret = config.secret;
+} else {
+    secret = process.env.secret;
+}
 
 //print check and close out order
 exports.getServers = async (req, res, next) => {
