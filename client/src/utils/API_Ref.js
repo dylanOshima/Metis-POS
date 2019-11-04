@@ -34,6 +34,7 @@ const getInventory = () => client.get("/inventory");
 const putInventory = entry => client.put(`/inventory/${entry._id}`, entry);  
 const deleteInventory = id => client.delete(`/inventory/delete/${id}`);
 const getInventoryCategories = () => client.get('/inventory/categories/');
+const updateHistory = entry => client.put(`/inventory/history/${entry._id}`, entry);
 //-------- Menu API calls
 const getMenu = () => client.get("/menu");
 const getMenuCategories = () => client.get('/menu/categories/');
@@ -66,7 +67,8 @@ export const inventoryCalls = {
   getInventory,
   putInventory,
   deleteInventory,
-  getInventoryCategories
+  getInventoryCategories,
+  updateHistory,
 }
 export const menuCalls = {
   getMenu,

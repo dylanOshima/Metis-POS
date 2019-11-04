@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Button, Modal, Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
 import AutoSuggestWrapper from '../../CustomInput/AutoSuggestWrapper';
-import MultiPicker from '../AdminModals/MultiPicker';
-import { updateInventoryEntry, deleteInventoryEntry } from '../../../actions/InventoryActions';
+import InventoryHistory from '../AdminModals/HistoryView';
+import { updateInventoryEntry, deleteInventoryEntry, updateInventoryHistory } from '../../../actions/InventoryActions';
 
 /**
  * @param {object:props} contains:
@@ -14,10 +14,30 @@ class InventoryEntry extends Component {
 
   state = Object.assign({}, this.props.entry);
 
-  multipickerHandler = (dishes) => {
-    this.setState({ dishes });
-    this.props.updateModal({selected: dishes});
+  /* HISTORY HANDLERS */
+  addHistory = newItem => {
+    let obj = {
+      history: [newItem],
+      _id: this.state._id,
+    }
+    this.props.updateInventoryHistory(obj);
+    // Todo: change this to reload upon receiving update
+    this.setState({ 
+      history: [...this.state.history, newItem],
+      quantity: this.state.quantity += newItem.value,
+      price: newItem.price,
+    });
+    this.props.updateModal({item: this.state});
   }
+
+  removeHistory = index => {
+    let { history } = this.state;
+    this.setState({ 
+      history: history.slice(0,index).concat(history.slice(index+1)),
+    });
+    this.props.updateModal({item: this.state});
+  }
+  /* END */
 
   //updates states immediately on change for all onChange events
   changeHandler = (event, item) => {
@@ -78,7 +98,8 @@ class InventoryEntry extends Component {
                 <FormControl
                   type="number"
                   bsSize="small"
-                  value={this.state.quantity ? this.state.quantity : 0} 
+                  placeholder={0}
+                  value={this.state.quantity ? this.state.quantity : undefined} 
                   onChange={event => this.changeHandler(event, "quantity")} />
               </Col>
               <Col componentClass={ControlLabel} sm={1}>
@@ -88,7 +109,8 @@ class InventoryEntry extends Component {
                 <FormControl
                   type="number" 
                   bsSize="small" 
-                  value={this.state.price} 
+                  placeholder={0}
+                  value={this.state.price ? this.state.price : undefined} 
                   onChange={event => this.changeHandler(event, "price")} />
               </Col>
 
@@ -118,14 +140,11 @@ class InventoryEntry extends Component {
             </FormGroup>
 
             <FormGroup>
-              <MultiPicker
-                propertyName="dishes"
-                haveTitles={false}
-                embedded
-                selected={this.state.dishes}
-                selectedHandler={this.multipickerHandler}
-                categories={this.props.dishCategories}
-                options={this.props.dishes}
+              <InventoryHistory
+                item={this.state}
+                selectHandler={this.historyHandler}
+                addHistoryItem={this.addHistory}
+                removeHistoryItem={this.removeHistory}
               />
             </FormGroup>
           </Form>
@@ -150,5 +169,6 @@ const mapStateToProps = (state, prevProps) => ({
 
 export default connect(mapStateToProps, { 
   updateInventoryEntry,
-  deleteInventoryEntry
+  deleteInventoryEntry,
+  updateInventoryHistory,
 })(InventoryEntry);

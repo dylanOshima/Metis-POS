@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Well, Panel, Grid, FormControl, Row, Col, Table } from 'react-bootstrap'
+import { Button, Grid, FormControl, Row, Col, Table } from 'react-bootstrap'
 import AutoSuggestWrapper from '../CustomInput/AutoSuggestWrapper';
-import { EDIT_INVENTORY_ENTRY, OPEN_MULTI_PICKER } from '../../constants/ModalTypes';
+import { EDIT_INVENTORY_ENTRY } from '../../constants/ModalTypes';
 // import { withAlert } from 'react-alert';
 
 // makes it easy to reset the state of the page / clear the forms
@@ -162,8 +162,9 @@ class Inventory extends Component {
                           </td>
                         </tr>
                         <tr>
-                          <td>
+                          <td colSpan={5}>
                             <Button 
+                              block
                               bsSize="small" 
                               bsStyle="info" 
                               onClick={this.newEntrySubmitHandler}> 
@@ -173,7 +174,7 @@ class Inventory extends Component {
                         </tr>
                       </tbody>
                   </Table>) 
-                : null }
+                : "Loading inventory..." }
          </Col>
         </Row>
       </Grid>)

@@ -66,14 +66,23 @@ exports.updateEntry = async (req,res,next)=>{
   }
 };
 
-// Only update history
+// Adds new history items. 
 exports.updateHistory = async (req,res,next)=>{
   if (req.params.id && req.body.history) {
     try {
       inventory.findById(req.params.id, (err,item)=>{
         if (err) return next(err); // Previously handleError
         let { history } = req.body;
+
+        // check values
+        history = history.map(histItem => {
+          histItem.value = parseInt(histItem.value);
+          histItem.price = parseInt(histItem.price);
+          return histItem;
+        })
         item.history = item.history.concat(history);
+
+        // sort by date
 
         // Update the price of the item
         if(history.length > 0) item.price = history[history.length-1].price;

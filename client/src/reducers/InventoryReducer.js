@@ -8,6 +8,7 @@ import {
   UPDATE_INVENTORY_ENTRY,
   DELETE_INVENTORY_ENTRY,
   LOAD_INVENTORY_CATEGORIES,
+  UPDATE_INVENTORY_HISTORY,
  } from '../constants/ActionTypes';
 
 const initialState = {
@@ -59,6 +60,14 @@ export default function inventoryReducer(state = initialState, action) {
     case LOAD_INVENTORY_CATEGORIES:
       return Object.assign({}, state, {
         categories: action.categories
+      });
+    case UPDATE_INVENTORY_HISTORY:
+      return Object.assign({}, state, {
+        inventory: state.inventory.map(entry => {
+          if(entry._id === action.entry._id) {
+            return action.entry;
+          } else { return entry }
+        })
       });
     default: 
       return state;

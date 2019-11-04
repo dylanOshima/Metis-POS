@@ -9,7 +9,8 @@ import {
   LOAD_INVENTORY_FAILURE,
   UPDATE_INVENTORY_ENTRY,
   DELETE_INVENTORY_ENTRY,
-  LOAD_INVENTORY_CATEGORIES
+  LOAD_INVENTORY_CATEGORIES,
+  UPDATE_INVENTORY_HISTORY,
  } from '../constants/ActionTypes';
 
 export function addInventoryEntry(entry) {
@@ -17,7 +18,12 @@ export function addInventoryEntry(entry) {
     dispatch({ type: ADD_INVENTORY_REQUEST });
 
     let newEntry = Object.assign({}, entry, {
-      price: parseInt(entry.price,10)
+      price: parseInt(entry.price,10),
+      history: [{
+        date: Date.now(),
+        value: entry.quantity,
+        price: entry.price,
+      }],
     });
 
     return api.postInventory(newEntry).then(request => {
@@ -52,7 +58,6 @@ export function loadInventory() {
     })
   }
 }
-
 
 export function updateInventoryEntry(entry) {
   return dispatch => api.putInventory(entry)
@@ -89,5 +94,19 @@ export function loadInventoryCategories() {
       })
     }).catch(error => {
       console.error("problem loading inventory categories: ", error) // DEBUG
+    })
+}
+
+// updates the history and quantity parameter of the inventory item
+export function updateInventoryHistory(history) {
+  console.log("updateInventoryHistory: ", history);
+  return dispatch => api.updateHistory(history)
+    .then(response => {
+      dispatch({
+        type: UPDATE_INVENTORY_HISTORY,
+        entry: response.data
+      })
+    }).catch(error => {
+      console.error("problem updating inventory history: ", error) // DEBUG
     })
 }
