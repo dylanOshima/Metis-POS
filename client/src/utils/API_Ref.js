@@ -1,10 +1,14 @@
 import axios from 'axios';
 
 //-------- Setup
+const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:4444'
+                  :'https://metis-pos.herokuapp.com/';
 const client = axios.create({
-  baseURL: 'http://localhost:4444',
+  baseURL,
   // timeout: 5000,
 });
+console.log("Connected to: ", baseURL);
+
 client.defaults.headers.post['Content-Type'] = 'application/json'
 
 //------- Client Functions
