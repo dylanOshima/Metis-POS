@@ -2,8 +2,8 @@
 
 let account, password;
 if(process.env.mongoDBAccount && process.env.mongoDBPassword) {
-  account = process.env.mongoDBAccount;
-  password = process.env.mongoDBPassword;
+  account = process.env.mongoDB_account;
+  password = process.env.mongoDB_password;
 } else {
   const config = require('../config.js');
   account = config.mongoDB.account;
