@@ -1,15 +1,17 @@
 //Holds connection information to MongoDB
 
-let mongoDB;
-try {
+let account, password;
+if(process.env.mongoDBAccount && process.env.mongoDBPassword) {
+  account = process.env.mongoDBAccount;
+  password = process.env.mongoDBPassword;
+} else {
   const config = require('../config.js');
-  mongoDB = config.mongoDB;
-} catch {
-  console.error("No config file located");
+  account = config.mongoDB.account;
+  password = config.mongoDB.password;
 }
 var url = require('url');
-var uri = mongoDB ? `mongodb+srv://${mongoDB.account}:${mongoDB.password}@metis-0-pjyqg.azure.mongodb.net/test?retryWrites=true&w=majority`
-:'mongodb://localhost:27017/restaurant';
+var uri = process.env.DEVELOPMENT ? 'mongodb://localhost:27017/restaurant' :
+  `mongodb+srv://${account}:${password}@metis-0-pjyqg.azure.mongodb.net/test?retryWrites=true&w=majority`;
 
 if (!uri) {
   throw new Error(

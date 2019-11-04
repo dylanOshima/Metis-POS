@@ -9,7 +9,14 @@ const bodyParser = require('body-parser');
 
 const jwt = require('jsonwebtoken');
 const routes = require('./routes/route');
-const { secret } = require('./config');
+
+let secret;
+if(!process.env.secret) {
+  const config = require('./config');
+  secret = config.secret;
+} else {
+  secret = process.env.secret;
+}
 
 require("dotenv").config({
   path: path.join(__dirname, ".env")
