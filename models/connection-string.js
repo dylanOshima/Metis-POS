@@ -1,17 +1,12 @@
 //Holds connection information to MongoDB
+const path = require('path');
+require("dotenv").config({
+  path: path.join(__dirname, "../.env")
+});
 
-let account, password;
-if(process.env.mongoDBAccount && process.env.mongoDBPassword) {
-  account = process.env.mongoDB_account;
-  password = process.env.mongoDB_password;
-} else {
-  const config = require('../config.js');
-  account = config.mongoDB.account;
-  password = config.mongoDB.password;
-}
 var url = require('url');
 var uri = process.env.DEVELOPMENT ? 'mongodb://localhost:27017/restaurant' :
-  `mongodb+srv://${account}:${password}@metis-0-pjyqg.azure.mongodb.net/test?retryWrites=true&w=majority`;
+  `mongodb+srv://${process.env.mongoDB_account}:${process.env.mongoDB_password}@metis-0-pjyqg.azure.mongodb.net/test?retryWrites=true&w=majority`;
 
 if (!uri) {
   throw new Error(

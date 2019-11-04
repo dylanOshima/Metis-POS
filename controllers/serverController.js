@@ -5,13 +5,12 @@ const bcrypt   = require('bcrypt');
 const jwt      = require('jsonwebtoken');
 const models   = require('../models/all-models.js');
 const servers  = models.Servers;
-let secret;
-if(!process.env.secret) {
-    config = require('../config');
-    secret = config.secret;
-} else {
-    secret = process.env.secret;
-}
+
+const path = require('path');
+require("dotenv").config({
+  path: path.join(__dirname, "../.env")
+});
+let secret = process.env.secret;
 
 //print check and close out order
 exports.getServers = async (req, res, next) => {

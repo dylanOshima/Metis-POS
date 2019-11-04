@@ -1,7 +1,7 @@
 {
   "name": "Metis-client",
   "author": "dylanOshima",
-  "version": "0.1.0",
+  "version": "0.2",
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
